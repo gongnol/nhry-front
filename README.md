@@ -1,6 +1,5 @@
 # nhry-front
 
-新希望中台前端!
 
 #### 项目构建
 1. 本地安装[Nodejs](https://nodejs.org/en/)最新版本4.4.4<br>
