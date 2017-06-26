@@ -1,0 +1,60 @@
+<div class="app-body-inner" ng-controller="MainCtrl">
+    <div class="row-col row-col-xs b-b">
+
+        <div class="col-md-12 bg">
+            <div class="box-body">
+                <div class="alert alert-info" role="alert" ng-show="alerts.msg">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{alerts.msg}}
+                </div>
+
+
+                <div class="clearfix m-b nav-active-info">
+                    <ul class="nav nav-pills nav-sm" ui-nav="">
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.authorization.user.list" href="" class="nav-link">
+                                <i class="fa fa-users"></i> 用户
+                            </a>
+                        </li>
+                        <li class="nav-item" ui-sref-active="active" nh-auth="sys_auth_authres">
+
+                            <a ui-sref="newhope.authorization.auth.res" class="nav-link" href="">
+                                <i class="fa fa-shield"></i> 授权
+                            </a>
+                        </li>
+                        <li class="nav-item" ui-sref-active="active" nh-auth="sys_auth_role">
+                            <a ui-sref="newhope.authorization.role" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 角色
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.authorization.user.list" href="" class="nav-link">
+                                <i class="fa fa-users"></i> 用户
+                            </a>
+                        </li> -->
+                        <li class="nav-item" ui-sref-active="active" nh-auth="sys_auth_resource">
+                            <a ui-sref="newhope.authorization.res" class="nav-link" href="">
+                                <i class="fa fa-cubes"></i> 资源
+                            </a>
+                        </li>
+                        <!--
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.authorization.ztree" class="nav-link" href="">
+                                <i class="fa fa-tree"></i> ztree调试
+                            </a>
+                        </li>
+                        -->
+                    </ul>
+                </div>
+
+                <!-- 主内容区域-->
+                <div ui-view class="m-b">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

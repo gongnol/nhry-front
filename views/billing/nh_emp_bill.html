@@ -1,0 +1,157 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <a class="nav-link m-l" ng-click="salConfirming || confirmSal()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt" ng-class="{'disabled': salConfirming, 'nh-disable': salConfirming}">
+                <span ng-class="{'nh-hide': salConfirming}">结算本奶站上月送奶员工资</span>
+            </span>
+        </a>
+        <a class="nav-link m-l" ng-click="thisalConfirming || confirmThisSal()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt" ng-class="{'disabled': thisalConfirming, 'nh-disable': thisalConfirming}">
+                <span ng-class="{'nh-hide': thisalConfirming}">结算本奶站本月送奶员工资（测试用）</span>
+            </span>
+        </a>
+    </div>
+</div>
+<!-- ######## 右侧开始-->
+<div  class="padding">
+    <!-- #####  右侧正文开始-->
+    <!-- ###  功能条开始-->
+    <div id="modal-alert" class="text-center"></div>
+    <div id="body-alert"  class="text-center"></div>
+    <div class="white r box-shadow-z0 m-b filter-box">
+         <div class="collapse navbar-toggleable-sm" id="filter">
+              <div class="filterbar p-a">
+                  <div class="filter-content">
+                    <div class="date-box">
+                      <div class="flex-item"><span class="text-md">工资单日期</span></div>
+                      <div class="flex-item">
+                          <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                          </span>
+                          <input type="text" class="form-control r-b-round w-128" name="salDate" ng-model="search.salDate"
+                                 placeholder="工资日期"
+                                 data-date-format="yyyy-MM"
+                                 data-date-type="date" 
+                                 data-autoclose="true"
+                                 min-view=1
+                                 bs-datepicker>
+                      </div>
+                    </div>
+                    <div class="select-box" nh-auth="bill_emp_msselect">
+                        <ui-select ng-model="search.branch" search-enabled="true">
+                            <ui-select-match placeholder="所属奶站" allow-clear="true">
+                                <span ng-bind="$select.selected.branchName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search) track by branch.branchNo"
+                             >
+                            <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                         <!-- <div class="date-box">
+                              <div class="flex-item"><span class="item-title">结算日期</span></div>
+                              <div class="flex-item">
+                                  <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                  </span>
+                                  <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.startDate"
+                                         placeholder="起始日期"
+                                         data-date-format="yyyy-MM-dd"
+                                         data-date-type="date" 
+                                         data-autoclose="true"
+                                         data-max-date="{{ search.endDate }}" 
+                                         bs-datepicker>
+                              </div>
+                              <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                              <div class="flex-item">
+                                  <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                  </span>
+                                  <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.endDate"
+                                         placeholder="结束日期"
+                                         data-date-format="yyyy-MM-dd"
+                                         data-date-type="date" 
+                                         data-autoclose="true" 
+                                         data-min-date="{{ search.startDate }}" 
+                                         bs-datepicker>
+                              </div>
+                                                 </div> -->
+
+                        
+                    </div>
+                      <div class="filter-act">
+                          <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+                      </div>
+              </div>
+        </div>
+    </div>  
+    <!-- ###  功能条结束-->
+    <!-- ###  表格开始-->
+        <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">所属奶站</th>
+                                    <th class="th-nh">送奶员姓名</th>
+                                    <th class="th-nh">底薪</th>
+                                    <th class="th-nh">产品配送费</th>
+                                    <th class="th-nh">赠品配送费</th>
+                                    <th class="th-nh">内部销售配送费</th>
+                                    <th class="th-nh">投诉奖惩费</th>
+                                    <th class="th-nh">结算方式</th>
+                                    <th class="th-nh">工资日期</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-show="data.content.length <= 0"><td colspan="10" style="text-align:center;">没有数据!</td></tr>
+                                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="nh_emp_bill">
+                                            <td class="td-id-nh">
+                                                {{item.branchName}}
+                                            </td>
+                                            <td>{{item.empName}}</td>
+                                            <td>{{item.baseSalary}}</td>
+                                            <td>{{item.dispSal }}</td>
+                                            <td>{{item.sendDispSal}}</td>
+                                            <td>{{item.inDispSal}}</td>
+                                            <td>{{item.compSal == null ? 0:item.compSal}}</td>
+                                            <td>{{item.salaryMet == '10' ? '数量结算':'产品结算'}}</td>
+                                            <td>{{item.setYearMonth}}</td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="billDetail(item.empSalLsh)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+
+                                        <dir-pagination-controls
+                                            pagination-id="nh_emp_bill"
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            on-page-change="data.getData(newPageNumber)" 
+                                             template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+    <!-- ###  表格结束-->
+
+  <script type="text/ng-template" id="empBillDetail.html">
+  </script>
+    <!--  -->
+</div>
+
+
+
+
+
+<!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

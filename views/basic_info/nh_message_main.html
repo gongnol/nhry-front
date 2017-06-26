@@ -1,0 +1,44 @@
+<div class="row-col">
+  <div class="col-sm w w-auto-xs light lt bg-auto">
+    <div class="padding pos-rlt message-pd-nh">
+
+      <div class="hidden-xs-down m-t" id="inbox-menu">
+        <div class="m-y">通知分类</div>
+
+        <div class="nav-active-{{app.setting.theme.primary}}">
+          <div class="nav nav-pills nav-sm">
+            <a class="nav-link" ui-sref="newhope.inbox.list({fold:messageType.itemCode})" ng-repeat="messageType in content" ui-sref-active="active">
+              {{messageType.itemName}}
+            </a>
+          </div>
+        </div>
+        <!--
+        <div class="m-y">标签</div>
+        <div class="nav-active-white">
+          <ul class="nav nav-pills nav-stacked nav-sm">
+            <li class="nav-item" ng-repeat="label in labels" ui-sref-active="active">
+              <a class="nav-link" ui-sref="newhope.inbox.list({fold:label.filter})">
+                <i class="fa m-r-sm fa-circle text-muted" color="{{label.color}}" label-color ></i>
+                {{label.name}}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="p-y">
+          <form name="label">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" ng-model="newLabel.name" placeholder="New label" required>
+              <span class="input-group-btn">
+                <button class="btn btn-default b-a no-shadow" type="button" ng-click="addLabel()" ng-disabled="label.$invalid">添加</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm">
+    <div ui-view class="fade-in message-pd-nh"></div>
+  </div>
+</div>

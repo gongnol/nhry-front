@@ -1,0 +1,228 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <a class="nav-link m-l" href="" ng-click="toExport()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+            	搜索或筛选后导出订户结算报表
+            </span>
+        </a>
+    </div>
+    <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+        <input type="text" class="input-line" placeholder="按订单编号、订户姓名、手机、小区、房号搜索" ng-model="search.milkmemberNo" ng-keypress="fuzzySearch($event)" style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+    </div>
+</div>
+
+<!-- ######## 右侧开始-->
+<div class="padding">
+
+  <div id="modal-alert"></div>
+  <div id="body-alert"></div>
+  
+  <div class="white r box-shadow-z0 m-b filter-box">
+    <div class="box p-b p-l p-r">
+        <a data-toggle="collapse" data-target="#filter"
+           class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="filter">
+            <div class="filterbar">
+                <div class="filter-content">
+                    <div class="select-box p-t">
+                        <ui-select ng-model="search.empNo" search-enabled="true" append-to-body="true">
+                            <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                <span ng-bind-html="x.empName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    
+                    <div class="select-box p-t">
+                        <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="选择状态" allow-clear="true">
+                                <span ng-bind="$select.selected.text"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.code as x in (statuses | filter: $select.search) track by x.code">
+                                <span ng-bind="x.text"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    
+                    <div class="select-box p-t">
+                      <ui-select ng-model="search.paymentStat" search-enabled="false" append-to-body="true">
+                          <ui-select-match placeholder="选择付款状态" allow-clear="true">
+                              <span ng-bind="$select.selected.text"></span>
+                          </ui-select-match>
+                          <ui-select-choices repeat="x.code as x in (payStatuses | filter: $select.search) track by x.code">
+                              <span ng-bind="x.text"></span>
+                          </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="date-box p-t">
+                        <div class="flex-item"><span class="text-md">创建日期</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.orderDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   data-max-date="{{ search.orderDateEnd }}" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.orderDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   data-min-date="{{ search.orderDateStart }}" 
+                                   bs-datepicker>
+                        </div>
+                    </div>
+                    <div class="date-box p-t">
+                        <div class="flex-item"><span class="text-md">截至日期</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="endDateStart" ng-model="search.endDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   data-max-date="{{ search.endDateEnd }}" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="endDateEnd" ng-model="search.endDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   data-min-date="{{ search.endDateStart }}" 
+                                   bs-datepicker>
+                        </div>
+                    </div>
+                    <div class="date-box p-t">
+                        <div class="flex-item"><span class="text-md">配送日期</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="endDateStart" ng-model="search.orderDispDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   data-max-date="{{ search.orderDispDateEnd }}" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="endDateEnd" ng-model="search.orderDispDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   data-min-date="{{ search.orderDispDateStart }}" 
+                                   bs-datepicker>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-act p-a">
+                    <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- ###  表格开始-->
+  <div class="box" style="border-radius: 2px;">
+    <div class="row">
+        <div class="col-sm-12">
+          <table id="orderlist_" class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="checkboxArrs">
+            <thead>
+              <tr role="row">
+                <th>
+                    <!--<label class="md-check">
+                        <input type="checkbox" ng-model="allChFlag">
+                        <i class="blue"></i>
+                    </label>-->
+                </th>
+                <th class="th-nh">订单编号</th>
+                <th class="th-nh">订户姓名</th>
+                <th class="th-nh">联系电话</th>
+                <th class="th-nh">订户地址</th>
+                <th class="th-nh">送奶员</th>
+                <th class="th-nh">订单标识</th>
+                <th class="th-nh">付款方式</th>
+                <th class="th-nh">订单总额</th>
+                <th class="th-nh">已配送金额</th>
+                <th class="th-nh">配送区间<br/>已配送金额</th>
+                <th class="th-nh">剩余金额</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                  <td colspan="11" style="text-align:center;">正在加载数据！</td>
+                </tr>
+                <tr ng-if="tbLoding == 0 && content.length <= 0">
+                  <td colspan="11" style="text-align:center;">没有数据！</td>
+                </tr>
+                <tr current-page="curPageno" pagination-id="order_currentList" dir-paginate="order in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                    <td>
+                        <!--<label class="md-check" ng-if="order.sign!='20' && order.promSubType != 'Z017' ">
+                            <input type="checkbox" checked-data="{{order.orderNo}}">
+                            <i class="blue"></i>
+                        </label>-->
+                    </td>
+                    <td class="td-id-nh" style="font-size: 1rem;"><span ng-bind="order.orderNo"></span></td>
+                    <td><span ng-bind="order.milkmemberName"></span></td>
+                    <td><span ng-bind="order.customerTel"></span></td>
+                    <td><span ng-bind="order.adressNo"></span></td>
+                    <td><span ng-bind="order.empName"></span></td>
+                    <td><span ng-bind-html="signFormat(order.sign)+'+'+orderSourceFmt(order.preorderSource,order.promSubType)"></span></td>
+                    <td><span>{{order.paymentmethod == '10'?'后付款':'先付款'}}</span></td>
+                    <td><span ng-bind="order.initAmt"></span></td>
+                    <td><span ng-bind="order.dispAmt"></span></td>
+                    <td><span ng-bind="order.dispBetwenAmt"></span></td>
+                    <td><span ng-bind="order.remainAmt"></span></td>
+                </tr>
+            </tbody>
+          </table> 
+          <div class="p-t m-l m-b" style="float: left;margin-right: -100%;">
+              <span>每页显示&nbsp;</span>
+              <button type="button" class="btn btn-sm white"
+                      ng-model="itemsPerPage"
+                      data-caret-html="&nbsp;<span class='nh-caret'></span>"
+                      bs-options="size for size in pageSizes"
+                      bs-select>
+              </button>
+              <span>&nbsp;条</span>
+          </div> 
+          <footer class="text-center">
+            <dir-pagination-controls pagination-id="order_currentList"
+                max-size="8"
+                direction-links="true"
+                boundary-links="true" 
+                on-page-change="getData(newPageNumber)"
+                template-url="nhtpl/pagination.tpl.html">
+            </dir-pagination-controls>
+          </footer>  
+        </div>
+    </div>
+  </div>
+</div>
+

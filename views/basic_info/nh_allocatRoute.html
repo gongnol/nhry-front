@@ -1,0 +1,111 @@
+<div  ng-controller="AllocatRouteCtrl">
+    <div class="titlebar white box-shadow">
+        <div class="l-h m-r-2 pull-right">
+            <button class="btn btn-sm btn-tbw rounded primary" ng-click="back()">返回</button>
+        </div>
+        <div class="l-h m-r pull-right">
+            <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="saveBcAd(bAsync.selected)">保存</button>
+        </div>
+    </div>
+        <div id="body-alert"></div>
+        <div id="modal-alert"></div>
+    <div class="padding">
+        <div class="box">
+            <div class="col-md-12">
+                <div class="white r box-shadow-z0 filter-box">
+
+                    <div class="navbar ng-scope">
+                        <a data-toggle="collapse" data-target="#filter"
+             class="navbar-item pull-right hidden-md-up m-a-0 m-l"> <i class="material-icons"></i>
+                        </a>
+
+                        <!-- navbar collapse -->
+                        <div class="collapse navbar-toggleable-sm" id="filter">
+                            <div class="filterbar p-t">
+
+                                <div class=" col-lg-6 col-md-6 col-sm-6">
+                                    <!-- <input class="form-control" placeholder="{{options.filterPlaceHolder}}" ng-model="searchTerm"> -->
+                                    <div class="form-inline">
+                                        <div class="input-group">
+                                            <input type="text" name="phoneNum" class="form-control search-control" placeholder="{{options.filterPlaceHolder}}" ng-model="searchTerm" ng-keypress="pressEnterSearch($event)" style="min-height: auto;border-bottom-left-radius: 8px; border-top-left-radius: 8px;">
+                                            <span class="input-group-addon search-addon blueWt" ng-click="searchAreas()" style="border-bottom-right-radius: 8px; border-top-right-radius: 8px;"> <i class="fa fa-search" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" col-lg-6 col-md-6 col-sm-6">
+                                    <ui-select   ng-model="bAsync.selected" search-enabled="true" on-select="getBranchList(bAsync.selected)">
+                                        <ui-select-match placeholder="所属奶站" allow-clear="true">
+                                            <span ng-bind="$select.selected.branchName || $select.selected"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="branchEmp.branchNo as branchEmp in (branchAsync  | filter: $select.search) track by branchEmp.branchNo">
+                                            <span ng-bind="branchEmp.branchName"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / navbar collapse --> </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="dualmultiselect">
+
+                    <div class=" white col-lg-6 col-md-6 col-sm-6">
+                        <div bs-collapse>
+                            <div class="panel-collapse p-b" bs-collapse-target>
+                                <div class="box-body">
+                                    <label>配送列表</label>
+                                    <button type="button" class="hidden-xs-down btn btn-sm rounded blueLt" ng-click="transfer(bAsync.selected,content, options.selectedItems, -1)"> <i class="fa fa-plus"></i>
+                                        全部加入
+                                    </button>
+                                    <div class="pool">
+                                        <ul>
+                                            <!-- <li ng-if="isLoding">正在加载数据！</li> -->
+                                            <div class="pace" ng-if="isLoding">
+                                                <div class="pace-activity" style="top: auto; right: auto">
+                                                </div>
+                                            </div>
+                                            <li ng-repeat="item in content | orderBy: options.orderProperty">
+                                                <a href="" ng-click="transfer(bAsync.selected,content, options.selectedItems, content.indexOf(item))">
+                                                    {{item.provinceName}}&nbsp;&nbsp;{{item.cityName}}&nbsp;&nbsp;{{item.countyName}}&nbsp;&nbsp;{{item.residentialAreaTxt}}&nbsp;&nbsp;{{item.addressTxt}}&nbsp;&nbsp;
+                                                    <i class="fa fa-angle-right"></i>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white col-lg-6 col-md-6 col-sm-6">
+                        <div bs-collapse>
+                            <div class="panel-collapse p-b" bs-collapse-target>
+                                <div class="box-body">
+                                    <label>订户中心</label>
+                                    <button type="button" class="hidden-xs-down btn btn-sm rounded grey-600 " ng-click="transfer(bAsync.selected,options.selectedItems, content, -1)">
+                                        <i class="fa fa-minus"></i>
+                                        全部去除
+                                    </button>
+                                    <div class="pool">
+                                        <ul>
+                                            <li ng-repeat="item in options.selectedItems | orderBy: options.orderProperty">
+                                                <a href="" ng-click="transfer(bAsync.selected,options.selectedItems, content, options.selectedItems.indexOf(item))">
+                                                    <i class="fa fa-angle-left"></i>
+                                                    <i class="fa fa-angle-left"></i>
+                                                    &nbsp;&nbsp;{{item.provinceName}}&nbsp;&nbsp;{{item.cityName}}&nbsp;&nbsp;{{item.countyName}}&nbsp;&nbsp;{{item.residentialAreaTxt}}&nbsp;&nbsp;{{item.addressTxt}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

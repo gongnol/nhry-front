@@ -1,0 +1,257 @@
+<form name="userDetailForm" role='form' class="">
+    <!-- 基本信息 -->
+    <div class="box info1">
+        <div bs-collapse>
+            <a ng-click="data.toggle1 = !data.toggle1" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                    基本信息
+                    <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle1}" aria-hidden="true"></i>
+                    </h2>
+                </div>
+            </a>
+            
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>用户姓名</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.vipName"></label>
+                                <label ng-bind="data.genderLabel"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>联系方式</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.mp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>电子邮箱</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.email"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row m-t">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>身份证号码</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.certId"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>生日</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.birthday"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>会员手机号</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.vipMp"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>会员积分</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.vipPoint"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 订奶信息 -->
+    <div class="box info1">
+        <div bs-collapse>
+            <a ng-click="data.toggle2 = !data.toggle2" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                    订奶信息
+                    <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle2}" aria-hidden="true"></i>
+                    </h2>
+                </div>
+            </a>
+            
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>经销商</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.dealerName"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>订奶奶站</strong>
+                            </div>
+                            <!-- <div class="col-md-9" ng-if="editForm">
+                                <ui-select ng-model="user.orderStation" search-enabled="true">
+                                    <ui-select-match allow-clear="true">
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="station in (handle.stations | filter: $select.search) track by station.code" refresh="getStations($select.search)" refresh-delay="50" minimum-input-length="1">
+                                        <span ng-bind-html="station.label | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice ng-show="$select.search != '' &&">
+                                        没有相关搜索记录！
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div> -->
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.branchName"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>订户类型</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.vipTypeName"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>订户来源</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.vipSrcName"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>活动号</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.activityNo"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>订户余额</strong>
+                            </div>
+                            <div class="col-md-9">
+                                ￥<label ng-bind="data.csmAcctAmt"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <strong>备注</strong>
+                            </div>
+                            <div class="col-md-9">
+                                <label ng-bind="data.user.comment"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 地址簿信息 -->
+    <div class="box info1">
+        <div bs-collapse>
+            <a ng-click="data.toggle3 = !data.toggle3" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                    用户地址薄
+                    <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle3}" aria-hidden="true"></i>
+                    </h2>
+                </div>
+            </a>
+
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="defAddr clearfix">
+                            <div class="col-md-2 addrAct">
+                                <strong>默认地址</strong>
+                            </div>
+                            <div class="col-md-10 addrInfo">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <strong>地址</strong>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <label ng-bind="data.defaultAddr.detail"></label>
+                                    </div>
+                                </div>
+                                <div class="row m-t">
+                                    <div class="col-md-1">
+                                        <strong>联系电话</strong>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label ng-bind="data.defaultAddr.phone"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-repeat="addr in data.addrs">
+                        <div class="row m-t">
+                            <div class="addr clearfix">
+                                <div class="col-md-2 addrAct">
+                                    <strong>其他地址</strong>
+                                </div>
+                                <div class="col-md-10 addrInfo">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <strong>地址</strong>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <label ng-bind="addr.detail"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row m-t">
+                                        <div class="col-md-1">
+                                            <strong>联系电话</strong>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label ng-bind="addr.phone"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 pull-right">
+            <button class="btn btn-fw primary pull-right m-l" ng-click="back()">返回</button>
+            <button class="btn btn-fw blueLt pull-right m-l" ui-sref="newhope.consumerDetail({edit: true, vipCustNo: data.user.vipCustNo, name: data.user.vipName})">编辑</button>
+        </div>
+    </div>
+
+</form>

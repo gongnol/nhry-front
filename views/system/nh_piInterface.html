@@ -1,0 +1,88 @@
+<div class="padding notitlebar">
+    <div id="modal-alert"></div>
+	<div class="row">
+        <div class="box-header">
+        	<h3>主数据同步</h3>
+        	<small>说明：手工同步产品、奶站、经销商、数据字典等主数据信息，主数据来源于ECC，接口调用SAP PI</small>
+        </div>
+        <div class="box-divider"></div>
+        <div class="box-body">
+        	<div class="col-md-12">
+        		<div class="col-md-3">
+        		 <button class="btn btn-outline b-info text-info b-2x" ng-click="getProducts()">手工同步产品信息</button>       			
+        		</div>
+        		<div class="col-md-3">
+        		<button class="btn btn-outline b-info text-info b-2x" ng-click="getCustomer()">手工同步奶站、经销商信息</button>      			
+        		</div>  
+        		<div class="col-md-3">
+        		<button class="btn btn-outline b-info text-info  b-2x" ng-click="getZD()">手工同步字典信息</button>      			
+        		</div>  
+                <div class="col-md-3">
+                <button class="btn btn-outline b-info text-info  b-2x" ng-click="getVipcust()">手工同步订户会员信息</button>                 
+                </div>      		
+        	</div>
+            <div class="col-md-12 m-t">
+                <div class="col-md-3">
+                 <button class="btn btn-outline b-info text-info b-2x" ng-click="createDayplan()">订单生成日计划</button>                   
+                </div>   
+                <div class="col-md-3">
+                 <button class="btn btn-outline b-info text-info b-2x" ng-click="synIDMUser()">同步IDM账户</button>                   
+                </div>
+                <div class="col-md-3">
+        		 <button class="btn btn-outline b-info text-info b-2x" ng-click="getStudProducts()">手工同步学生奶产品信息</button>       			
+        		</div>
+                <div class="col-md-3">
+        		<button class="btn btn-outline b-info text-info b-2x" ng-click="getStudCustomer()">手工同步学生奶学校信息</button>      			
+        		</div>
+            </div>
+
+        </div>
+	</div>
+</div>
+<script type="text/ng-template" id="vipcustModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">同步订户会员信息</h3>
+    </div>
+    <div class="modal-body">
+     
+        <!--box body begin-->
+        <div class="box-body">
+            <div class="select-box">
+                <ui-select ng-model="vcm.salesOrg" search-enabled="true">
+                    <ui-select-match placeholder="请选择销售组织" allow-clear="true">
+                        <span ng-bind="$select.selected.itemName"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="item.itemCode as item in (vcm.salesOrgs | selectPropFilter: {itemCode: $select.search, itemName: $select.search}) track by item.itemCode">
+                        <span ng-bind="item.itemName"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="vcm.synVipcust()">确定</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="vcm.cancelModal()">关闭</button>
+    </div>
+</script>
+<script type="text/ng-template" id="createDayplanModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">订单生成日计划</h3>
+    </div>
+    <div class="modal-body">
+     
+        <!--box body begin-->
+        <div class="box-body">
+            <input type="text" class="form-control" ng-model="dpm.orderNo" placeholder="请输入订单编号，至少五位字符">
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="dpm.comfirmed()">确定</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="dpm.cancelModal()">关闭</button>
+    </div>
+</script>

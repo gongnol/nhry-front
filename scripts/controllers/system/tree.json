@@ -1,0 +1,45 @@
+[
+      { "treeName":"余热锅炉",
+          "children": [
+            { "treeName":"启动锅炉系统",
+              "children": [
+                { "treeName":"叶子节点111"},
+                { "treeName":"叶子节点112"},
+                { "treeName":"叶子节点113"},
+                { "treeName":"叶子节点114"}
+              ]},
+            { "treeName":"余热锅炉辅助系统",
+              "children": [
+                { "treeName":"11高压给给水泵"},
+                { "treeName":"12高压给水泵"},
+                { "treeName":"13号低压省煤循环泵"},
+                { "treeName":"12中压给水泵"}
+              ]},
+            { "treeName":"余热锅炉本体"}
+          ]},
+        { "treeName":"电气二次",
+          "children": [
+            { "treeName":"父节点21 - 展开",
+              "children": [
+                { "treeName":"叶子节点211"},
+                { "treeName":"叶子节点212"},
+                { "treeName":"叶子节点213"},
+                { "treeName":"叶子节点214"}
+              ]},
+            { "treeName":"父节点22 - 折叠",
+              "children": [
+                { "treeName":"叶子节点221"},
+                { "treeName":"叶子节点222"},
+                { "treeName":"叶子节点223"},
+                { "treeName":"叶子节点224"}
+              ]},
+            { "treeName":"父节点23 - 折叠",
+              "children": [
+                { "treeName":"叶子节点231"},
+                { "treeName":"叶子节点232"},
+                { "treeName":"叶子节点233"},
+                { "treeName":"叶子节点234"}
+              ]}
+          ]},
+        { "treeName":"热工"}
+    ]

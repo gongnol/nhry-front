@@ -1,0 +1,59 @@
+<form name="insaForm" ng-submit="data.innerFrom()" novalidate>
+	<div class="modal-header blueLt">
+		<h3 class="modal-title">内部销售订单</h3>
+	</div>
+	<div class="modal-body p-lg">
+		<div class="row">
+			<div class="col-md-2 form-control-label">请先选择员工</div>
+			<div class="col-md-4">
+            <div class="select-box">
+              <ui-select  ng-model="data.search.empNo" search-enabled="true" on-select="data.empSelected()">
+                  <ui-select-match>
+                      <span ng-bind=" $select.selected.empName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="x.empNo as x in (data.empContent | filter: $select.search) track by x.empNo">
+                      <span ng-bind-html="x.empName | highlight: $select.search"></span>
+                  </ui-select-choices>
+              </ui-select>	
+				</div>
+			</div>
+		</div>
+		<div class="nh-activity" ng-class="{'nh-hide2' : !data.listLoding}" style="width: 20px; height: 20px; margin-left: 50%; margin-top: 20px; border-width: 3px;"></div>
+		<div class="text-center m-t" ng-bind="data.eptMsg"></div>
+		<div class="row m-t" ng-if="!data.listLoding && data.content && data.content.length > 0">
+			<div class="col-md-12">
+				<table class="table table-striped b-t b-b no-footer">
+					<thead>
+						<tr role="row">
+							<th class="th-nh">商品编码</th>
+							<th class="th-nh">商品名称</th>
+							<th class="th-nh">拒收复送日期</th>
+							<th class="th-nh">拒收复送数量</th>
+							<th class="th-nh">内部销售数量</th>
+						</tr>
+					</thead>
+					<tbody>				
+						<tr ng-repeat="item in data.content">
+                            <td ng-bind="item.matnr.substring(10)"></td>
+                            <td ng-bind="item.matnrTxt"></td>
+                            <td ng-bind="item.dispDate.nh_formatDate()"></td>
+                            <td class="text-center" ng-bind="item.remainQty">{{item.remainQty}}</td>
+                            <td>
+                                <input name="useQty" type="number" min="0" max="{{item.remainQty}}" class="form-control nh-number-valid" ng-model="item.innerDefQty">
+                                <div class="error-msg" style="visibility: hidden; bottom: auto; right: auto;">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm error-max" style="display: none;"><b class="arrow top b-danger" style="left: 10%"></b>内部销售数量不能大于拒收复送数量！</span>
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm error-min" style="display: none;"><b class="arrow top b-danger" style="left: 10%"></b>内部销售数量不能为负数！</span>
+                                </div>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-fw blueLt p-x-md" ng-disabled="!data.search.empNo || insaForm.$invalid">保存</button>
+		<button type="button" class="btn btn-fw primary p-x-md" ng-click="data.cancelModal()">关闭</button>
+	</div>
+</form>

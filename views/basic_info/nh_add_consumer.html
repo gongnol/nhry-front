@@ -1,0 +1,129 @@
+<!-- ######## 右侧正文开始-->
+<div class="padding notitlebar">
+    <!-- 重复检查 -->
+    <div class="box">
+        <div bs-collapse>
+
+            <a ng-click="data.toggle1 = !data.toggle1" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                    重复检查
+                    <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle1}" aria-hidden="true"></i>
+                    </h2>
+
+                </div>
+            </a>
+            
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                    <div class="row">
+                        <form name="checkCsmForm" role="form" novalidate>
+                            <div class="form-inline" style="margin-left: 0.75rem">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="phoneNum" class="form-control search-control"
+                                               placeholder="联系电话" ng-model="data.user.phoneNum"   
+                                               ng-keypress="data.checkPhone($event)" 
+                                               ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" required style="min-height: auto;">
+                                        <span class="input-group-addon search-addon blueWt" ng-click="data.checkPhone()"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="error-msg m-b-sm" ng-messages="checkCsmForm.phoneNum.$error" ng-show="data.checkEmpty == 1" style="left: 35rem; z-index: 100;">
+                                        <div ng-message="required">
+                                            <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                        </div>
+                                        <div ng-message="minlength">
+                                            <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>输入不足11位！</span>
+                                        </div>
+                                        <div ng-message="maxlength">
+                                            <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>输入超过11位！</span>
+                                        </div>
+                                        <div ng-message="pattern">
+                                            <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>请填写数字！</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="m-l m-t text _600" ng-if="data.checkEmpty != 1 && data.userExit == 1">订户已存在！</p>
+                        <p class="m-l m-t text _600" ng-if="data.checkEmpty != 1 && data.userExit == 2">订户不存在，新增请填写以下信息</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box" ng-if="data.isOrg">
+        <div bs-collapse>
+
+            <a ng-click="data.toggle2 = !data.toggle2" id="csmBox" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                    已建订户列表
+                    <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle2}" aria-hidden="true"></i>
+                    </h2>
+
+                </div>
+            </a>
+            
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">
+                                        姓名
+                                    </th>
+                                    <th class="th-nh">经销商</th>
+                                    <th class="th-nh">所属奶站</th>
+                                    <th class="th-nh">首次订奶日期</th>
+                                    <th class="th-nh">最近订奶日期</th>
+                                    <th class="th-nh">联系电话</th>
+                                    <th class="th-nh">订户状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-show="data.content.length <= 0"><td colspan="6" style="text-align:center;">Loading new data!!</td></tr>
+                                        <tr dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count">
+                                            <td class="td-id-nh">
+                                                {{user.vipName}}
+                                            </td>
+                                            <td>{{user.salesOrg}}</td>
+                                            <td>{{user.branchNo}}</td>
+                                            <td>{{user.orderDate}}</td>
+                                            <td>{{user.lastOrderDate}}</td>
+                                            <td>{{user.mp}}</td>
+                                            <td><span ng-bind="getObjByCode(user.status, data.handle.cStatuses)"></span></td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ui-sref="newhope.consumerDetail({edit: false, phone: user.mp, name: user.cName})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <button ui-sref="newhope.consumerDetail({edit: true, phone: user.mp, name: user.cName})" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                <dir-pagination-controls
+                                    max-size="8"
+                                    direction-links="true"
+                                    boundary-links="true" 
+                                    on-page-change="data.getData(newPageNumber)" 
+                                    template-url="nhtpl/pagination.tpl.html">
+                                </dir-pagination-controls>
+                                <button class="btn btn-sm rounded blueLt pull-right m-t" ng-click="data.viewDetail()"><i class="fa fa-plus"></i> 新增</button>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ui-view></div>
+
+</div>
+<!-- ######## 右侧正文结束-->

@@ -1,0 +1,281 @@
+<!-- #####  右侧开始-->
+<div class="padding notitlebar">
+
+  <div id="modal-alert"></div>
+  <div id="body-alert"></div>
+
+	<!-- ###  功能条开始-->
+	<div class="white r box-shadow-z0 m-b filter-box">
+    <div class="navbar ng-scope">
+        <a data-toggle="collapse" data-target="#filter"
+           class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="filter">
+            <div class="filterbar p-t">
+                <div class="filter-content">
+                    <div class="col-md-4">
+                      <input class="form-control" type="text" placeholder="请输入订单号" ng-model="search.fuzzySearch">
+                    </div>
+                    <!-- <div class="select-box">
+                        <ui-select ng-model="search.preorderStat" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="状态" allow-clear="true">
+                                <span ng-bind="$select.selected.label"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="status.code as status in (handle.statuses | filter: $select.search) track by status.code">
+                                <span ng-bind="status.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div> -->
+
+                    <div class="select-box">
+                        <ui-select ng-model="search.retReason" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="退回原因" allow-clear="true">
+                                <span ng-bind="$select.selected.label"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="reason.code as reason in (handle.reasons | filter: $select.search) track by reason.code">
+                                <span ng-bind="reason.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="date-box">
+                        <div class="flex-item"><span class="item-title">退回日期</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.orderDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   data-max-date="{{ search.orderDateEnd }}" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.orderDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   data-min-date="{{ search.orderDateStart }}" 
+                                   bs-datepicker>
+                        </div>
+                    </div>                   
+                </div>
+
+                <div class="filter-act">
+                    <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                </div>
+            </div>
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+  </div>
+
+	<!-- ###  功能条结束-->
+
+<!--### 表格开始 -->
+       <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <!-- <th>
+                                        <label class="md-check">
+                                            <input type="checkbox" ng-model="master" ng-click="all(master,content)">
+                                            <i class="blue"></i>
+                                        </label>
+                                    </th> -->
+                                    <th class="th-nh">
+                                        订单编号
+                                    </th>
+                                    <th class="th-nh">状态</th>
+                                    <th class="th-nh">退回原因</th>
+                                    <th class="th-nh">客户姓名</th>
+                                    <th class="th-nh">送奶奶站</th>
+                                    <th class="th-nh">退回日期</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                        </tr>
+                                        <tr ng-if="tbLoding == 0 && content.length <= 0">
+                                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                                        </tr>
+                                        <tr current-page="curPageno" pagination-id="order_manhadleList" dir-paginate="order in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                                            <!-- <td>
+                                                <label class="md-check">
+                                                    <input type="checkbox" ng-checked="master">
+                                                    <i class="blue"></i>
+                                                </label>
+                                            </td> -->
+                                            <td class="td-id-nh">
+                                                {{order.orderNo}}
+                                            </td>
+                                            <td ng-bind-html="statusFormat(order.preorderStat)"></td>
+                                            <td ng-bind-html="reasonFormat(order.retReason)"></td>
+                                            <td>{{order.milkmemberNo}}</td>
+                                            <td>{{order.branchNo}}</td>
+                                            <td ng-bind-html="dateFormat(order.retDate)"></td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="showDetail(order.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <!-- <button ng-click="editOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">编辑订单</button> -->
+                                                    <button ng-click="deleteOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">作废</button>
+                                                    <button ng-click="cancelOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">取消订单</button>
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                              <dir-pagination-controls pagination-id="order_manhadleList"
+                                  max-size="8"
+                                  direction-links="true"
+                                  boundary-links="true" 
+                                  on-page-change="getData(newPageNumber)" 
+                                  template-url="nhtpl/pagination.tpl.html">
+                              </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+ <!--### 表格结束 --> 
+
+    <script type="text/ng-template" id="orderDetail.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单详情</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <label class="col-md-2">订单编号</label>
+              <label class="col-md-4">{{ order.order.orderNo }}</label>
+              <label class="col-md-2">状态</label>
+              <label class="col-md-4">退回中</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2">订户</label>
+              <label class="col-md-4">{{ order.order.milkmemberName }}</label>
+              <label class="col-md-2">联系电话</label>
+              <label class="col-md-4">{{ order.order.customerTel }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2">地址</label>
+              <label class="col-md-10">{{order.address.province+order.address.city+order.address.county+order.address.residentialArea +order.address.addressTxt }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2">备注</label>
+              <label class="col-md-10">{{ order.order.memoTxt }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2">奶站</label>
+              <div class="col-md-4" >
+                <ui-select ng-model="order.order.branchNo" search-enabled="true">
+                    <ui-select-match placeholder="配送奶站" allow-clear="true">
+                        <span ng-bind="$select.selected.branchName"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search) track by branch.branchNo"
+                     >
+                    <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                    </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+            <div class="nhdivider"></div>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="editOrder()">保存</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+
+    <!-- 取消订单 -->
+              <script type="text/ng-template" id="cancelOrderModal.html">
+                  <div class="modal-header">
+                      <h3 class="modal-title">取消订单</h3>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                        <label class="col-md-3"><strong>是否取消订单?</strong></label>
+                        <label class="col-md-8">订单编号:{{ handle.orderNo }}</label>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-3">
+                          <strong>退订原因</strong>
+                        </div>
+                        <div class="form-group col-md-5">
+                          <div class="select-box">
+                                <ui-select ng-model="handle.reason" search-enabled="false">
+                                    <ui-select-match allow-clear="true" placeholder="请选择退订原因">
+                                        <span ng-bind="$select.selected.text"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="x.code as x in (backReasons.data | filter: $select.search) track by x.code">
+                                        <span ng-bind="x.text"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-md-3">
+                          <strong>备注</strong>
+                        </div>
+                        <div class="form-group col-md-8">
+                          <textarea class="form-control" placeholder="请输入退订原因" ng-model="handle.memoTxt" rows="3"></textarea>
+                        </div>  
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn blueLt" type="button" ng-click="save()">保存</button>
+                      <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+                  </div>
+              </script>
+    
+            <!--  modal area-->
+    <!--作废订单 modal -->
+     <script type="text/ng-template" id="deleteOrderModal.html">
+          <div class="modal-header blueLt">
+                <h3 class="modal-title">订单作废</h3>
+          </div>
+          <div class="modal-body text-center p-lg">
+                   <div class="row">
+                    <div class="form-group col-md-3">
+                      <strong style="line-height: 2.25rem;">作废原因</strong>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <ui-select ng-model="params.deleteReason" search-enabled="false">
+                        <ui-select-match allow-clear="false" placeholder="请选择作废原因">
+                          <span ng-bind="$select.selected.text"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="x.code as x in (returnReasons.data | filter: $select.search) track by x.code">
+                          <span ng-bind="x.text"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-3">
+                      <strong>备注</strong>
+                    </div>
+                    <div class="form-group col-md-8">
+                      <textarea class="form-control" ng-model="params.memoTxt" rows="3"></textarea>
+                    </div>  
+                  </div>
+          </div>
+          <div class="modal-footer">
+                <button type="button" class="btn blueLt p-x-md" ng-click="save()">确认作废</button>
+                <button type="button" class="btn primary p-x-md" ng-click="cancelModal()">关闭</button>
+          </div>
+     </script>
+    <!-- modal end -->
+</div>

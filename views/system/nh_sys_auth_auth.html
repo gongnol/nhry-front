@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="fade-in message-pd-nh light m-a">
+        <h4><i class="fa fa-list"></i> 角色 </h4>
+        <div class="list-group m-b">
+            <a ng-repeat="label in users" ui-sref-active="active" ui-sref="newhope.authorization.auth.res({roleId:label.id})" href="" class="list-group-item b-l-{{label.color}}">
+                <span class="pull-right text-{{label.color}}"><i class="fa fa-circle text-xs"></i></span>
+                {{label.roleName}}
+            </a>
+
+        </div>
+
+        <!--
+        <div class="p-y">
+            <form name="label">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" ng-model="newLabel.name"
+                           placeholder="New label" required>
+              <span class="input-group-btn">
+                <button class="btn btn-default b-a no-shadow" type="button" ng-click="addLabel()"
+                        ng-disabled="label.$invalid">添加
+                </button>
+              </span>
+                </div>
+            </form>
+        </div>
+        -->
+            </div>
+    </div>
+    <div ui-view class="col-md-5">
+
+    </div>
+    <div class="col-md-5">
+    </div>
+</div>

@@ -1,0 +1,23 @@
+ <form>
+
+<div class="modal-header">
+	<h3 class="modal-title">文件上传</h3>
+</div>
+ <div class="modal-body p-lg">
+ <div id="action-alert"></div>
+     <div class="row">
+    <div class="form-group m-b-sm">
+        <label>请选择要上传的年度月计划文件：</label><span class="small-tip">年度月计划文件请先行下载，在进行上传</span>
+        <div class="md-form-group">
+
+                <input type="file"  name="certificate" nv-file-select uploader="uploader" ng-click="clearItems()"/>
+        </div>
+    </div>
+    </div>
+  
+ </div>
+<div class="modal-footer">
+    <button class="btn btn-fw blueLt p-x-md" ng-click="UploadFile()">上传</button>
+    <button type="button" class="btn btn-fw primary p-x-md" ng-click="cancelModal()">关闭</button>
+</div>
+</form>

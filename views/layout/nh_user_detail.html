@@ -1,0 +1,82 @@
+  <div class="modal-header">
+      <h3 class="modal-title">用户详情</h3>
+  </div>
+  <div class="modal-body">
+    <div class="filterbar  p-a pos-rlt">
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <label> 用户名:</label>{{user.displayName}}
+          </div>
+        </div>
+        <div class="row " style="margin-top:20px">
+            <div class="col-md-4 col-sm-6">
+              <label> 用户密码：</label>{{user.pwd}}
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <button class="btn btn-warning" type="button" ng-model="showFlag" ng-click="showUpdate()">
+                  修改密码
+              </button>
+            </div>
+        </div>
+
+
+        <div class="row form-control" style="margin-top:20px" ng-show="showFlag">
+           <div class="row">
+              <div class="col-md-3 col-sm-3">
+                  新的密码：
+              </div>
+              <div class="col-md-3 col-sm-3"> <input type="password" class="form-control" ></div>
+           </div>
+           <div class="row">
+              <div class="col-md-3 col-sm-3">
+                再次输入：
+              </div>
+
+              <div class="col-md-3 col-sm-3">
+                  <input type="password" class="form-control" >
+              </div>
+
+              <div class="col-md-5 col-sm-6">
+                  <button class="btn btn-primary" ng-click="updatePass()">保存</button>
+              </div>
+           </div>
+         
+        </div>
+      
+         <hr style="height:1px;border:none;border-top:1px solid #555555;" />
+
+         <div class="row">
+        <div class="col-md-5 col-sm-6">
+          <label>所属单位:</label>{{user.salesOrg}}
+        </div>
+        <div class="col-md-5 col-sm-6">
+          <label>用户组</label>
+          <select class="form-group">
+            <option>普通用户</option>
+            <option>管理员</option>        
+          </select>
+        </div>
+      </div>
+
+         <div class="row">
+        <div class="col-md-5 col-sm-6">
+          <label>创建日期:</label> {{user.createAt.substring(0,10)}}
+        </div>
+        <div class="col-md-5 col-sm-6">
+          <label>上次登录:</label>{{}}
+        </div>
+      </div>
+    </div>
+   	  
+
+   	 
+
+
+   	  
+
+   	 
+  </div>
+  <div class="modal-footer">
+  	  <button class="btn btn-warning" type="button" ng-click="cancelModal()">保存</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelModal()">关闭</button>
+  </div>

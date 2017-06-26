@@ -1,0 +1,138 @@
+<!-- ######## 右侧开始-->
+<div  class="padding notitlebar">
+    <!-- #####  右侧正文开始-->
+    <!-- ###  功能条开始-->
+   
+    <div class="white r box-shadow-z0 m-b filter-box">
+      <div class="filterbar p-r p-l p-b">
+        <div class="filter-content">
+          <!-- <div class="select-box p-t">
+              <ui-select ng-model="search.dealer" search-enabled="true" 
+                  on-select="dealerSelect($select.selected.dealerNo)">
+                  <ui-select-match placeholder="经销商" allow-clear="true">
+                      <span ng-bind="$select.selected.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="dealer.dealerNo as dealer in (dealers | filter: $select.search) track by dealer.dealerNo"
+                   >
+                  <span ng-bind="dealer.dealerNo+'——'+dealer.dealerName"></span>
+                  </ui-select-choices>
+              </ui-select>
+          </div>
+          <div class="select-box p-t">
+            <ui-select ng-model="search.branch" search-enabled="true" on-select="branchSelect($select.selected.branchNo)">
+                  <ui-select-match placeholder="奶站" allow-clear="true">
+                      <span ng-bind="$select.selected.branchName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search) track by branch.branchNo"
+                   >
+                  <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                  </ui-select-choices>
+              </ui-select>
+          </div> -->
+          <div class="select-box p-t">
+              <ui-select ng-model="search.emp" search-enabled="true">
+                  <ui-select-match placeholder="送奶员" allow-clear="true">
+                      <span ng-bind="$select.selected.empName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="emp.empNo as emp in (emps | filter: $select.search) track by emp.empNo"
+                   >
+                  <span ng-bind="emp.empNo+'——'+emp.empName"></span>
+                  </ui-select-choices>
+              </ui-select>
+          </div>
+          <div class="date-box p-t">
+              <div class="flex-item"><span class="item-title">配送日期</span></div>
+              <div class="flex-item">
+                  <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                  </span>
+                  <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.startDate"
+                         placeholder="起始日期"
+                         data-date-format="yyyy-MM-dd"
+                         data-date-type="date" 
+                         data-autoclose="true"
+                         data-max-date="{{ search.endDate }}" 
+                         bs-datepicker>
+              </div>
+              <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+              <div class="flex-item">
+                  <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                  </span>
+                  <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.endDate"
+                         placeholder="结束日期"
+                         data-date-format="yyyy-MM-dd"
+                         data-date-type="date" 
+                         data-autoclose="true" 
+                         data-min-date="{{ search.startDate }}" 
+                         bs-datepicker>
+              </div>
+          </div>
+        </div>
+        <div class="filter-act p-t">
+          <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+        </div>
+      </div>
+    </div>  
+    <!-- ###  功能条结束-->
+    <!-- ###  表格开始-->
+        <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">经销商</th>
+                                    <th class="th-nh">奶站</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">日期</th>
+                                    <th class="th-nh">配送类型</th>
+                                    <th class="th-nh">配送产品</th>
+                                    <th class="th-nh">配送数量</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                        </tr>
+                                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                                        </tr>
+                                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count">
+                                            <td class="td-id-nh">
+                                              <span ng-bind="item.dealerNo == '' ? '自营奶站' : item.dealerName"></span>
+                                            </td>
+                                            <td>{{item.branchName}}</td>
+                                            <td>{{item.empName}}</td>
+                                            <td ng-bind-html="dateFormat(item.dispDate)"></td>
+                                            <td>{{item.type}}</td>
+                                            <td>{{item.matnrTxt}}</td>
+                                            <td>{{item.qty}}</td>
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                              <dir-pagination-controls
+                                  max-size="8"
+                                  direction-links="true"
+                                  boundary-links="true" 
+                                  on-page-change="data.getData(newPageNumber)" 
+                                  template-url="nhtpl/pagination.tpl.html">
+                              </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+    <!-- ###  表格结束-->
+
+  <script type="text/ng-template" id="empBillDetail.html">
+  </script>
+    <!--  -->
+</div>
+
+
+
+
+
+<!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

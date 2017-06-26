@@ -1,0 +1,20 @@
+<ul class="nav">
+    <li ng-repeat="x in treeNav" ui-nav>
+        <a>
+            <span class="nav-caret" ng-if="x.resName != '首页'"> <i class="fa fa-caret-down"></i>
+            </span>
+            <span class="nav-icon">
+                <i class="{{x.attr1}}"></i>
+            </span>
+            <span class="nav-text" ng-if="x.resName != '首页'">{{x.resName}}</span>
+            <span class="nav-text" ui-sref="{{x.resUrl}}" ng-if="x.resName == '首页'">{{x.resName}}</span>
+        </a>
+        <ul class="nav-sub">
+            <li ui-sref-active="active" ng-repeat="xc in x.childrens">
+                <a href="#" ui-sref="{{xc.resUrl}}({reset_pageRecord: true})">
+                    <span class="nav-text">{{xc.resName}}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

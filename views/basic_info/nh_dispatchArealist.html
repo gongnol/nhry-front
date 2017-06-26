@@ -1,0 +1,185 @@
+<div ng-controller="DispatchArealistCtrl as data">
+<div class="titlebar white box-shadow">
+	<div class="l-h m-r pull-right">
+
+		<a class="nav-link m-l" href=""  ng-click="addDispatchArea()" nh-auth="area_add">
+			<span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+				新增区域
+			</span>
+		</a>
+		<a class="nav-link m-l" href=""  ng-click="allocatRoute()" nh-auth="area_rel_branch">
+			<span class="hidden-xs-down btn btn-sm rounded blueLt ">
+				<i class="fa fa-link"></i>
+				关联奶站
+			</span>
+		</a>
+		<!--a class="nav-link " href=""  ng-click="deleteRoute()">
+			<span class="hidden-xs-down btn btn-sm rounded grey-600 ">
+				<i class="fa fa-minus"></i>
+				删除区域
+			</span>
+		</a-->
+	</div>
+</div>  
+<div  class="padding" id="view">
+    <div id="modal-alert"></div>
+    <div class="white r box-shadow-z0 m-b filter-box">
+
+            <div class="navbar ng-scope">
+            <div class="collapse navbar-toggleable-sm" id="filter">
+                <a data-toggle="collapse" data-target="#filter"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                        <!--过滤条件需要进一步确认
+                            <div class="select-box" >
+                                <ui-select ng-model="search.consumerOrg" search-enabled="false">
+                                    <ui-select-match placeholder="订奶公司" allow-clear="true">
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="org in (data.handle.ORGs | filter: $select.search) track by org.code">
+                                        <span ng-bind="org.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="select-box" >
+                                <ui-select ng-model="search.consumerStatus" search-enabled="false">
+                                    <ui-select-match placeholder="状态" allow-clear="true">
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="status in (data.handle.cStatuses | filter: $select.search) track by status.code">
+                                        <span ng-bind="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>-->
+                        <div class="col-md-6">
+                        <div class="address-block">
+                            <div nh-address-select addr-selected="areaSelect" placeholder="地址查询">
+                                </div> 
+                               
+                          </div>
+                        </div>
+                       
+                       
+                         <!--  liuyin   add    start -->
+         <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+       <input type="text" id="xqdz" class="input-line w-17" placeholder="请输入小区关键字" ng-model="data.search.content" ng-keypress="fuzzySearch($event)" style="border-bottom-width: 0; font-size: 1.125rem;">
+      </div>     
+    
+                        <!--  liuyin   add    end -->
+                        
+                    
+                    </div>
+                     <div class="filter-act ">
+                         <button class="btn btn-fw blueLt" ng-click="doSearch(areaSelect)">筛选</button>
+                     </div>
+                </div>
+             </div>
+        </div> 
+    </div>
+    </div>
+    <div class="white">
+        <div class="navbar ng-scope">
+            <!-- navbar collapse -->        
+            <div class="collapse navbar-toggleable-sm" id="filter">
+
+                <div class="filterbar p-a">
+                    <div class="filter-content">
+                        <div class="select-box" nh-auth="stat_emptransplan_dealer">
+                            <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true" on-select="typeSelected($item)">
+                                <ui-select-match placeholder="经销商" allow-clear="true">
+                                    <span ng-bind="$select.selected.dealerName"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="status.dealerNo as status in dealers track by status.dealerNo">
+                                    <span ng-bind="status.dealerName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="select-box" ng-if="choseStation">
+                            <ui-select ng-model="search.branchNo" search-enabled="false" append-to-body="true">
+                                <ui-select-match placeholder="奶站" allow-clear="true">
+                                    <span ng-bind="$select.selected.branchName"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="status.branchNo as status in milkStations track by status.branchNo" ng-class="{'over-hidden' : handle.statuses.length < 8}">
+                                    <span ng-bind="status.branchName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <button class="btn btn-fw blueLt" ng-click="downArea()">导出区域信息</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+         
+		 <div class="box" style="border-radius: 2px;">
+           
+		 	<div class="row">
+		 		<div class="col-sm-12">
+		 			<table class="table table-striped b-t b-b no-footer"  nh-checkbox>
+		 				<thead>
+		 					<tr role="row">
+		 						<th class="th-nh">小区名称</th>
+		 						<th class="th-nh">城市</th>
+		 						<th class="th-nh">区县</th>
+                                <th class="th-nh">所属物业</th>
+                                <th class="th-nh">规模（人数）</th>
+		 						<th class="th-nh">物业电话</th>
+		 						<th class="th-nh">操作</th>
+		 					</tr>
+		 				</thead>
+		 				<tbody>
+		 					<tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                              <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                            </tr>
+                            <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                              <td colspan="10" style="text-align:center;">没有数据！</td>
+                            </tr>
+		 					<tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="dispatchArealist">
+		 						<td class="td-id-nh"><span ng-bind="item.residentialAreaTxt"></span></td>
+		 						<td><span ng-bind="item.cityName"></span></td>
+		 						<td><span ng-bind="item.countyName"/></td>
+                                <td><span ng-bind="item.propertyTxt"/></td>
+                                <td><span ng-bind="item.residentialNum"/></td>
+		 						<td><span ng-bind="item.propertyTel"/></td>
+		 						<td>
+		 							<div class="btn-groups">
+		 								<button ng-click="dispatchAreaDetail(item.id)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+		 								<button ng-click="updateDispatchArea(item.id)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+		 								<!--button  ng-click="deleteRoute(item.id)" class="btn btn-xs btn-outline rounded b-warn text-danger">删除</button-->
+		 							</div>
+
+		 						</td>
+		 						</tr>
+		 							</tbody>
+		 						</table>
+		 						<footer class="text-center">
+		 							<dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="dispatchArealist"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+		 						</footer>
+		 					</div>
+		 				</div>
+		 			</div>
+
+	<script type="text/ng-template" id="dispatchAreaDetail.html">
+        
+    </script>
+
+    <script type="text/ng-template" id="AddDispatchArea.html">
+       
+    </script>
+</div>
+</div>

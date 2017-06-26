@@ -1,0 +1,218 @@
+<div class="titlebar white box-shadow">
+    <!-- <div class="l-h m-l pull-right pull-rightest">
+        <a class="nav-link" href="" ng-click="allReturn()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退回
+            </span>
+        </a>
+    </div> -->
+    <!-- <div class="l-h m-l pull-right">
+        <a class="nav-link" href="" ng-click="allBack()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退订
+            </span>
+        </a>
+    </div> -->
+    <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+        <input type="text" class="input-line" placeholder="按送奶员姓名、编号搜索" ng-model="data.search.search"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <span class="blueWt" ng-click="data.doSearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+    </div>
+</div>
+<!-- ######## 右侧送奶工信息列表开始 -->
+  <div id="modal-alert"></div>
+
+  <!-- ###  功能条开始-->
+
+  <div class="padding" >
+    <div class="white r box-shadow-z0 m-b filter-box">
+
+      <div class="navbar ng-scope">
+        <a data-toggle="collapse" data-target="#filter"
+             class="navbar-item pull-right hidden-md-up m-a-0 m-l"> <i class="material-icons"></i>
+        </a>
+
+        <!-- navbar collapse -->  
+        <div class="collapse navbar-toggleable-sm" id="filter">
+          <div class="filterbar p-t">
+            <div class="filter-content">
+              <div class="select-box">
+                <ui-select ng-model="data.search.status" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="员工状态" allow-clear="true">
+                    <span ng-bind="$select.selected.label"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.code as status in data.handle.statuses track by status.code" ng-class="{'over-hidden' : data.handle.statuses.length < 8}">
+                    <span ng-bind="status.label"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+              <div class="select-box" >
+                <ui-select ng-model="data.search.roleId" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="员工角色" allow-clear="true">
+                    <span ng-bind="$select.selected.roleName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="role.id as role in data.handle.empRoles track by role.id" ng-class="{'over-hidden' : data.handle.empRoles.length < 8}">
+                    <span ng-bind="role.roleName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+
+              <div class="select-box" nh-auth="emp_branch_choice">
+                <ui-select ng-model="data.search.branchNo" search-enabled="true" append-to-body="true">
+                  <ui-select-match placeholder="所属奶站" allow-clear="true">
+                    <span ng-bind="$select.selected.branchName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="station.branchNo as station in (data.handle.stations | selectPropFilter: {branchName: $select.search, branchNo:$select.search}) track by station.branchNo" ng-class="{'over-hidden' : data.handle.stations.length < 8}">
+                    <span ng-bind-html="station.branchName | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
+            <div class="filter-act">
+              <button class="btn btn-fw blueLt" ng-click="data.doSearch()">筛选</button>
+            </div>
+          </div>
+        </div>
+        <!-- / navbar collapse --> </div>
+    </div>
+    <!-- ###  功能条结束-->  
+
+    <!-- ###  表格开始-->  
+    <div class="box" style="border-radius: 2px;">
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-striped b-t b-b no-footer">
+            <thead>
+              <tr role="row">
+                <th class="th-nh">姓名</th>
+                <th class="th-nh">员工编号</th>
+                <th class="th-nh">所属奶站</th>
+                <th class="th-nh">联系电话</th>
+                <th class="th-nh">状态</th>
+                <th class="th-nh">角色</th>
+                <th class="th-nh">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                <td colspan="10" style="text-align:center;">正在加载数据！</td>
+              </tr>
+              <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                <td colspan="10" style="text-align:center;">没有数据！</td>
+              </tr>
+              <tr dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="empinfo_list">
+                <td class="td-id-nh" ng-bind="user.empName"></td>
+                <td ng-bind="user.hrEmpNo"></td>
+                <td ng-bind="user.branchNo"></td>
+                <td ng-bind="user.mp"></td>
+                <td ng-bind="data.getStatusLabel(user.status)"></td>
+                <td ng-bind="user.roleId"></td>
+                <td>
+                  <div class="btn-groups">
+                    <button ng-click="data.showDetail(user.empNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">维护</button>
+                    <!-- <button ng-click="edit(user.id)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+                    <button ng-click="delete(user.id)" class="btn btn-xs btn-outline rounded b-danger text-danger">删除</button> -->
+                  </div>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <footer class="text-center">
+                <dir-pagination-controls max-size="8"
+                                         direction-links="true"
+                                         boundary-links="true"
+                                         pagination-id="empinfo_list"
+                                         on-page-change="data.getData(newPageNumber)"
+                                         template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+
+          </footer>
+        </div>
+      </div>
+    </div>
+    <!-- ###  表格结束--> 
+  </div>
+    
+
+  <script type="text/ng-template" id="empDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title">员工详情</h3>
+    </div>
+    <div class="modal-body">
+     
+        <!--box body begin-->
+        <div class="box-body label-lg">
+          <div class="row">
+            <div class="col-md-2 text-right modal-label">姓名</div>
+            <div class="col-md-4" ng-bind-html="edm.empName"></div>
+            <div class="col-md-2 text-right modal-label">性别</div>
+            <div class="col-md-4" ng-bind-html="edm.gender"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">所属奶站</div>
+            <div class="col-md-4" ng-bind-html="edm.branchName"></div>
+            <div class="col-md-2 text-right modal-label">入职时间</div>
+            <div class="col-md-4" ng-bind-html="edm.joinDate"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">员工类型</div>
+            <div class="col-md-4" ng-bind-html="edm.roleName"></div>
+            <div class="col-md-2 text-right modal-label">员工编号</div>
+            <div class="col-md-4" ng-bind-html="edm.hrEmpNo"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">员工状态</div>
+            <div class="col-md-4" ng-bind-html="edm.status"></div>
+            <div class="col-md-2 text-right modal-label">联系电话</div>
+            <div class="col-md-4" ng-bind-html="edm.mp"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">身份证号</div>
+            <div class="col-md-4" ng-bind-html="edm.idNo"></div>
+            <div class="col-md-2 text-right modal-label">微信号</div>
+            <div class="col-md-4" ng-bind-html="edm.webchat"></div>
+          </div>
+          <div class="nhdashline"></div>
+          <div class="row">
+            <div class="col-md-2 text-right modal-label">基本工资</div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" ng-model="edm.baseSalary" nh-auth="emp_basic_salary" nh-auth-disabled>
+            </div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">结算方式</div>
+            <div class="col-md-3">
+                <!-- <input type="radio" name="paym" value="10" ng-model="edm.salaryMet">
+                <i class="blueLt"></i>按数量结算 -->
+                <label class="radio-inline md-check m-r" style="vertical-align: top;">
+                    <input type="radio" name="paym" value="10" ng-model="edm.salaryMet" nh-auth="emp_billway" nh-auth-disabled>
+                    <i class="primary" style="margin-top: 8px"></i>按数量结算
+                </label>
+            </div>
+            <div class="col-md-3">
+                <!-- <input type="radio" name="paym" value="20" ng-model="edm.salaryMet">
+                <i class="blueLt"></i>按产品结算  --> 
+                <label class="radio-inline md-check m-r" style="vertical-align: top;">
+                    <input type="radio" name="paym" value="20" ng-model="edm.salaryMet" nh-auth="emp_billway" nh-auth-disabled>
+                    <i class="primary" style="margin-top: 8px"></i>按产品结算
+                </label>                  
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 text-right modal-label">SAP客户编号</div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" ng-model="edm.sapcode" nh-auth="emp_basic_salary" nh-auth-disabled>
+            </div>
+          </div>
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="edm.saveSalaryMet()" nh-auth="emp_basic_salary">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="edm.cancelModal()">关闭</button>
+    </div>
+  </script>
+
+<!-- #####  右侧正文结束 -->

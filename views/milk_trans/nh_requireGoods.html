@@ -1,0 +1,307 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right" ng-if="isEmpSend">
+        <a class="nav-link"  ng-click="addProduct()" ng-if="status!='30'">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                添加产品
+            </span>
+        </a>
+       
+    </div>
+</div>
+
+
+  <div class="padding">
+    <div id="modal-alert" class="text-center"></div>
+    <div id="body-alert" class="text-center"></div>
+            <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#filter"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                               <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="reqgoodsCreating || create()" ng-class="{'disabled': reqgoodsCreating, 'nh-disable': reqgoodsCreating}">
+                                    <span ng-class="{'nh-hide': reqgoodsCreating}">生成当天要货计划</span>
+                              </button>
+                                <div class="date-box">
+                                  <div class="flex-item"><span class="item-title">创建要货日期</span></div>
+                                  <div class="flex-item">
+                                      <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                      </span>
+                                      <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.requiredDate"
+                                             placeholder="选择要货日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+
+                                             data-max-date="{{ search.untilDate }}" 
+                                             bs-datepicker>
+                                  </div>
+                                </div>
+
+            
+                             
+                              <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="query()">
+                                          查询
+                              </button>
+                               <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="exportQuire()">
+                                          导出
+                              </button>
+
+                                <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="reqbydateCreating || createByDate()" ng-class="{'disabled': reqbydateCreating, 'nh-disable': reqbydateCreating}">
+                                    <span ng-class="{'nh-hide': reqbydateCreating}">      生成指定日期的要货计划</span>
+                              </button>
+
+                               <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="requireSending || send()" ng-class="{'disabled': requireSending, 'nh-disable': requireSending}">
+                                  <span ng-class="{'nh-hide': requireSending}">发送今天要货计划至ERP</span>
+                              </button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>    
+
+    <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+       <div class="box" style="border-radius: 2px;">
+                    
+                    <div class="row">
+                        <div class="col-sm-12" style="height:20px">
+                          <div class="col-md-6 td-id-nh"  ng-if="orderNo!= '' && orderNo!= undefined">
+                              要货单号：{{orderNo}}
+                          </div>
+                          <div class="col-md-6 td-id-nh text-right"  ng-if="voucherNo!= '' && voucherNo!= undefined">
+                             要货凭证 ：{{voucherNo}}
+                          </div>
+                        </div>
+                         <div class="col-sm-12 m-t" style="height:20px">
+                          <div class="col-md-6 td-id-nh" ng-if="createAt != undefined && createAt!= ''">
+                             生成时间：{{createAt | date:'yyyy-MM-dd HH:mm:ss'}}
+                          </div>
+                          <div class="col-md-6 td-id-nh text-right" ng-if="lastModified != undefined && lastModified!= ''">
+                             发送时间：{{lastModified | date:'yyyy-MM-dd HH:mm:ss'}}
+                          </div>
+                        </div>
+                        <div class="col-sm-12 m-t">
+                          <div class="col-md-6 td-id-nh" ng-if="nhmilks != undefined && nhmilks.length > 0">
+                             要货数量合计：{{totalGoods}}
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer"  nh-checkbox>
+                                <thead>
+                                 <tr role="row">
+                                                                      
+                                    <th class="th-nh">产品代码</th>
+                                    <th class="th-nh">产品名称</th>
+                                    <th class="th-nh">数量</th>
+                                    <th class="th-nh">增量</th>
+                                    <th class="th-nh">总数</th>
+                                    <th class="th-nh">拒收复送数量</th>
+                                    <th class="th-nh" ng-if="status!='30'">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                      
+                                        <tr ng-repeat="product in nhmilks">
+                                            
+                                            <td class="td-id-nh"><span ng-bind="product.matnr.slice(-8)"></span></td>
+                                            <td><span ng-bind="product.matnrTxt"></span></td>
+                                            <td><span ng-bind="product.qty"></span></td>
+                                            <td><span ng-bind="product.increQty"></span></td>
+                                            <td><span ng-bind="product.qty+product.increQty"></span></td>
+                                            <td><span ng-bind="product.resendQty || 0"></span></td>
+                                            <td ng-if="status!='30'">
+                                               <div class="btn-groups">
+                                                    <div ng-if="delear">
+                                                    <button ng-click="edit(product.matnr,product.matnrTxt,product.qty,product.increQty,product.flag)" class="btn btn-xs btn-outline rounded b-primary text-primary"
+                                                    ng-if="status!='30'" >编辑</button></div>
+
+                                                     <button ng-click="refuseResend(product.matnr, product.qty+product.increQty)" class="btn btn-xs btn-outline rounded b-info text-info"
+                                                    ng-if="status!='30' && product.hasTmp">拒收复送</button>
+                                                    <button ng-click="delItem(product.matnr)" ng-show="product.flag==2"  class="btn btn-xs btn-outline rounded b-danger text-danger" ng-if="status!='30'">删除</button>
+                                                </div>
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            
+                        </div>
+                    </div>
+                </div>
+            <!-- ###  表格结束-->
+
+
+     <!--修改要货行 -->
+            <script type="text/ng-template" id="updateModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">修改要货计划行</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>产品代码</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="text" ng-model="product.matnr" class="form-control"  ng-disabled="{{product.flag ==1}}">
+                          </div>
+                      </div>
+
+                       <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                             <label>产品名称</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                               <ui-select ng-model="product" search-enabled="true" ng-disabled="{{product.flag ==1}}" >
+                                   <ui-select-match>
+                                       <span ng-bind="$select.selected.matnrTxt" ng-selected="selected($select.selected.matnr)"></span>
+                                   </ui-select-match>
+                                   <ui-select-choices 
+                                     repeat="pro.matnrTxt as pro in (Rproducts |filter: $select.search) track by pro.matnrTxt"
+                                     refresh="getProductTxt($select.search)"
+                                       refresh-delay="50"
+                                       minimum-input-length="2">
+                                       <span ng-bind="pro.matnr+'——'+pro.matnrTxt"></span>
+                                   </ui-select-choices>
+                               </ui-select>
+                          </div>
+                      </div>
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>数量</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="number" class="form-control" ng-model="product.qty" ng-disabled="{{product.flag ==1}}" >
+                          </div>
+                      </div>
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>增量</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="number" class="form-control" ng-model="product.increQty" >
+                          </div>
+                      </div>
+
+                     
+                  </div>
+                  <div class="modal-footer">
+                        <strong>{{ succMsg }}</strong>
+                        <button type="button" class="btn blueLt p-x-md" ng-click="save()">保存</button>
+                        <button type="button" class="btn dark-white p-x-md" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+
+
+                <!--添加新产品-->
+               <script type="text/ng-template" id="addModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">添加要货计划行</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>产品代码</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="text" ng-model="product.matnr" class="form-control"  ng-disabled="true">
+                          </div>
+                      </div>
+
+                       <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                             <label>产品名称</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                               <ui-select ng-model="product.matnrTxt" search-enabled="true">
+                                   <ui-select-match>
+                                       <span ng-bind="$select.selected.matnrTxt" ng-selected="selected($select.selected.matnr)"></span>
+                                   </ui-select-match>
+                                   <ui-select-choices 
+                                     repeat="pro.matnrTxt as pro in (Rproducts |filter: $select.search) track by pro.matnrTxt"
+                                     refresh="getProductTxt($select.search)"
+                                       refresh-delay="50"
+                                       minimum-input-length="2">
+                                       <span ng-bind="pro.matnr+'——'+pro.matnrTxt"></span>
+                                   </ui-select-choices>
+                               </ui-select>
+                          </div>
+                      </div>
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>数量</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="number" class="form-control" ng-model="product.qty" >
+                          </div>
+                      </div>
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>增量</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="number" class="form-control" ng-model="product.increQty" >
+                          </div>
+                      </div>
+
+                     
+                  </div>
+                  <div class="modal-footer">
+                        <strong>{{ succMsg }}</strong>
+                        <button type="button" class="btn blueLt p-x-md" ng-click="save()">保存</button>
+                        <button type="button" class="btn dark-white p-x-md" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+
+            <script type="text/ng-template" id="refuseResendModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">拒收复送管理</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                    <form name="rrmForm" novalidate>
+                      <table class="table table-striped b-t b-b no-footer" >
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">产生日期</th>
+                                    <th class="th-nh">产品名称</th>
+                                    <th class="th-nh">产品编号</th>
+                                    <th class="th-nh">拒收数量</th>
+                                    <th class="th-nh">复送数量</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in rrm.items">
+                                            <td class="td-id-nh" ><span ng-bind="item.empName"></span></td>
+                                            <td><span ng-bind="item.dispDate.nh_formatDate()"></span></td>
+                                            <td><span ng-bind="item.matnrTxt"></span></td>
+                                            <td><span ng-bind="item.matnr.slice(-8)"></span></td>
+                                            <td><span ng-bind="item.remainQty"></span></td>
+                                            <td>
+                                              <input name="useQty" type="number" min="0" max="{{item.remainQty}}" class="form-control nh-number-valid" ng-model="item.useQty" ng-change="rrm.uptTotalQty(item.useQty)">
+                                              <div class="error-msg" style="visibility: hidden; bottom: auto; right: auto;">
+                                              <span class="label label-lg danger pos-rlt m-r-xs text-sm error-max" style="display: none;"><b class="arrow top b-danger" style="left: 10%"></b>复送数量不能大于拒收数量！</span>
+                                              <span class="label label-lg danger pos-rlt m-r-xs text-sm error-min" style="display: none;"><b class="arrow top b-danger" style="left: 10%"></b>复送数量不能为负数！</span>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                      </table>
+                    </form>  
+                    <div class="th-nh _600" style="height: auto; padding-left: 16px;">数量合计：{{rrm.totalQty}}</div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-fw blueLt p-x-md" ng-click="rrm.save()" ng-disabled="rrmForm.$invalid" nh-mulclick-disable="rrm.saving">保存</button>
+                    <button type="button" class="btn btn-fw primary p-x-md" ng-click="rrm.cancelModal()">关闭</button>
+                  </div>
+            </script>
+          </div>
+

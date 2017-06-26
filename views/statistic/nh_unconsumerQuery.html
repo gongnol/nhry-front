@@ -1,0 +1,92 @@
+<div>
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+
+						<!--div class="date-box">
+							<div class="flex-item">
+								<span class="item-title"></span>
+							</div>
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+							<div class="flex-item"> <i class="fa fa-arrows-h"></i>
+							</div>
+							<div class="flex-item">
+								<span class="material-icons l-b-round">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.untilDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ search.fromDate }}" 
+                                           bs-datepicker></div>
+						</div-->
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">订户姓名</th>
+                                    <th class="th-nh">订户电话</th>
+                                    <th class="th-nh">地址</th>
+                                    <th class="th-nh">订户订单</th>
+                                    <th class="th-nh">退订时间</th>
+                                    <th class="th-nh">退订原因</th>
+                                    <th class="th-nh">奶站</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="nh_unconsumerQuery" >  
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>  
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>                     
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true"
+                                            pagination-id="nh_unconsumerQuery" 
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+</div>

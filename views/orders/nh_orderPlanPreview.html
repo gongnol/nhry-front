@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h3 class="modal-title">订奶日计划</h3>
+</div>
+<div class="modal-body">
+    <!-- <table class="table table-striped b-t b-b no-footer">
+        <thead style="display: block; margin-right: 17px;">
+            <tr role="row">
+                <th class="th-nh" style="width: 18%">配送日期</th>
+                <th class="th-nh" style="width: 42.9%">产品名称</th>
+                <th class="th-nh" style="width: 16%">订单余额</th>
+                <th class="th-nh" style="width: 10%">数量</th>
+                <th class="th-nh" style="width: 30%">配送时间</th>
+            </tr>
+        </thead>
+        <tbody style="display: block; height: 520px; overflow-y: auto;">
+            <tr ng-repeat="item in oppm.planlist">
+                <td class="td-id-nh" ng-bind-html="oppm.dateFormat(item.dispDate)" style="width: 17.8%">
+                </td>
+                <td style="width: 43.5%">{{item.matnrTxt}}</td>
+                <td style="width: 16%">{{item.remainAmt}}</td>
+                <td style="width: 10%">{{item.qty}}</td>
+                <td ng-bind-html="oppm.statusFormat(item.reachTimeType)" style="width: 20%"></td>
+            </tr>
+        </tbody>
+    </table> -->
+  <div style="margin-right: 17px">
+    <table class="table table-striped b-t b-b no-footer" style="margin-bottom: 0;">
+        <thead>
+            <tr role="row">
+                <th class="th-nh" style="width: 18%">配送日期</th>
+                <th class="th-nh" style="width: 42%">产品名称</th>
+                <th class="th-nh" style="width: 16%">订单余额</th>
+                <th class="th-nh" style="width: 10%">数量</th>
+                <th class="th-nh" style="width: 30%">配送时间</th>
+            </tr>
+        </thead>
+    </table>
+  </div>
+  <div style="height: 520px; overflow-y: auto;">
+    <table class="table table-striped b-t b-b no-footer">
+        <tbody>
+            <tr ng-repeat="item in oppm.planlist">
+                <td class="td-id-nh" ng-bind-html="oppm.dateFormat(item.dispDate)" style="width: 17.8%">
+                </td>
+                <td style="width: 43.5%">{{item.matnrTxt}}</td>
+                <td style="width: 16%">{{item.remainAmt}}</td>
+                <td style="width: 10%">{{item.qty}}</td>
+                <td ng-bind-html="oppm.statusFormat(item.reachTimeType)" style="width: 20%"></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-fw primary p-x-md" type="button" ng-click="oppm.cancelModal()">关闭</button>
+</div>

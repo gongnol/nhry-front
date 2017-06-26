@@ -1,0 +1,323 @@
+<!-- ######## 右侧开始-->
+<div id="modal-alert"></div>
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-r pull-right">
+        <div class="pull-right m-l">
+            <a class="nav-link" href="" ng-click="data.newOrgInfo()">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                    新增机构
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="padding">
+    <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-t p-r">
+            <div class="filter-content">
+                <div class="col-md-4">
+                    <input class="form-control" type="text" placeholder="按机构名称、电话、机构代码查询" ng-model="data.search.fuzzyParam">
+                </div>
+            </div>
+            <div class="filter-act">
+                <button class="btn btn-fw blueLt" ng-click="data.getData(1)">筛选</button>
+            </div>
+        </div>
+    </div>
+    <!-- ###  功能条结束-->
+    <!-- ###  表格开始-->
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer" nh-checkbox>
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">机构代码</th>
+                            <th class="th-nh">机构名称</th>
+                            <th class="th-nh">联系电话</th>
+                            <th class="th-nh">机构地址</th>
+                            <th class="th-nh">机构联系人</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                            <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                            <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="orglist" current-page="data.curPageno">
+                            <td class="td-id-nh">
+                              <span ng-bind="item.orgCode"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="item.orgName"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="item.tel"></span>
+                            </td>
+                            <td style="max-width: 15rem;">
+                                <span ng-bind="item.address"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="item.contact"></span>
+                            </td>
+                            <td>
+                                <div class="btn-groups">
+                                    <button class="btn btn-xs btn-outline rounded b-primary text-primary" ui-sref="newhope.orginfoDetail({orgId: item.id})">查看</button>
+                                    <button class="btn btn-xs btn-outline rounded b-info text-info" ng-click="data.editOrgDetail(item.id)">编辑</button>
+                                    <!-- <button class="btn btn-xs btn-outline rounded b-accent text-accent" ng-click="data.refund(user.vipCustNo,user.vipName)">选择订户</button> -->
+                                    <button class="btn btn-xs btn-outline rounded b-accent text-accent" ui-sref="newhope.currentOrgOrder({orgId: item.id})">订单</button>
+                                    <button class="btn btn-xs btn-outline rounded b-danger text-danger" ui-sref="newhope.addCsmByOrg({orgId: item.id})">新增订户</button>
+                                    <button class="btn btn-xs btn-outline rounded b-danger text-danger" ng-click="data.addorgPrice(item.id)">机构价格</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <footer class="text-center">
+                    <dir-pagination-controls max-size="8" 
+                                             direction-links="true" 
+                                             pagination-id="orglist" 
+                                             boundary-links="true" 
+                                             on-page-change="data.getData(newPageNumber)" 
+                                             template-url="nhtpl/pagination.tpl.html">
+                    </dir-pagination-controls>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- ###  表格结束-->
+</div>
+<!-- ######## 右侧结束-->
+<script type="text/ng-template" id="orgDetailModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">机构详情</h3>
+    </div>
+    <div class="modal-body">
+        <div class="box-body label-lg">
+            <div class="row">
+                <div class="col-md-2 text-right modal-label">机构代码</div>
+                <div class="col-md-2" ng-bind-html="odm.orgDetail.orgCode"></div>
+                <div class="col-md-3 text-right modal-label">机构名称</div>
+                <div class="col-md-5" ng-bind-html="odm.orgDetail.orgName"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right modal-label">联系电话</div>
+                <div class="col-md-3" ng-bind-html="odm.orgDetail.tel"></div>
+                <div class="col-md-2 text-right modal-label">手机</div>
+                <div class="col-md-5" ng-bind-html="odm.orgDetail.mp"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right modal-label">联系人</div>
+                <div class="col-md-2" ng-bind-html="odm.orgDetail.contact"></div>
+                <div class="col-md-3 text-right modal-label">机构地址</div>
+                <div class="col-md-5" ng-bind-html="odm.orgDetail.address" style="word-break: break-all;"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right modal-label">机构创建人</div>
+                <div class="col-md-2" ng-bind-html="odm.orgDetail.createByTxt"></div>
+                <div class="col-md-3 text-right modal-label">机构创建时间</div>
+                <div class="col-md-5" ng-bind-html="odm.orgDetail.createAt.nh_formatDate()"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right modal-label">上次修改人</div>
+                <div class="col-md-2" ng-bind-html="odm.orgDetail.lastModifiedByTxt"></div>
+                <div class="col-md-3 text-right modal-label">上次修改时间</div>
+                <div class="col-md-5" ng-bind-html="odm.orgDetail.lastModified.nh_formatDate()"></div>
+            </div>
+            <div class="row">
+                <div class="form-inline" style="margin-left: 0.75rem">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="searchKey" class="form-control search-control"
+                                   placeholder="按姓名、联系电话搜索订户" ng-model="odm.searchKey"   
+                                   ng-keypress="odm.csmSearch($event)"
+                                   style="min-height: auto;">
+                            <span class="input-group-addon search-addon blueWt" ng-click="odm.csmSearch()"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-striped b-t b-b no-footer">
+                        <thead>
+                         <tr role="row">
+                            <th class="th-nh">
+                                姓名
+                            </th>
+                            <th class="th-nh">经销商</th>
+                            <th class="th-nh">所属奶站</th>
+                            <th class="th-nh">联系电话</th>
+                            <th class="th-nh">订户状态</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="odm.content.length <= 0">
+                              <td colspan="8" style="text-align:center;">没有订户！</td>
+                            </tr>
+                            <tr dir-paginate="item in odm.content|itemsPerPage:odm.itemsPerPage" total-items="odm.total_count" current-page="odm.curPageno" pagination-id="odmTB">
+                                <td class="td-id-nh">
+                                    {{item.vipName}}
+                                </td>
+                                <td>{{item.dealerName}}</td>
+                                <td>{{item.branchName}}</td>
+                                <td>{{item.mp}}</td>
+                                <td><span ng-bind="data.getObjByCode(item.status)"></span></td>
+                                <td>
+                                    <div class="btn-groups">
+                                        <button ng-click="data.toCsmDetail({edit: false, vipCustNo: user.vipCustNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                    </div>
+
+                                </td>                         
+                            </tr>
+                        </tbody>
+                    </table>  
+                    <footer class="text-center">
+                        <dir-pagination-controls
+                            max-size="8"
+                            direction-links="true"
+                            boundary-links="true" 
+                            on-page-change="odm.getData(newPageNumber)" 
+                            template-url="nhtpl/pagination.tpl.html"
+                            pagination-id="odmTB">
+                        </dir-pagination-controls>
+                    </footer>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="odm.cancelModal()">关闭</button>
+    </div>
+</script>
+<script type="text/ng-template" id="orgEditModal.html">
+    <form name="orgEditForm" role='form' novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">修改机构信息</h3>
+        </div>
+        <div class="modal-body">
+            <div class="box-body label-lg">
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">机构代码</div>
+                    <div class="col-md-3 form-check">
+                        <input type="text" class="form-control" ng-model="oem.orgDetail.orgCode" ng-minlength="10" ng-maxlength="10" ng-pattern="/\d{10}/" ng-focus="oem.focus('codeError')" ng-blur="oem.blur('codeError')" required>
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="oem.codeError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入十位数字！</span>
+                        </div>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">机构名称</div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="oem.orgDetail.orgName" required>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">联系电话</div>
+                    <div class="col-md-3 form-check">
+                        <input name="orgTel" type="text" class="form-control" ng-model="oem.orgDetail.tel" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="oem.focus('telError')" ng-blur="oem.blur('telError')">
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="oem.telError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">手机</div>
+                    <div class="col-md-5 form-check">
+                        <input name="orgMp" type="text" class="form-control" ng-model="oem.orgDetail.mp" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="oem.focus('mpError')" ng-blur="oem.blur('mpError')">
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="oem.mpError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">联系人</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="oem.orgDetail.contact" required>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">机构地址</div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="oem.orgDetail.address">
+                    </div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">机构创建人</div>
+                    <div class="col-md-2" ng-bind-html="oem.orgDetail.createByTxt"></div>
+                    <div class="col-md-3 text-right modal-label">机构创建时间</div>
+                    <div class="col-md-5" ng-bind-html="oem.orgDetail.createAt.nh_formatDate()"></div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">上次修改人</div>
+                    <div class="col-md-2" ng-bind-html="oem.orgDetail.lastModifiedByTxt"></div>
+                    <div class="col-md-3 text-right modal-label">上次修改时间</div>
+                    <div class="col-md-5" ng-bind-html="oem.orgDetail.lastModified.nh_formatDate()"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="oem.save()" ng-disabled="orgEditForm.$invalid">保存</button>
+          <button class="btn btn-fw primary p-x-md" type="button" ng-click="oem.cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>
+<script type="text/ng-template" id="newOrgModal.html">
+    <form name="newOrgForm" role='form' novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">新增机构</h3>
+        </div>
+        <div class="modal-body">
+            <div class="box-body label-lg">
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">机构代码</div>
+                    <div class="col-md-3 form-check">
+                        <input type="text" class="form-control" ng-model="nom.orgDetail.orgCode" ng-minlength="10" ng-maxlength="10" ng-pattern="/\d{10}/" ng-focus="nom.focus('codeError')" ng-blur="nom.blur('codeError')" required>
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="nom.codeError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入十位数字！</span>
+                        </div>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">机构名称</div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="nom.orgDetail.orgName" required>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">联系电话</div>
+                    <div class="col-md-3 form-check">
+                        <input name="orgTel" type="text" class="form-control" ng-model="nom.orgDetail.tel" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="nom.focus('telError')" ng-blur="nom.blur('telError')">
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="nom.telError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">手机</div>
+                    <div class="col-md-5 form-check">
+                        <input name="orgMp" type="text" class="form-control" ng-model="nom.orgDetail.mp" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="nom.focus('mpError')" ng-blur="nom.blur('mpError')">
+                        <div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="nom.mpError">
+                          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-lh m-b">
+                    <div class="col-md-2 text-right modal-label">联系人</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="nom.orgDetail.contact" required>
+                        <i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-2 text-right modal-label">机构地址</div>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" ng-model="nom.orgDetail.address">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="nom.save()" ng-disabled="newOrgForm.$invalid">保存</button>
+          <button class="btn btn-fw primary p-x-md" type="button" ng-click="nom.cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>
+<!-- ############ 页面内容结束-->

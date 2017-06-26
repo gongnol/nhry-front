@@ -1,0 +1,41 @@
+<div>
+        <div class="col-md-12 bg">
+            <div class="box-body">
+                <div class="clearfix m-b nav-active-info">
+                    <ul class="nav nav-pills nav-sm" ui-nav="">
+                        <li class="nav-item" ui-sref-active="active">
+
+                            <a ui-sref="newhope.consumerStat.consumerQuery" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 订户信息查询
+                            </a>
+                        </li>
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.consumerStat.unconsumerQuery" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 退订订户查询
+                            </a>
+                        </li>
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.consumerStat.stopconsumerQuery" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 停订订户查询
+                            </a>
+                        </li>  
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.consumerStat.doconsumerQuery " class="nav-link" href="">
+                                <i class="fa fa-list"></i> 在订订户查询
+                            </a>
+                        </li>   
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.consumerStat.changeconsumerQuery " class="nav-link" href="">
+                                <i class="fa fa-list"></i> 奶站更改统计
+                            </a>
+                        </li>                 
+                    </ul>
+                </div>
+
+                <!-- 主内容区域-->
+                <div ui-view class="m-b">
+                </div>
+
+            </div>
+        </div>
+</div>

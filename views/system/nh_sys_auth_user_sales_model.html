@@ -1,0 +1,61 @@
+ <form  ng-submit="">
+   <div id="action-alert"></div>
+  <div class="modal-header">
+  <h3 class="modal-title">销售组织</h3>
+</div>
+ <div class="modal-body p-lg">
+       <div class="row form-group">
+              <div class="col-md-6" ng-if="user.saleName"> <strong>原有数据 </strong></div>
+       </div>
+      <div class="row form-group" >
+          <div class="col-md-6" ng-if="user.saleName"> <strong>销售组织: </strong>{{user.saleName}}</div>
+          <div class="col-md-6" ng-if="user.dealerName"> <strong>经销商: </strong>{{user.dealerName}}</div>
+           <div class="col-md-6" ng-if="user.dealerId == null && user.branchName!=null"> <strong>经销商: </strong>自营奶站</div>
+          <div class="col-md-6" ng-if="user.branchName"> <strong>奶站: </strong>{{user.branchName}}</div>
+      </div>
+     <div class="row form-group" >
+        <div class="select-box btn-group">
+        <ui-select ng-model="select.saleOrg" search-enabled="true"  name="sales" on-select="selectSales($item)" required>
+            <ui-select-match allow-clear="true" placeholder="销售组织">
+                <span ng-bind="$select.selected.itemName"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="salesOrg.itemCode as salesOrg in (salesIcons | filter:{itemName:$select.search}) track by salesOrg.itemCode">
+                <span ng-bind-html="salesOrg.itemName | highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+        </div>
+       <div class="select-box btn-group" ng-if="saleChoseStation && !isDepartOffice">
+         <ui-select ng-model="select.dealerId" search-enabled="true" name="dealer" on-select="selectDealer($item)" required>
+           <ui-select-match allow-clear="true" placeholder="经销商">
+             <span ng-bind="$select.selected.dealerName"></span>
+           </ui-select-match>
+           <ui-select-choices repeat="dealer.dealerNo as dealer in (dealers | filter: $select.search) track by dealer.dealerNo">
+             <span ng-bind-html="dealer.dealerName | highlight: $select.search"></span>
+           </ui-select-choices>
+         </ui-select>
+       </div>
+       <div class="select-box btn-group" ng-if="dealerChoseStation  && !isDealerOffice">
+         <ui-select ng-model="select.branchNo" search-enabled="true"  name="branch" on-select="selectBranch($item)">
+           <ui-select-match allow-clear="true" placeholder="奶站">
+             <span ng-bind="$select.selected.branchName"></span>
+           </ui-select-match>
+           <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search ) track by branch.branchNo">
+             <span ng-bind-html="branch.branchName | highlight: $select.search"></span>
+           </ui-select-choices>
+         </ui-select>
+       </div>
+      </div>
+       <br>
+     <div class="row">
+      
+    </div>  
+     <br>
+     <div class="row">
+      
+  </div>
+ </div>
+<div class="modal-footer">
+    <button class="btn btn-fw blueLt p-x-md" ng-click="saveModal()">保存授权</button>
+    <button type="button" class="btn btn-fw primary p-x-md" ng-click="cancelModal()">关闭</button>
+</div>
+</form>

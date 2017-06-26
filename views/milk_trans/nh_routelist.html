@@ -1,0 +1,635 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <div class="pull-right m-l-sm">
+            <a class="nav-link" ng-click="outDevliver()">
+
+                <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                    批量导出路单
+                </span>
+            </a>
+        </div>
+        <div class="pull-right m-l-sm">
+            <a class="nav-link" ng-click="createTemptRoute()">
+
+                <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                    生成该奶站临时路单
+                </span>
+            </a>
+        </div>
+        <div class="pull-right">
+            <!-- <a class="nav-link" href="" ng-click="createRouteOrder()">
+
+                <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                    生成该奶站路单
+                </span>
+            </a> -->
+            <button type="button" class="hidden-xs-down btn btn-sm rounded blueLt" ng-click="createRouteOrder()" nh-mulclick-disable="routeCreating">
+                生成该奶站路单
+            </button>
+            
+        </div>
+
+        <div class="pull-right filter-content">
+          <div class="date-box" style="margin-right: 0;">
+            <div class="flex-item">
+              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+              <input type="text" class="form-control r-b-round w-md" name="crDate"       ng-model="createEntity"
+                     data-date-format="yyyy-MM-dd"
+                     data-date-type="string" 
+                     data-autoclose="true" 
+                     placeholder="请选择生成路单的日期"
+                     bs-datepicker>
+              </div>
+            </div>
+        </div>
+        <div class="pull-right m-r-md">
+            <a class="nav-link" href="" ng-click="deleteRouteOrder()">
+                <span class="hidden-xs-down btn btn-sm rounded danger">
+                    删除路单
+                </span>
+            </a>
+        </div>
+        <div class="pull-right filter-content">
+          <div class="date-box" style="margin-right: 0;">
+            <div class="flex-item">
+              <span class="material-icons l-b-round" style="background-color: #f44455 !important;
+}"> <i class="fa fa-calendar"></i></span>
+              <input type="text" class="form-control r-b-round w-md" name="delDate"       ng-model="deleteDispEntity"
+                     data-date-format="yyyy-MM-dd"
+                     data-date-type="string" 
+                     data-autoclose="true" 
+                     placeholder="请选择删除路单的日期"
+                     bs-datepicker>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- / -->
+<!-- ######## 右侧开始-->
+        <div class="padding">
+            <div id="modal-alert"></div>
+            <div id="body-alert"></div>
+            
+            <!-- ###  功能条开始-->
+
+                    <!-- <div class="titlebar white lt box-shadow">
+                        <button class="btn btn-fw blueLt m-r" ng-click="tomorrowRouteList()">明日路单</button>
+                        <button class="btn btn-fw blueLt m-r" ng-click="todayRouteList()">今日路单</button>
+                        <button class="btn btn-fw blueLt m-r">全部打印</button>
+                        <button class="btn btn-fw blueLt m-r" ng-click="allConfirm()">批量确认</button>
+                    </div> -->
+                    
+            <div class="white r box-shadow-z0 m-b filter-box">
+                <div class="navbar ng-scope">
+                    <a data-toggle="collapse" data-target="#filter"
+                       class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                        <i class="material-icons"></i>
+                    </a>
+                    <!-- navbar collapse -->
+                    <div class="collapse navbar-toggleable-sm" id="filter">
+                        <div class="filterbar p-t">
+                            <div class="filter-content">
+                                <!-- <div class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="输入路单编号" ng-model="search.orderNo">
+                                </div> -->
+                                
+                                <div class="select-box">
+                                  <ui-select ng-model="search.empNo" search-enabled="false">
+                                      <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                          <span ng-bind="$select.selected.empName"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                          <span ng-bind="x.empName"></span>
+                                      </ui-select-choices>
+                                  </ui-select>
+                                </div>
+                                <div class="select-box">
+                                  <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                                      <ui-select-match placeholder="路单状态" allow-clear="true">
+                                          <span ng-bind="$select.selected.label"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="x.code as x in (routeStatuses | filter: $select.search) track by x.code">
+                                          <span ng-bind="x.label"></span>
+                                      </ui-select-choices>
+                                  </ui-select>
+                                </div>
+                                <!-- <div class="select-box">
+                                    <ui-select ng-model="search.branchNo" search-enabled="true" append-to-body="true">
+                                        <ui-select-match placeholder="选择奶站" allow-clear="true">
+                                            <span ng-bind="$select.selected.label"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="x.code as x in (handle.branches | filter: $select.search) track by x.code">
+                                            <span ng-bind="x.label"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div> -->
+                                <div class="date-box">
+                                    <div class="flex-item"><span class="item-title">选择日期</span></div>
+                                    <div class="flex-item">
+                                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.deliverDate"
+                                               data-date-format="yyyy-MM-dd"
+                                               data-date-type="string" 
+                                               data-autoclose="true" 
+                                               bs-datepicker>
+                                    </div>
+                                </div> 
+                                <!-- <button class="btn blueLt" ng-click="createRouteOrder()">生成该奶站路单</button> -->
+
+                            </div>
+
+                            <div class="filter-act">
+                                <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / navbar collapse -->
+                </div>
+            </div>                                 
+
+           
+
+            <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+       <div class="box" style="border-radius: 2px;">
+           <div class="box-header">
+             <div class="filter-content">
+               <div class="date-box">
+                 <div class="flex-item">
+                   <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                   </span>
+                   <input type="text" class="form-control r-b-round w-128" name="daydateStart" ng-model="search.daydeliverDate"
+                 data-date-format="yyyy-MM-dd"
+                 data-date-type="string" 
+                 data-autoclose="true" 
+                 bs-datepicker placeholder="日期选择"></div>
+                 <div class="select-box">
+                   <ui-select ng-model="search.reachTimeType" search-enabled="false" append-to-body="true">
+                     <ui-select-match placeholder="配送选择" allow-clear="true">
+                       <span ng-bind="$select.selected.label"></span>
+                     </ui-select-match>
+                     <ui-select-choices repeat="x.code as x in (dayrouteStatuses | filter: $select.search) track by x.code">
+                       <span ng-bind="x.label"></span>
+                     </ui-select-choices>
+                   </ui-select>
+                 </div>
+                 <button class="btn btn-fw blueLt" ng-click="reportTable()">导出分奶表</button>
+                 <button class="btn btn-fw blueLt" ng-click="toProductEdit()" style="margin-left: 10px;" ng-hide="showOrhide" >分奶设置</button>
+               </div>
+             </div>
+           </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="routelist"  class="table table-striped b-t b-b no-footer"  nh-checkbox checked-datas="checkboxArrs">
+                                <thead>
+                                 <tr role="row">
+                                    <th style="padding-right: 0;width: 4%;">
+                                      <label class="md-check">
+                                         <input type="checkbox" ng-model="allChFlag"> <i class="blue"></i>
+                                      </label>
+                                   </th>
+                                    <th class="th-nh">
+                                        日期
+                                    </th>
+                                    <th class="th-nh">路单类型</th>
+                                    <th class="th-nh">配送时间</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">送奶数</th>
+                                    <th class="th-nh">状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                        </tr>
+                                        <tr ng-if="tbLoding == 0 && content.length <= 0">
+                                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                                        </tr>
+                                        <tr current-page="curPageno" pagination-id="route_list" dir-paginate="user in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                                         <td style="padding-right: 0;">
+                                           <label class="md-check" >
+                                             <input type="checkbox" checked-data="{{user.orderNo}}">
+                                             <i class="blue"></i>
+                                           </label>
+                                         </td>
+                                            <td class="td-id-nh" ng-bind-html="dateFormat(user.dispDate)">
+                                            </td>
+                                            <td>{{user.type =='10' ?'普通路单':'临时路单'}}</td>
+                                            <td >{{user.reachTimeType =='10' ?'上午配送':'下午配送'}}</td>
+                                            <td>{{user.dispEmpNo}}</td>
+                                            <td>{{user.totalQty}}</td>
+                                            <td ng-bind-html="statusFormat(user.status)"></td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="showDetail(user.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <button  class="btn btn-xs btn-outline rounded b-info text-info" ng-click="outRoute(user.orderNo)">导出</button>
+                                                    <!-- <button ng-show="user.status=='10'" class="btn btn-xs btn-outline rounded b-danger text-danger" ng-click="updateRouteStatus(user.orderNo)">确认</button> -->
+                                                    <!-- <button ng-click="showChange(user.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看变化单</button> -->
+                                                     <!--button ng-click="print(user.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">打印</button-->
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                <dir-pagination-controls pagination-id="route_list"
+                                    max-size="8"
+                                    direction-links="true"
+                                    boundary-links="true" 
+                                    on-page-change="getData(newPageNumber)"
+                                    template-url="nhtpl/pagination.tpl.html">
+                                </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+            <!-- ###  表格结束-->
+
+            <!--productdetail modal -->
+            <script type="text/ng-template" id="routeDetailModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">路单详情</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+
+                        <div class="row">
+                            <div class="col-md-2"><strong>奶站名称</strong></div><div class="col-md-2">{{dispOrder.order.branchName}}</div>
+                            <div class="col-md-2"><strong>送奶员</strong></div>
+                            <div class="col-md-2">
+                                <ui-select ng-model="dispOrder.order.dispEmpNo" remove-selected="false" search-enabled="true">
+                                    <ui-select-match allow-clear="false" placeholder="请选择送奶员">
+                                        <span ng-bind="$select.selected.empName"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="x.empNo as x in (emps | filter: $select.search) track by x.empName">
+                                        <span ng-bind="x.empName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-2"><strong>送奶日期</strong></div><div class="col-md-2" ng-bind-html="dateFormat(dispOrder.order.dispDate)"></div>
+                            <div class="col-md-2"><strong>送奶时间</strong></div><div class="col-md-2" ng-if="dispOrder.order.reachTimeType=='10'">上午配送</div>
+                                <div class="col-md-2" ng-if="dispOrder.order.reachTimeType=='20'">下午配送</div>
+                            <div class="col-md-2"><strong>回瓶总数</strong></div><div class="col-md-2">{{dispOrder.retAmt}}</div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-2"><strong>应送总数</strong></div>
+                            <div class="col-md-10">{{dispOrder.products}}
+                            </div>
+                        </div><br>
+                        <div class="row m-b">
+                            <div class="col-md-4">
+                              <ui-select ng-model="dispOrder.batchChangeProd" remove-selected="false" search-enabled="true">
+                                    <ui-select-match allow-clear="true" placeholder="请选择实送产品">
+                                        <span ng-bind="$select.selected.matnrTxt"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="x.matnr as x in (Rproducts | filter: $select.search) track by x.matnr">
+                                        <span ng-bind="x.matnrTxt"></span>
+                                    </ui-select-choices>
+                              </ui-select>
+                            </div>
+                            <div class="col-md-1">
+                              <button class="btn btn-fw blueLt" ng-click="batchChange()">批量换货</button>
+                            </div>
+                            <div class="col-md-1">
+                              <button class="btn btn-fw primary" ng-click="batchClear()">批量清除换货</button>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1">
+                              <button class="btn btn-fw blueLt" ng-click="batchLack()">批量缺货</button>
+                            </div>
+                            <div class="col-md-1">
+                              <button class="btn btn-fw primary" ng-click="batchLackClear()">批量清除缺货</button>
+                            </div>
+                        </div>
+                      <div class="row">
+                      <div class="pull-left m-l" style="border-bottom: 3px solid #42a5f5;">
+                      <span class="blueWt"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+                        <input type="text" class="input-line" placeholder="应送产品/实送产品/配送地址/订户姓名/订户电话" ng-model="searchTerm" ng-change="repeatFinished()" style="width: 35rem;border-bottom-width: 0; font-size: 1.125rem;">
+                      </div>
+                      </div>
+                        <br>
+                        <div class="row">
+                            <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; height: 500px; width: 1450px;">
+                                <table class="table table-striped b-t b-b" data-filter="#filter" nh-checkbox checked-datas="checkboxArrs" style="width:1450px;max-width:1450px;">
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                              <label class="md-check">
+                                                  <input type="checkbox" ng-model="allChFlag">
+                                                  <i class="blue"></i>
+                                              </label>
+                                            </td>
+                                            <td><strong>序号</strong>
+                                            </td>
+                                            <td><strong>应送产品</strong>
+                                            </td>
+                                            <td><strong>实送产品</strong>
+                                            </td>
+                                            <td><strong>配送地址</strong>
+                                            </td>
+                                            <td><strong>订户姓名</strong>
+                                            </td>
+                                            <td><strong>联系电话</strong>
+                                            </td>
+                                            <td><strong>数量</strong>
+                                            </td>
+                                            <td><strong>送达数量</strong>
+                                            </td>
+                                            <td><strong>未送达原因</strong>
+                                            </td>
+                                            <td><strong>换货原因</strong>
+                                            </td>
+                                            <td ng-if="dispOrder.order.status=='20' "><strong>操作</strong>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="x in list | filter: searchTerm">
+                                          <td>
+                                              <label class="md-check">
+                                                  <input type="checkbox" checked-data="{{x.itemNo}}">
+                                                  <i class="blue"></i>
+                                              </label>
+                                          </td>
+                                          <td>{{$index+1}}</td> 
+                                          <td>{{x.matnrTxt}}<strong style="color:red" ng-if="x.giftFlag=='Y'">(赠品)</strong>
+                                          </td>
+                                          <td ng-if="x.reason=='10'">
+                                            <ui-select ng-model="x.productCode" remove-selected="false" search-enabled="true">
+                                              <ui-select-match allow-clear="false" placeholder="请选择产品">
+                                                <span ng-bind="$select.selected.matnrTxt"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.matnr as x in (Rproducts | filter: $select.search) track by x.matnr">
+                                                <span ng-bind="x.matnrTxt"></span>
+                                              </ui-select-choices>
+                                            </ui-select>
+                                          </td>
+                                          <td ng-if="x.reason!='10'">
+                                            {{x.matnrTxt}}
+                                          </td>
+                                          <td>{{x.addressTxt}}
+                                          </td>
+                                          <td>{{x.custName}}
+                                          </td>
+                                          <td>{{x.custTel}}
+                                          </td>
+                                          <td>{{x.qty}}
+                                          </td>
+                                          <td ng-if="x.reason != '10' "><input type="number" class="form-control" style="width:60px ; margin:-9px" ng-model="x.confirmQty" min=0>
+                                          </td>
+                                          <td ng-if="x.reason == '10' "><input type="number" class="form-control" style="width:60px ; margin:-9px" ng-model="x.confirmQty" min=1>
+                                          </td>
+                                          <td>
+                                            <ui-select ng-model="x.reason" search-enabled="false" style="margin:-9px">
+                                              <ui-select-match allow-clear="true" placeholder="原因">
+                                                <span ng-bind="$select.selected.text"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.code as x in (reasons.data | filter: $select.search) track by x.code">
+                                                <span ng-bind="x.text"></span>
+                                              </ui-select-choices>
+                                            </ui-select>
+                                          </td>
+                                          <td ng-if="x.reason=='10'">
+                                            <ui-select ng-model="x.replaceReason" search-enabled="false" style="margin:-9px">
+                                              <ui-select-match allow-clear="true" placeholder="换货原因">
+                                                <span ng-bind="$select.selected.text"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.code as x in (replaceReasons.data | filter: $select.search) track by x.code">
+                                                <span ng-bind="x.text"></span>
+                                              </ui-select-choices>
+                                            </ui-select>
+                                          </td>
+                                          <td ng-if="dispOrder.order.status=='20'&& x.reason != '10' ">
+                                            
+                                          </td>
+                                          <td ng-if="dispOrder.order.status=='20' ">
+                                            <button id="editbutton{{x.itemNo}}" type="button" class="btn btn-xs btn-outline rounded b-primary text-primary" ng-if="dispOrder.order.status=='20'" ng-click="editOne(x,x.itemNo)">修改</button>
+                                          </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+                    <button type="button" class="btn blueLt p-x-md" ng-class="{'disabled': routeConfirming, 'nh-disable': routeConfirming}" ng-show="dispOrder.order.status=='10'" 
+                    ng-click="routeConfirming || confirmRoute()"><span ng-class="{'nh-hide': routeConfirming}">确认(如修改先保存)</span></button>
+                    <button type="button" class="btn blueLt p-x-md" ng-show="dispOrder.order.status=='10'" ng-click="save()">保存</button>
+                  </div>
+            </script>
+            <!-- modal end -->
+            
+
+            <!--productdetail modal -->
+            <script type="text/ng-template" id="changeDetailModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">变化单</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+
+                        <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; height: 500px; width: 1150px;">
+                                <table class="table table-striped b-t b-b" style="width:1150px;max-width:1150px;">
+                                    <thead>
+                                        <tr>
+
+                                            <td><strong>送奶员</strong>
+                                            </td>
+                                            <td><strong>订户</strong>
+                                            </td>
+                                            <td><strong>配送地址</strong>
+                                            </td>
+                                            <td><strong>昨日配送</strong>
+                                            </td>
+                                            <td><strong>今日配送</strong>
+                                            </td>
+                                            <td><strong>昨日配送时段</strong>
+                                            </td>
+                                            <td><strong>今日配送时段</strong>
+                                            </td>
+                                            <td><strong>电话</strong>
+                                            </td>
+                                            <td><strong>变化</strong>
+                                            </td>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="x in changeOrder">
+                                          <td>{{x.empNo}}
+                                          </td>
+                                          <td>{{x.milkmemberNo}}
+                                          </td>
+                                          <td>{{x.addressNo}}
+                                          </td>
+                                          <td>{{x.yestodayMatnr}}-{{x.yestodayQty}}
+                                          </td>
+                                          <td>{{x.todayMatnr}}-{{x.todayQty}}
+                                          </td>
+                                          <td ng-bind-html="reachTimeFormat(x.yestodayReachTimeType)">
+                                          </td>
+                                          <td ng-bind-html="reachTimeFormat(x.todayReachTimeType)">
+                                          </td>
+                                          <td>{{x.custTel}}
+                                          </td>
+                                          <td ng-bind-html="reasonFormat(x.reason)">
+                                          </td>
+                                          
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+                    <button type="button" class="btn blueLt p-x-md" ng-show="dispOrder.order.status=='10'" 
+                    ng-click="confirmRoute()">确认</button>
+                    <button type="button" class="btn blueLt p-x-md" ng-show="dispOrder.order.status=='10'" ng-click="save()">保存</button>
+                  </div>
+            </script>
+
+             <!--productdetail modal -->
+            <script type="text/ng-template" id="printDetailModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">打印预览</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg table-responsive">
+                        <div class="row text-center">
+                                      <h4>新希望乳业配送路单<h4>
+                        </div><br>
+                        <table  class="table table-bordered  b-t b-b no-footer">
+                            <tr>
+                                <td colspan="4" class="text-left">配送奶站 : {{dispOrder.order.branchName}}</td>
+                                <td>经销商:</td>
+                                <td colspan="2"></td>
+                                <td colspan="3">送奶员 : {{dispOrder.order.dispEmpName}}</td>
+                            </tr>
+                             <td colspan="10" style="height:20px"></td>
+                            <tr>
+                                <td >回瓶规格</td>
+                                <td >应回瓶数量</td>
+                                <td colspan="2" rowspan="5"></td>
+                                <td >送奶日期</td>
+                                <td ng-bind-html="dateFormat(dispOrder.order.dispDate)"></td>
+                                <td colspan="4"></td>
+                            </tr>
+
+                             <tr>
+                                <td>大口瓶</td>
+                                <td>{{dispOrder.retAmt.split(':')[1].split('中')[0]}}</td>
+                                <td>送奶时间</td>
+                                <td>{{dispOrder.order.reachTimeType=='10'? '上午配送': '下午配送'}}</td>
+                                <td colspan="4"></td>
+                            </tr>
+                            <tr>
+                                <td>中口瓶</td>
+                                <td>{{dispOrder.retAmt.split(':')[2].split('小')[0]}}</td>
+                                <td rowspan="3">应送总数</td>
+                                <td colspan="5" rowspan="3" class="text-left">{{dispOrder.products}}</td>
+                            </tr>
+                            <tr>
+                                <td>小口瓶</td>
+                                <td>{{dispOrder.retAmt.split(':')[3]}}</td>
+                            </tr>
+                             <tr>
+                                <td colspan="2" style="height:20px"></td>
+                            </tr>
+                       
+
+                            <tr  class="blueLt">
+                              <td colspan="2"> 订户地址</td>
+                              <td colspan="2">应配送产品简称-数量</td>
+                              <td>联系电话</td>
+                              <td>订户姓名</td>
+                              <td>换货原因</td>
+                              <td>未送达原因</td>
+                              <td colspan="2">备注</td>
+                            </tr>
+                            <tr ng-repeat="x in list">
+                              <td colspan="2">{{x.addressTxt}}</td>
+                              <td colspan="2">{{x.matnrTxt}}&nbsp;——&nbsp;{{x.qty}}</td>
+                              <td>{{x.custTel}}</td>
+                              <td>{{x.custName}}</td>  
+                              <td>{{x.replaceReason}}</td>   
+                              <td>{{x.reason}}</td>       
+                              <td colsan="2"></td>              
+                            </tr>
+                          </table>
+                      </div>
+                       </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn blueLt p-x-md">打印</button>
+                     <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+            <!-- modal end -->
+            <!-- modal end -->
+            <!-- confirm.modal -->
+            <!-- <div id="confirmModal" class="modal fade center" data-backdrop="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header blueLt">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="modal-title">是否确认?</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="close" type="button" class="btn dark-white p-x-md" data-dismiss="modal">×</button>
+                        </div>  
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn blueLt p-x-md">是</button>
+                    <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">取消</button>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- / .modal -->
+
+            <script type="text/ng-template" id="createTmpRouteModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">生成临时路单</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div style="font-size: 1.2rem">输入订单编号（确保一行一个订单编号）</div>
+                        <textarea class="form-control m-t" rows="10" 
+                                  ng-model="ctrm.orderList" 
+                                  style="resize: none; border-width: 3px;"></textarea>
+                      </div>
+                      <div class="col-md-6 col-md-offset-1" ng-if="ctrm.orderArr && ctrm.orderArr.length !== 0">
+                        <div style="font-size: 1.2rem">以下订单将生成临时路单，请确认</div>
+                        <div class="m-t" style="height: 250px; overflow-y: auto;">
+                          <div ng-repeat="item in ctrm.orderArr" ng-bind="item"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-fw blueLt p-x-md" ng-click="ctrm.save()" nh-mulclick-disable="ctrm.saving">保存</button>
+                    <button type="button" class="btn btn-fw primary p-x-md" ng-click="ctrm.cancelModal()">关闭</button>
+                  </div>
+            </script>
+        </div>
+
+
+
+            <!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

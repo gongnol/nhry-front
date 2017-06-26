@@ -1,0 +1,99 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="back()">返回</button>
+    </div>
+</div>
+<!-- ###  基本信息开始-->
+<div class="padding">
+	<div id="modal-alert"></div>
+	<div class="box info1">
+		<div bs-collapse>
+			<a ng-click="data.toggle1 = !data.toggle1" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						基本信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle1}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<div class="box-body">
+					<div class="row m-t">
+						<div class="col-md-1"><strong>学校代码</strong></div>
+						<div class="col-md-3" >{{schoolCode}}</div>
+						<div>
+							<div class="col-md-1"><strong>联系电话</strong></div>
+							<div class="col-md-3" >028-092380</div>
+						</div>
+						<div>
+							<div class="col-md-1"><strong>手机</strong></div>
+							<div class="col-md-3">18888888888</div>
+						</div>
+					</div>
+					<div class="row m-t">
+						<div class="col-md-1"><strong>地址</strong></div>
+						<div class="col-md-10" >四川成都市锦江区</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--box  end-->
+	<!--box begin-->
+	<div class="box ">
+		<div bs-collapse>
+			<a ng-click="data.toggle2 = !data.toggle2" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						学校班级列表
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !data.toggle2}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<!---body start-->
+				<div class="box" style="border-radius: 2px;">
+					<table class="table table-striped b-t b-b no-footer">
+						<thead>
+							<tr role="row">
+								<th class="th-nh">班级名称</th>
+	                            <th class="th-nh">班级人数</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+	                            <td colspan="8" style="text-align:center;">正在加载数据！</td>
+	                        </tr>
+	                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+	                            <td colspan="8" style="text-align:center;">没有订户！</td>
+	                        </tr>
+							<tr >
+								<td><span>小班(1)</span></td>
+								<td><span>20</span></td>
+							</tr>
+							<tr >
+								<td><span>小班(2)</span></td>
+								<td><span>22</span></td>
+							</tr>
+							<tr >
+								<td><span>小班(3)</span></td>
+								<td><span>21</span></td>
+							</tr>
+							<tr >
+								<td><span>大班(1)</span></td>
+								<td><span>31</span></td>
+							</tr>
+							<tr >
+								<td><span>大班(2)</span></td>
+								<td><span>34</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--box end -->
+	<!--box begin-->
+</div>
+

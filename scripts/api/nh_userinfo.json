@@ -1,0 +1,10 @@
+[{
+	  "id":3,
+	  "userNo":"0000003",
+	  "userName": "张三",
+	  "userPass": "123",
+	  "userAuth": "管理员",
+	  "creationDate": "2016-06-01",
+	  "lastLogin": "2016-06-01",
+	  "subCompany": "川乳"
+}]

@@ -1,0 +1,245 @@
+<div style="" class="ng-scope" ui-view="">
+    <div class="padding ng-scope">
+        <div class="alert alert-warning" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>OK!</strong> 你成功删除了一条订户信息！
+        </div>
+        <div class="white r box-shadow-z0 m-b navbar-md">
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#navbar-4"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                <!-- nabar right -->
+                <ul class="nav navbar-nav pull-right">
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link" data-toggle="dropdown">
+                            <i class="material-icons"></i>
+                            <span class="label up p-a-0 accent"></span>
+                        </a>
+                        <div class="dropdown-menu w-xl text-color pull-right p-a-0 animated flipInX ng-scope">
+                            <div class="row no-gutter text-blue-hover">
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Alarm</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Favorite</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">History</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Call</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Chat</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Inbox</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- / navbar right -->
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="navbar-4">
+                    <!-- link and dropdown -->
+                    <!-- / link and dropdown -->
+                    <!-- search form -->
+                    <form class="navbar-form form-inline navbar-item m-l v-m ng-pristine ng-valid ng-scope"
+                          role="search">
+                        <div class="form-group l-h m-a-0">
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+              <span class="hidden-xs-down btn btn-sm rounded blue text-u-c _600">
+                  <i class="fa fa-plus"></i>
+                新增
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+              <span class="hidden-xs-down btn btn-sm rounded green text-u-c _600">
+                  <i class="fa fa-save"></i>
+                保存
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+              <span class="hidden-xs-down btn btn-sm rounded pink text-u-c _600">
+                  <i class="fa fa-trash"></i>
+                删除
+              </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group l-h m-a-0">
+                            <div class="input-group input-group-sm">
+                                <button class="btn btn-sm blue">征订日期<b class="arrow right b-blue pull-in"></b></button>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon bg-info"><i class="fa fa-calendar"></i></span>
+                                <input style="" class="form-control ng-pristine ng-valid ng-touched"
+                                       ng-model="selectedDateAsNumber" data-date-format="yyyy-MM-dd"
+                                       data-date-type="number" data-autoclose="true" data-min-date="02/10/86"
+                                       data-max-date="today" data-icon-left="fa fa-chevron-left"
+                                       data-icon-right="fa fa-chevron-right" name="date2" bs-datepicker="" type="text"
+                                       placeholder="起始日期">
+                            </div>
+                            <i class="fa fa-arrows-h"></i>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon bg-info"><i class="fa fa-calendar"></i></span>
+                                <input style="" class="form-control ng-pristine ng-valid ng-touched"
+                                       ng-model="selectedDateAsNumber" data-date-format="yyyy-MM-dd"
+                                       data-date-type="number" data-autoclose="true" data-min-date="02/10/86"
+                                       data-max-date="today" data-icon-left="fa fa-chevron-left"
+                                       data-icon-right="fa fa-chevron-right" name="date2" bs-datepicker="" type="text"
+                                       placeholder="结束日期">
+                            </div>
+                        </div>
+                        <div class="btn-group btn-group-sm dropdown">
+                            <button class="btn bg-info">订奶公司</button>
+                            <button aria-expanded="false" class="btn bg-info dropdown-toggle"
+                                    data-toggle="dropdown"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="">川乳</a>
+                                <a class="dropdown-item" href="">双峰</a>
+                                <a class="dropdown-item" href="">雪兰</a>
+                            </div>
+                        </div>
+                        <div class="btn-group btn-group-sm dropdown">
+                            <button class="btn bg-info">状态</button>
+                            <button aria-expanded="false" class="btn bg-info dropdown-toggle"
+                                    data-toggle="dropdown"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="">在订</a>
+                                <a class="dropdown-item" href="">停订</a>
+                                <a class="dropdown-item" href="">退订</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- / search form -->
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>     
+        <div class="box" style="border-radius: 2px;" ng-controller="ConsumerListCtrl as data">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b dataTable no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th>
+                                        <label class="md-check">
+                                            <input type="checkbox" ng-model="master" ng-click="all(master,data.testcontent)">
+                                            <i class="blue"></i>
+                                        </label>
+                                    </th>
+                                    <th class="th-nh">
+                                        订单编号
+                                    </th>
+                                    <th class="th-nh">订户姓名</th>
+                                    <th class="th-nh">联系电话</th>
+                                    <th class="th-nh">小区名称</th>
+                                    <th class="th-nh">创建日期</th>
+                                    <th class="th-nh">订单状态</th>
+                                    <th class="th-nh">结款状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-show="data.testcontent.length <= 0"><td colspan="6" style="text-align:center;">Loading new data!!</td></tr>
+                                        <tr dir-paginate="user in data.testcontent|itemsPerPage:data.itemsPerPage" total-items="data.total_count">
+                                            <td>
+                                                <label class="md-check">
+                                                    <input type="checkbox" ng-checked="master">
+                                                    <i class="blue"></i>
+                                                </label>
+                                            </td>
+                                            <td class="td-id-nh">
+                                                {{user.id}}
+                                            </td>
+                                            <td>{{user.cutomerName}}</td>
+                                            <td>{{user.cutomerTel}}</td>
+                                            <td>{{user.parkName}}</td>
+                                            <td>{{user.creationDate}}</td>
+                                            <td>
+                                                {{user.status}}
+                                            </td>
+                                            <td>{{user.status}}</td>
+                                            <td>
+                                                <p class="btn-groups">
+                                                    <button class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <button class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+                                                    <button class="btn btn-xs btn-outline rounded b-success text-success">续订</button>
+                                                    <button class="btn btn-xs btn-outline rounded b-warning text-warning">停订</button>
+                                                    <button class="btn btn-xs btn-outline rounded b-accent text-accent">退订</button>
+                                                    <button class="btn btn-xs btn-outline rounded b-warn text-warn">退回订单</button>
+                                                </p>
+                                                <!--
+                                                <p class="m-b">
+                                                    <button class="btn btn-xs btn-outline rounded b-info text-info">查看</button>
+                                                    <button class="btn btn-outline rounded b-success text-success">success</button>
+                                                    <button class="btn btn-success btn-xs" uib-tooltip="查看">
+                                                        <i class="fa fa-align-justify"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs blue" uib-tooltip="编辑">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs green" uib-tooltip="续订">
+                                                        <i class="fa fa-forward"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs red" uib-tooltip="停订">
+                                                        <i class="fa fa-pause"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs purple" uib-tooltip="退订">
+                                                        <i class="fa fa-dot-circle-o"></i>
+                                                    </button>
+                                                    <button class="btn btn-success btn-xs grey-800" uib-tooltip="退回订单">
+                                                        <i class="fa fa-mail-reply"></i>
+                                                    </button>
+                                                </p>
+                                                -->
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="p-a">
+                                <div class="row">
+                                    <div class="col-sm-4 text-left text-center-xs">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            on-page-change="data.getData(newPageNumber)" >
+                                        </dir-pagination-controls>
+                                    </div>
+                                </div>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+    </div>
+</div>

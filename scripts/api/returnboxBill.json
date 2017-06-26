@@ -1,0 +1,88 @@
+[{
+	"id": 1,
+	"date": "2016-05-21",
+	"emp": "张三",
+	"shouldReturn": 700,
+	"realReturn":700,
+	"status": "完成回瓶"
+},
+{
+	"id": 2,
+	"date": "2016-06-01",
+	"emp": "李四",
+	"shouldReturn": 1200,
+	"realReturn":1198,
+	"status": "回瓶缺损"
+},
+{
+	"id": 3,
+	"date": "2016-04-19",
+	"emp": "吴华",
+	"shouldReturn": 800,
+	"realReturn":789,
+	"status": "回瓶缺损"
+},
+{
+	"id": 4,
+	"date": "2016-05-07",
+	"emp": "段六",
+	"shouldReturn": 900,
+	"realReturn":900,	
+	"status": "完成回瓶"
+},
+{
+	"id": 5,
+	"date": "2016-05-21",
+	"emp": "张5",
+	"shouldReturn": 700,
+	"realReturn":700,
+	"status": "完成回瓶"
+},
+{
+	"id": 6,
+	"date": "2016-05-21",
+	"emp": "张6",
+	"shouldReturn": 800,
+	"realReturn":800,
+	"status": "完成回瓶"
+},
+{
+	"id": 7,
+	"date": "2016-05-21",
+	"emp": "张7",
+	"shouldReturn":780,
+	"realReturn":780,
+	"status": "完成回瓶"
+},
+{
+	"id": 8,
+	"date": "2016-05-21",
+	"emp": "张8",
+	"shouldReturn": 709,
+	"realReturn":709,
+	"status": "完成回瓶"
+},
+{
+	"id": 9,
+	"date": "2016-05-21",
+	"emp": "张9",
+	"shouldReturn": 710,
+	"realReturn":0,
+	"status": "未回瓶"
+},
+{
+	"id": 10,
+	"date": "2016-05-21",
+	"emp": "张十",
+	"shouldReturn": 880,
+	"realReturn":0,
+	"status": "未回瓶"
+},
+{
+	"id": 11,
+	"date": "2016-05-21",
+	"emp": "十一郎",
+	"shouldReturn": 1030,
+	"realReturn":1030,
+	"status": "完成回瓶"
+}]

@@ -1,0 +1,101 @@
+[{
+	"id"  :1,
+	"date": "2016-06-13",
+	"saleOrg": "川乳",
+	"name": "西华分奶站",
+	"money": 21340,
+	"status": "已确认",
+	"detail" : [
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},
+	{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	},{
+		"name":"轻活纤体乳酸饮品",
+		"spec":"240毫升",
+		"unit":"瓶",
+		"quantity":30,
+		"price":4,
+		"totalPrice":120
+	}
+	]
+}]

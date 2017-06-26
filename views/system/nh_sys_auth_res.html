@@ -1,0 +1,25 @@
+<div class="row" ng-controller="ResCtrl">
+    <div class="col-md-4">
+        <div class="p-a">
+            <div class="fade-in message-pd-nh light m-a">
+                <button ng-disabled="!isExpand" ng-click="collapseNode()"
+                        class="md-btn md-raised m-b-sm w-xs danger pull-right">折叠
+                </button>
+                <button ng-disabled="isExpand" ng-click="expandNode()"
+                        class="md-btn md-raised m-b-sm w-xs info pull-right">展开
+                </button>
+                <h4><i class="fa fa-cubes"></i> 资源
+                    <button ng-click="addTopNode()" class="btn btn-xs primary">新增一级资源</button>
+                </h4>
+
+                <ul tree class="ztree" id="res-tree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div ui-view class="p-a">
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>

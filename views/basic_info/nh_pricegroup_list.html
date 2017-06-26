@@ -1,0 +1,250 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <a class="nav-link" href=""  ng-click="addNewPriceGroup()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                新增价格组
+            </span>
+        </a>
+        <!--a class="nav-link " href=""  ng-click="disableAllSelectedPriceGroup()">
+            <span class="hidden-xs-down btn btn-sm rounded grey-600 "> <i class="fa fa-plus"></i>
+                停用价格组
+            </span>
+        </a-->        
+    </div>
+</div>
+<div id="modal-alert"></div>
+        <!-- / -->
+<!-- ######## 右侧开始-->
+        <div class="padding" id="view">
+            <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#filter"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                            <!--div class="select-box" >
+                                <ui-select ng-model="search.consumerOrg" search-enabled="false">
+                                    <ui-select-match placeholder="订奶公司" allow-clear="true">
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="org in (data.handle.ORGs | filter: $select.search) track by org.code">
+                                        <span ng-bind="org.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div-->
+                            <!--div class="select-box" >
+                                <ui-select ng-model="search.status" search-enabled="true">
+                                    <ui-select-match placeholder="状态" allow-clear="true">
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="status.code as status in (statuses | filter: $select.search) track by status.code">
+                                        <span ng-bind="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div-->
+                            <div class="col-md-4">
+        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入价格组名称查询" ng-model="search.priceGroup"  style="font-size: 1.125rem">
+        </div>
+                            <div class="date-box">
+                                <div class="flex-item"><span class="item-title">有效期限</span></div>
+                                <div class="flex-item">
+                                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker>
+                                </div>
+                                <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                                <div class="flex-item">
+                                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.untilDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ search.fromDate }}" 
+                                           bs-datepicker>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-act">
+                            <button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>                                                
+            <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+       <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer"  nh-checkbox>
+                                <thead>
+                                 <tr role="row">
+                                    <!--th>
+                                        <label class="md-check">
+                                            <input type="checkbox" ng-model="data.allChecked"> <i class="blue"></i>
+                                        </label>
+                                    </th-->
+                                    <th class="th-nh">
+                                        价格组名称
+                                    </th>
+                                    <th class="th-nh">分公司</th>
+                                    <th class="th-nh">有效期限</th>
+                                    <th class="th-nh">商品个数</th>
+                                    <th class="th-nh">适用范围</th>
+                                    <th class="th-nh">状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                      <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                        <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                      </tr>
+                                      <tr ng-if="data.tbLoding == 0 && data.testcontent.length <= 0">
+                                        <td colspan="10" style="text-align:center;">没有数据！</td>
+                                      </tr>
+                                        <tr dir-paginate="user in data.testcontent|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="pricelist">
+                                            <!--td>
+                                                <label class="md-check">
+                                                    <input type="checkbox"><i class="blue"></i>
+                                                </label>
+                                            </td-->
+                                            <td class="td-id-nh">
+                                                {{user.priceGroup}}
+                                            </td>
+                                            <td>{{user.salesOrg}}</td>
+                                            <td>{{user.endDate}}</td>
+                                            <td>{{user.mcount}}</td>
+                                            <td>{{user.priceType}}</td>
+                                            <td>{{user.status}}</td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="showPriceDetail(user.id)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <button ng-click="editPriceDetail(user.id)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+                                                    <button ng-click="stopPriceDetail(user.id)" class="btn btn-xs btn-outline rounded b-danger text-danger">停用</button>
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            pagination-id="pricelist"
+                                            boundary-links="true" 
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+            <!-- ###  表格结束-->
+
+            <!--价格组停用 -->
+            <script type="text/ng-template" id="stopPriceModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">确认停用价格组</h3>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-fw blueLt p-x-md"  ng-click="save()">确认停用</button>
+                    <button type="button" class="btn btn-fw primary p-x-md" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+            <!-- modal end -->
+
+            <!--价格组查看 -->
+            <script type="text/ng-template" id="priceDetailModal.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">价格组详情</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+                          <div class="row">
+                              <div class="col-md-2 text-right modal-label">价格组名称</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceGroup"></div>
+                              <div class="col-md-2 text-right modal-label">适用范围</div>
+                              <div class="col-md-4" ng-bind-html="pdm.scope"></div>
+                          </div>
+                          <div class="row m-t">
+                              <div class="col-md-2 text-right modal-label">优先级</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceTypeName"></div>
+                              <div class="col-md-2 text-right modal-label">起始日期</div>
+                              <div class="col-md-4" ng-bind-html="pdm.startDate"></div>
+                          </div>
+                          <div class="row m-t">
+                              <div class="col-md-2 text-right modal-label">结束日期</div>
+                              <div class="col-md-4" ng-bind-html="pdm.endDate"></div>
+                          </div>  
+                          <div class="nhdashline"></div>   
+                          <div class="row m-t">
+                            <div class="col-md-2 text-right modal-label">关联商品</div>
+                          </div>
+                          <div class="row m-t">                             
+                              <div class="col-md-12">
+                                <table class="table table-striped b-t b-b no-footer">
+                                    <thead>
+                                     <tr role="row">
+                                        <th>产品编码</th>
+                                        <th>产品名称</th>
+                                        <th>订户价</th>
+                                        <th>自取价</th>
+                                    </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr dir-paginate="user in content|itemsPerPage:itemsPerPage" total-items="total_count" pagination-id="priceProlist">
+                                                <td>
+                                                    {{user.matnr.substring(10)}}
+                                                </td>
+                                                <td>{{user.matnrTxt}}</td>
+                                                <td>{{user.price2}}</td>
+                                                <td>{{user.price1}}</td>                        
+                                            </tr>
+                                        </tbody>
+                                </table>  
+                                <footer class="text-center">
+                                            <dir-pagination-controls
+                                                max-size="8"
+                                                direction-links="true"
+                                                pagination-id="priceProlist"
+                                                boundary-links="true" 
+                                                on-page-change="getData(newPageNumber)" 
+                                                template-url="nhtpl/pagination.tpl.html">
+                                            </dir-pagination-controls>
+                                </footer>                                  
+                              </div>
+                          </div>
+
+                  </div>
+                <div class="modal-footer">
+                  <button class="btn blueLt" type="button" ng-click="cancelModal()">关闭</button>
+                </div>
+            </script>
+            <!-- modal end -->
+            
+            <!--  -->
+        </div>
+
+
+
+            <!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

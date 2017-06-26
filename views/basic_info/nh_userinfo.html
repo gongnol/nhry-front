@@ -1,0 +1,85 @@
+ <div class="modal-header">
+            <h3 class="modal-title">用户详情</h3>
+        </div>
+        <div class="modal-body">
+            <div class="box">
+                <a data-toggle="collapse" bs-collapse="">
+                  <div class="box-header blueLt">
+                    <h4>
+                      基本信息 
+                    </h4>
+                  </div>
+                </a>
+                <div class="panel-collapse p-b collapse am-collapse in" bs-collapse="">
+                <!--box body begin-->
+                <div class="box-body">
+                  <div class="row  m-r-md">
+                    <div class="col-md-3  col-sm-3  showtext"><label>姓名：</label> {{emp.name}}</div>
+                    <div class="col-md-3   col-sm-3  showtext"><label>性别:</label>{{emp.sex}}</div>
+                    <div class="col-md-3  col-sm-3  showtext"><label>分公司:</label>{{emp.subCompany}}</div>
+                  </div>
+
+
+                  <div class="row  m-r-md">
+                    <div class="col-md-3  col-sm-3  showtext"><label>职位:</label>{{emp.position}}</div>
+                    <div class="col-md-3  col-sm-3 showtext"><label>员工编号:</label>{{emp.employNo}}</div>
+                    <div class="col-md-3 col-sm-3 showtext"><label>状态:</label>{{emp.status}}</div>
+                  </div>
+
+
+                  <div class="row  m-r-md">
+                    <div class="col-md-3  col-sm-3 showtext"><label>身份证号:</label>{{emp.empID}}</div>
+                    <div class="col-md-3  col-sm-3 showtext"><label>微信号:</label>{{emp.webChat}}</div>
+                  </div>
+                </div>
+            <!--box body end-->
+            </div>
+        <!--box  end-->
+        <!--box begin-->
+
+        <div class="box">
+          <div bs-collapse="">
+            <a data-toggle="collapse" bs-collapse="">
+              <div class="box-header blueLt">
+                <h4>
+                  负责路线 
+                </h4>
+              </div>
+            </a>
+            <!--div class="panel-collapse p-b" start -->
+            <div style="" class="panel-collapse p-b collapse am-collapse in" bs-collapse-target="">
+              <!---body start-->
+              <div class="box-body">
+                <div class="row  m-r-md">
+                  <label>所属奶站：</label>{{emp.milkStaton}}
+                </div>
+
+                <div class="row m-r-md">
+                  <label>所有路线</label>
+                </div>
+                <div class="row  m-r-md">
+
+                   <div class="col-md-6 col-sm-10 " data-ng-repeat="dispatchArea in emp.dispatchAreainfo">
+                  <div class="areaBox p-a-sm m-r-md ">
+                    <input ng-model="area" type="checkbox"/>
+                    <div class="textBox inline">
+                      <p class="areaTitle">{{dispatchArea.city}}{{dispatchArea.street}}{{dispatchArea.streetNo}}</p>
+                      <p class="small">{{dispatchArea.address}}</p>
+                    </div>
+                    <!--<button type="button" class="areaDetail pull-right blueLt ng-scope" data-animation="am-fade-and-slide-top"
+                        data-content-template="views/basic_info/nh_dispatchAreaDetail.html" bs-modal="modal" ng-click="dispatchAreaDetail(dispatchArea.dispatchNo)">
+                      详细
+                    </button>-->
+
+                    <!-- <a class="areaDetail pull-right blueLt" ng-click="dispatchAreaDetail(dispatchArea.dispatchNo)"> </a>-->
+                  </div>
+
+                </div>
+                </div>
+              </div>
+              <!--box-body end -->
+            </div>
+
+         <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancelModal()">关闭</button>
+        </div>

@@ -1,0 +1,163 @@
+<!-- ######## 右侧开始-->
+<div id="modal-alert"></div>
+<div class="padding notitlebar">
+    <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-t p-r">
+            <div class="filter-content">
+                <div class="date-box">
+                    <div class="flex-item">
+                        <span class="item-title">要货生成日期</span>
+                    </div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> 
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" 
+                               name="dateStart" ng-model="data.search.requireDate" placeholder="选择要货日期" 
+                               data-date-format="yyyy-MM-dd" 
+                               data-date-type="string" 
+                               data-autoclose="true" 
+                               data-max-date="{{ data.search.untilDate }}" bs-datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-act">
+                <button class="btn btn-fw blueLt" ng-click="data.getData(1)">筛选</button>
+            </div>
+        </div>
+    </div>
+    <!-- ###  功能条结束-->
+    <!-- ###  表格开始-->
+    <div class="box" style="border-radius: 2px;">
+        <div class="row" style="line-height: 3.5rem;">
+            <div class="col-sm-6 td-id-nh" style="padding-left: 28px;">
+                {{data.dealerName}}
+                <small>{{data.dealerNo}}</small>
+            </div>
+            <div class="col-sm-5 text-right">
+                <button class="btn btn-fw blueLt" ng-click="data.batchSend2ERP()" nh-mulclick-disable="data.batchSending">批量发送要货计划至ERP</button>
+                <button class="btn btn-fw primary m-l" ng-click="data.toSalOrder()">查看销售订单</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="data.checkboxArrs">
+                    <thead>
+                        <tr role="row">
+                            <th>
+                                <label class="md-check">
+                                    <input type="checkbox" ng-model="data.allChFlag">
+                                    <i class="blue"></i>
+                                </label>
+                            </th>
+                            <th class="th-nh">奶站</th>
+                            <th class="th-nh">要货生成日期</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                            <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                            <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="reGoodsTB" current-page="data.curPageno">
+                            <td>
+                                <label class="md-check" ng-if="item.status!='30'">
+                                    <input type="checkbox" checked-data="{{item.orderNo}}">
+                                    <i class="blue"></i>
+                                </label>
+                            </td>
+                            <td class="td-id-nh">
+                              <span ng-bind="item.branchName"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="item.orderDate.nh_formatDate()"></span>
+                            </td>
+                            <td>
+                                <div class="btn-groups">
+                                    <button ng-click="data.showDetail(item.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="p-t m-l m-b" style="float: left;margin-right: -100%;">
+                    <span>每页显示&nbsp;</span>
+                    <button type="button" class="btn btn-sm white"
+                            ng-model="data.itemsPerPage"
+                            data-caret-html="&nbsp;<span class='nh-caret'></span>"
+                            bs-options="size for size in data.pageSizes"
+                            bs-select>
+                    </button>
+                    <span>&nbsp;条</span>
+                </div>
+                <footer class="text-center">
+                    <dir-pagination-controls max-size="8" 
+                                             direction-links="true" 
+                                             pagination-id="reGoodsTB" 
+                                             boundary-links="true" 
+                                             on-page-change="data.getData(newPageNumber)" 
+                                             template-url="nhtpl/pagination.tpl.html">
+                    </dir-pagination-controls>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- ###  表格结束-->
+    <script type="text/ng-template" id="dealerStationReqGoods.html">
+        <div class="modal-header blueLt">
+            <h3 class="modal-title">奶站要货计划详情</h3>
+        </div>
+        <div class="modal-body p-lg">
+            <div class="row">
+            <div class="col-sm-12">
+                <div class="col-md-8 td-id-nh text-left" ng-if="srg.orderNo">
+                    要货单号：{{srg.orderNo}}
+                </div>
+                <div class="col-md-4 td-id-nh text-right" ng-if="srg.status=='30'">
+                    已发送至ERP
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-md-6 td-id-nh text-left" ng-if="srg.nhmilks && srg.nhmilks.length > 0">
+                    要货数量合计：{{srg.totalGoods}}
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">产品代码</th>
+                            <th class="th-nh">产品名称</th>
+                            <th class="th-nh">数量</th>
+                            <th class="th-nh">增量</th>
+                            <th class="th-nh">总数</th>
+                            <th class="th-nh">拒收复送数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in srg.nhmilks">
+                            <td class="td-id-nh"><span ng-bind="product.matnr.slice(-8)"></span></td>
+                            <td><span ng-bind="product.matnrTxt"></span></td>
+                            <td><span ng-bind="product.qty"></span></td>
+                            <td><span ng-bind="product.increQty"></span></td>
+                            <td><span ng-bind="product.qty+product.increQty"></span></td>
+                            <td><span ng-bind="product.resendQty || 0"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn primary p-x-md" ng-click="srg.cancelModal()">关闭</button>
+        </div>
+    </script>
+
+</div>
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

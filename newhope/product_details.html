@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nh">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>新希望送奶到户系统</title>
+    <!-- Bootstrap -->
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="./images/logo_s.png">
+    <meta name="apple-mobile-web-app-title" content="Flatkit">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="./images/logo_s.png">
+
+    <!-- style -->
+    <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css ../assets/styles/app.min.css -->
+    <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="./css/nh_main.css" type="text/css" />
+</head>
+<body>
+<div class="app" id="app">
+    <!-- ############ 页面内容开始-->
+
+    <!-- 侧边导航栏 -->
+    <div id="aside" class="app-aside modal fade" ng-class="{'folded': app.setting.folded}">
+        <!-- fluid app aside -->
+        <div class="left navside" layout="column">
+            <div class="navbar no-radius">
+                <div ui-include="'./include/nh.navbar.top.html'"></div>
+            </div>
+            <div flex class="hide-scroll">
+                <nav class="scroll nav-light">
+                    <div ui-include="'./include/nh.nav.html'"></div>
+                </nav>
+            </div>
+            <!--<div flex-no-shrink class="b-t">-->
+            <!--<div ui-include="'../views/blocks/aside.top.0.html'"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <!-- / -->
+    <!-- ######## 右侧开始-->
+    <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header white box-shadow">
+            <div ui-include="'./include/nh.header.html'"></div>
+        </div>
+        <div class="app-footer" ng-class="{'hide': $state.current.data.hideFooter}">
+            <div ui-include="'./include/nh.footer.html'"></div>
+        </div>
+        <div ui-view class="app-body" id="view">
+
+            <!-- #####  右侧正文开始-->
+            <div class="titlebar white lt box-shadow b-b">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8 col-xs-12 p-y-sm">
+                        <h5 class="m-b-0">编辑商品</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- ###  表单开始-->
+
+            <div ui-view="" class="ng-scope">
+                <div class="padding ng-scope">
+                    <!--<div class=" panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
+                        <div class="box">
+                            <a role="button" data-toggle="collapse"  href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <!--data-parent="#accordion"-->
+                            <div class="box-header b-b blueLt" role="tab" id="headingOne">
+                                <h4>
+                                        数据展示 <p class="pull-right">收起</p>
+                                </h4>
+                            </div>
+                                </a>
+                            <div id="collapseOne" class="in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="box-body">
+                                    <h4 class="i" >大标题<p class="small inline m-l">副标题</p></h4>
+                                <div class="row m-r-md">
+                                    <div class="col-md-3 col-sm-10 showtext">  <label>标题</label> 内容 </div>
+                                    <div class="col-md-3 col-sm-10 showtext ">   <label>标题</label> 内容</div>
+                                    <div class="col-md-3 col-sm-10 showtext">  <label>标题</label> 内容 </div>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <a  role="button" data-toggle="collapse"  href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="box-header b-b blueLt" role="tab" id="headingTwo">
+                                <h4>
+                                        表单录入 <p class="pull-right">收起</p>
+                                </h4>
+                            </div>
+                            </a>
+                            <div id="collapseTwo" class="in" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="box-body">
+                                    <form class="p-x-xs ng-pristine ng-invalid ng-invalid-required"><div class="form-group row"><label class="col-sm-2 form-control-label">Text</label><div class="col-sm-10"><input type="text" class="form-control"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Rounded</label><div class="col-sm-10"><input type="text" class="form-control rounded"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label" for="input-id-1">Label focus</label><div class="col-sm-10"><input type="text" class="form-control" id="input-id-1"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Password</label><div class="col-sm-10"><input type="password" name="password" class="form-control"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Placeholder</label><div class="col-sm-10"><input type="text" class="form-control" placeholder="placeholder"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Help text</label><div class="col-sm-10"><input type="text" class="form-control"> <span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span></div></div><div class="form-group row"><label class="col-lg-2 form-control-label">Disabled</label><div class="col-lg-10"><input class="form-control" type="text" placeholder="Disabled input here..." disabled="disabled"></div></div><div class="form-group row"><label class="col-lg-2 form-control-label">Readonly</label><div class="col-lg-10"><input class="form-control" type="text" placeholder="Readonly  input here..." readonly="readonly"></div></div><div class="form-group row"><label class="col-lg-2 form-control-label">Static control</label><div class="col-lg-10"><p class="form-control-static">email@example.com</p></div></div><div class="form-group row has-success"><label class="col-sm-2 form-control-label">Input with success</label><div class="col-sm-10"><input type="text" class="form-control form-control-success"></div></div><div class="form-group row has-warning"><label class="col-sm-2 form-control-label">Input with warning</label><div class="col-sm-10"><input type="text" class="form-control form-control-warning"></div></div><div class="form-group row has-danger"><label class="col-sm-2 form-control-label">Input with danger</label><div class="col-sm-10"><input type="text" class="form-control form-control-danger"></div></div><div class="form-group row input-group-lg"><label class="col-sm-2 form-control-label" for="formGroupInputLarge">Large label</label><div class="col-sm-10"><input class="form-control" type="text" id="formGroupInputLarge" placeholder="Large input"></div></div><div class="form-group row input-group-sm"><label class="col-sm-2 form-control-label" for="formGroupInputSmall">Small label</label><div class="col-sm-10"><input class="form-control" type="text" id="formGroupInputSmall" placeholder="Small input"></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Column sizing</label><div class="col-sm-10"><div class="row"><div class="col-md-2"><input type="text" class="form-control" placeholder=".col-md-2"></div><div class="col-md-3"><input type="text" class="form-control" placeholder=".col-md-3"></div><div class="col-md-4"><input type="text" class="form-control" placeholder=".col-md-4"></div></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Input groups</label><div class="col-sm-10"><div class="input-group m-b"><span class="input-group-addon">@</span> <input type="text" class="form-control" placeholder="Username"></div><div class="input-group m-b"><input type="text" class="form-control"> <span class="input-group-addon">.00</span></div><div class="input-group m-b"><span class="input-group-addon">$</span> <input type="text" class="form-control"> <span class="input-group-addon">.00</span></div><div class="input-group m-b"><span class="input-group-addon"><input type="checkbox"></span> <input type="text" class="form-control"></div><div class="input-group"><span class="input-group-addon"><input type="radio"></span> <input type="text" class="form-control"></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Button addons</label><div class="col-sm-10"><div class="input-group m-b"><span class="input-group-btn"><button class="btn white" type="button">Go!</button></span> <input type="text" class="form-control"></div><div class="input-group"><input type="text" class="form-control"> <span class="input-group-btn"><button class="btn white" type="button">Go!</button></span></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">With dropdowns</label><div class="col-sm-10"><div class="input-group m-b"><div class="input-group-btn dropdown"><button type="button" class="btn white dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button><div class="dropdown-menu"><a class="dropdown-item" href="">Action</a> <a class="dropdown-item" href="">Another action</a> <a class="dropdown-item" href="">Something else here</a><div class="divider"></div><a class="dropdown-item" href="">Separated link</a></div></div><input type="text" class="form-control"></div><div class="input-group"><input type="text" class="form-control"><div class="input-group-btn dropdown"><button type="button" class="btn white dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button><div class="dropdown-menu pull-right"><a class="dropdown-item" href="">Action</a> <a class="dropdown-item" href="">Another action</a> <a class="dropdown-item" href="">Something else here</a><div class="divider"></div><a class="dropdown-item" href="">Separated link</a></div></div></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Segmented</label><div class="col-sm-10"><div class="input-group m-b"><div class="input-group-btn dropdown"><button type="button" class="btn white" tabindex="-1">Action</button> <button type="button" class="btn white dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button><div class="dropdown-menu"><a class="dropdown-item" href="">Action</a> <a class="dropdown-item" href="">Another action</a> <a class="dropdown-item" href="">Something else here</a><div class="divider"></div><a class="dropdown-item" href="">Separated link</a></div></div><input type="text" class="form-control"></div><div class="input-group"><input type="text" class="form-control"><div class="input-group-btn dropdown"><button type="button" class="btn white" tabindex="-1">Action</button> <button type="button" class="btn white dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button><div class="dropdown-menu pull-right"><a class="dropdown-item" href="">Action</a> <a class="dropdown-item" href="">Another action</a> <a class="dropdown-item" href="">Something else here</a><div class="divider"></div><a class="dropdown-item" href="">Separated link</a></div></div></div></div></div><h6 class="_600">Checkboxes and radios</h6><p>Checkboxes are for selecting one or several options in a list, while radios are for selecting one from many.</p><div class="form-group row"><label class="col-sm-2 form-control-label">Default (stacked)</label><div class="col-sm-10"><div class="checkbox"><label><input type="checkbox" value=""> one is this and that—be sure to include why it's great</label></div><div class="checkbox disabled"><label><input type="checkbox" value="" disabled="disabled"> two is disabled</label></div><div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="checked"> one is this and that—be sure to include why it's great</label></div><div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> two can be something else and selecting it will deselect one</label></div><div class="radio disabled"><label><input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled="disabled"> three is disabled</label></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Inline</label><div class="col-sm-10"><label class="checkbox-inline"><input type="checkbox" value="option1"> a</label><label class="checkbox-inline"><input type="checkbox" value="option2"> b</label><label class="checkbox-inline"><input type="checkbox" value="option3"> c</label><br><label class="radio-inline"><input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1</label><label class="radio-inline"><input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2</label><label class="radio-inline"><input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3</label></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Styled</label><div class="col-sm-10"><div class="checkbox"><label class="ui-check"><input type="checkbox" value=""> <i class="dark-white"></i> one</label></div><div class="checkbox"><label class="ui-check"><input type="checkbox" checked="checked" value=""> <i class="dark-white"></i> two checked</label></div><div class="checkbox disabled"><label class="ui-check"><input type="checkbox" checked="checked" disabled="disabled" value=""> <i class="dark-white"></i> three checked and disabled</label></div><div class="checkbox disabled"><label class="ui-check"><input type="checkbox" disabled="disabled" value=""> <i class="dark-white"></i> four disabled</label></div><div class="radio"><label class="ui-check"><input type="radio" name="a" value="option1"> <i class="dark-white"></i> one</label></div><div class="radio"><label class="ui-check"><input type="radio" name="a" value="option2" checked="checked"> <i class="dark-white"></i> two checked</label></div><div class="radio disabled"><label class="ui-check"><input type="radio" value="option2" checked="checked" disabled="disabled"> <i class="dark-white"></i> three checked and disabled</label></div><div class="radio disabled"><label class="ui-check"><input type="radio" name="a" disabled="disabled"> <i class="dark-white"></i> four disabled</label></div><div class="radio"><label class="ui-check ui-check-md"><input type="radio" name="a"> <i class="dark-white"></i> Medium size radio</label></div><div class="checkbox"><label class="ui-check ui-check-md"><input type="checkbox"> <i class="dark-white"></i> Medium size checkbox</label></div><div class="radio"><label class="ui-check ui-check-lg"><input type="radio" name="a"> <i class="dark-white"></i> Large size radio</label></div><div class="checkbox"><label class="ui-check ui-check-lg"><input type="checkbox"> <i class="dark-white"></i> Large size checkbox</label></div></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Switch</label><div class="col-sm-10"><label class="ui-switch m-t-xs m-r"><input type="checkbox" checked="checked"> <i></i></label><label class="ui-switch primary m-t-xs m-r"><input type="checkbox" checked="checked"> <i></i></label><label class="ui-switch info m-t-xs m-r"><input type="checkbox" checked="checked"> <i></i></label><label class="ui-switch warning m-t-xs m-r"><input type="checkbox" checked="checked"> <i></i></label><label class="ui-switch danger m-t-xs m-r"><input type="checkbox" checked="checked"> <i></i></label></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Radio Switch</label><div class="col-sm-10"><label class="ui-switch m-t-xs m-r"><input type="radio" name="switch" checked="checked"> <i></i></label><label class="ui-switch m-t-xs m-r"><input type="radio" name="switch"> <i></i></label></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Medium</label><div class="col-sm-10"><label class="ui-switch ui-switch-md info m-t-xs"><input type="checkbox" checked="checked"> <i></i></label></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Large</label><div class="col-sm-10"><label class="ui-switch ui-switch-lg dark m-t-xs m-r"><input type="checkbox"> <i></i></label></div></div><h6 class="_600">Selects and Textarea</h6><p>Use the default option, or add multiple to show multiple options at once.</p><div class="form-group row"><label class="col-sm-2 form-control-label">Select</label><div class="col-sm-10"><select class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Select large</label><div class="col-sm-10"><select class="form-control form-control-lg"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Select small</label><div class="col-sm-10"><select class="form-control form-control-sm"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Custom select</label><div class="col-sm-10"><select class="form-control c-select"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Multiple</label><div class="col-lg-4"><select multiple="multiple" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Disabled</label><div class="col-sm-10"><select class="form-control" disabled="disabled"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">Textarea</label><div class="col-sm-10"><textarea class="form-control" rows="5"></textarea></div></div><div class="form-group row"><label class="col-sm-2 form-control-label">File input</label><div class="col-sm-10"><div class="form-file"><input type="file"> <button class="btn white">Select file ...</button></div></div></div><h6 class="_600 m-v-lg">Material design form style</h6><div class="m-b-lg row"><div class="col-sm-10 col-sm-offset-2"><div class="row row-sm"><div class="col-sm-12"><div class="md-form-group"><input class="md-input ng-pristine ng-untouched ng-valid" disabled="disabled" ng-model="user.company"><label>Company(disabled)</label></div></div><div class="col-sm-6"><div class="md-form-group float-label"><input class="md-input ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="user.firstName" required=""><label>First Name</label></div></div><div class="col-sm-6"><div class="md-form-group float-label"><input class="md-input ng-pristine ng-untouched ng-invalid ng-invalid-required" ng-model="user.lastName" required=""><label>Last Name</label></div></div><div class="col-sm-12"><div class="md-form-group"><input class="md-input ng-pristine ng-untouched ng-valid" ng-model="user.address"><label>Address</label></div></div><div class="col-sm-4"><div class="md-form-group"><input class="md-input ng-pristine ng-untouched ng-valid" ng-model="user.city"><label>City</label><span class="md-input-msg right">30/30</span></div></div><div class="col-sm-4"><div class="md-form-group"><input class="md-input ng-pristine ng-untouched ng-valid" ng-model="user.state"><label>State</label></div></div><div class="col-sm-4"><div class="md-form-group"><input class="md-input ng-pristine ng-untouched ng-valid" ng-model="user.postalCode"><label>Postal Code</label></div></div><div class="col-sm-12"><div class="md-form-group"><textarea class="md-input ng-pristine ng-untouched ng-valid" ng-model="user.biography" rows="4"></textarea><label>Biography</label></div></div></div><div class="row"><div class="col-sm-4"><p><label class="md-check"><input type="checkbox"> <i class="indigo"></i> Checkbox</label></p><p><label class="md-check"><input type="checkbox" checked="checked"> <i class="blue"></i> Checkbox: checked</label></p><p><label class="md-check"><input type="checkbox" disabled="disabled"> <i class="indigo"></i> Checkbox: disabled</label></p><p><label class="md-check"><input type="checkbox" checked="checked" disabled="disabled"> <i class="indigo"></i> Checkbox: checked and disabled</label></p><p><label class="md-check"><input type="checkbox"> <i class="pink"></i> Checkbox: pink</label></p><p><label class="md-check"><input type="checkbox" checked="checked"> <i class="green"></i> Checkbox: green</label></p><p><label class="md-check"><input type="checkbox" checked="checked"> <i class="teal no-icon"></i> Checkbox: no icon</label></p></div><div class="col-sm-4"><p><label class="md-check"><input type="radio" name="radio"> <i class="indigo"></i> Radio</label></p><p><label class="md-check"><input type="radio" name="radio" checked="checked"> <i class="blue"></i> Radio: checked</label></p><p><label class="md-check"><input type="radio" name="a" disabled="disabled"> <i class="indigo"></i> Radio: disabled</label></p><p><label class="md-check"><input type="radio" name="a" checked="checked" disabled="disabled"> <i class="indigo"></i> Radio: checked and disabled</label></p><p><label class="md-check"><input type="radio" name="radio"> <i class="pink"></i> Radio: pink</label></p><p><label class="md-check"><input type="radio" checked="checked" name="b"> <i class="green"></i> Radio: green</label></p><p><label class="md-check"><input type="radio" name="b"> <i class="teal no-icon"></i> Radio: no icon</label></p></div><div class="col-sm-4"><p><label class="md-switch"><input type="checkbox"> <i class="indigo"></i> Switch</label></p><p><label class="md-switch"><input type="checkbox" checked="checked"> <i class="blue"></i> Switch: checked</label></p><p><label class="md-switch"><input type="checkbox" disabled="disabled"> <i class="blue"></i> Switch: disabled</label></p><p><label class="md-switch"><input type="checkbox" checked="checked" disabled="disabled"> <i class="blue"></i> Switch: checked and disabled</label></p><p><label class="md-switch"><input type="checkbox"> <i class="pink"></i> Switch: pink</label></p><p><label class="md-switch"><input type="radio" name="switch" checked="checked"> <i class="green"></i> Switch: radio 1</label></p><p><label class="md-switch"><input type="radio" name="switch"> <i class="orange"></i> Switch: radio 2</label></p><p></p></div></div></div></div><div class="form-group row m-t-lg"><div class="col-sm-4 col-sm-offset-2"><button type="submit" class="btn white">Cancel</button> <button type="submit" class="btn btn-primary">Save changes</button></div></div></form>                                </div>
+                            </div>
+                        </div>
+
+
+                <div class="box">
+                    <a  role="button" data-toggle="collapse"  href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <div class="box-header b-b blueLt" role="tab" id="headingTwo">
+                            <h4>
+                                排版大小 <p class="pull-right">收起</p>
+                            </h4>
+                        </div>
+                    </a>
+                    <div id="collapseTwo" class="in" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="box-body">
+                            <div class="box-body p-v-md"><div class="row row-sm"><div class="col-xs-3"><input type="text" class="form-control" placeholder=".col-xs-3"></div><div class="col-xs-4"><input type="text" class="form-control" placeholder=".col-xs-4"></div><div class="col-xs-5"><input type="text" class="form-control" placeholder=".col-xs-5"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="box">
+                        <a  role="button" data-toggle="collapse"  href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="box-header b-b blueLt" role="tab" id="headingTwo">
+                                <h4>
+                                  标题分行 <p class="pull-right">收起</p>
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="collapseTwo" class="in" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="box-body">
+<div class="row"><div class=" col-md-6">
+                                    <form role="form" class="ng-pristine ng-valid"><div class="form-group"><label for="exampleInputEmail1">Email address</label><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"></div><div class="form-group"><label for="exampleInputPassword1">Password</label><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></div><div class="form-group"><label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile" class="form-control"><p class="help-block">Example block-level help text here.</p></div><div class="checkbox"><label><input type="checkbox"> Check me out</label></div><button type="submit" class="btn white m-b">Submit</button></form></div>
+</div>
+                            </div>
+                            </div>
+                    </div>
+
+                    <!--</div>-->
+                </div>
+             </div>
+
+            <!-- ###  表单结束-->
+
+        </div>
+
+
+        <!-- #####  右侧正文结束-->
+    </div>
+
+    <!-- ######## 右侧结束-->
+
+<!-- ############ 页面内容结束-->
+</div>
+<!-- build:js scripts/app.html.js -->
+<!-- jQuery -->
+<script src="../libs/jquery/jquery/dist/jquery.js"></script>
+<!-- Bootstrap -->
+<script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
+<script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<!-- core -->
+<script src="../libs/jquery/underscore/underscore-min.js"></script>
+<script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+<script src="../libs/jquery/PACE/pace.min.js"></script>
+<script src="../libs/angular/angular-strap/ui-bootstrap-tpls.min.js"></script>
+<script src="./js/angular-strap.js"></script>
+<script src="./js/angularstrap.js"></script>
+<script src="scripts/config.lazyload.js"></script>
+<script src="scripts/palette.js"></script>
+<script src="scripts/ui-load.js"></script>
+<script src="scripts/ui-jp.js"></script>
+<script src="scripts/ui-include.js"></script>
+<script src="scripts/ui-device.js"></script>
+<script src="scripts/ui-form.js"></script>
+<script src="scripts/ui-nav.js"></script>
+<script src="scripts/ui-screenfull.js"></script>
+<script src="scripts/ui-scroll-to.js"></script>
+<script src="scripts/ui-toggle-class.js"></script>
+<script src="scripts/app.js"></script>
+
+<!-- ajax -->
+<script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
+<script src="scripts/ajax.js"></script>
+<!-- endbuild -->
+</body>
+</html>

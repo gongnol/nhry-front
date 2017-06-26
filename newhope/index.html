@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nh">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>新希望送奶到户系统</title>
+    <!-- Bootstrap -->
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="./images/logo_s.png">
+    <meta name="apple-mobile-web-app-title" content="Flatkit">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="./images/logo_s.png">
+
+    <!-- style -->
+    <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css ../assets/styles/app.min.css -->
+    <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="./css/nh_main.css" type="text/css" />
+</head>
+<body>
+<div class="app" id="app">
+<!-- ############ 页面内容开始-->
+
+<!-- 侧边导航栏 -->
+    <div id="aside" class="app-aside modal fade" ng-class="{'folded': app.setting.folded}">
+        <!-- fluid app aside -->
+        <div class="left navside" layout="column">
+            <div class="navbar no-radius">
+                <div ui-include="'./include/nh.navbar.top.html'"></div>
+            </div>
+            <div flex class="hide-scroll">
+                <nav class="scroll nav-light">
+                    <div ui-include="'./include/nh.nav.html'"></div>
+                </nav>
+            </div>
+            <!--<div flex-no-shrink class="b-t">-->
+                <!--<div ui-include="'../views/blocks/aside.top.0.html'"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+        <!-- / -->
+<!-- ######## 右侧开始-->
+    <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header white box-shadow">
+            <div ui-include="'./include/nh.header.html'"></div>
+        </div>
+        <div class="app-footer" ng-class="{'hide': $state.current.data.hideFooter}">
+            <div ui-include="'./include/nh.footer.html'"></div>
+        </div>
+        <div ui-view class="app-body" id="view">
+
+            <!-- #####  右侧正文开始-->
+            <div class="titlebar white lt box-shadow">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-10">
+                        <h5 class="m-b-0 _300">平台首页</h5>
+                        <small class="text-muted">欢迎使用新希望乳业送奶到户系统</small>
+                    </div>
+                    <div class="col-sm-6 col-xs-2 text-sm-right">
+                        <i class="iconSetting m-t-sm"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="padding">
+                <!-- ##  用户信息和待办开始-->
+                <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="box">
+                        <div class="item">
+
+                            <div class="item-bg blueLt h6">
+                                <p class="p-a">用户信息</p>
+                            </div>
+                            <div class="p-a p-y-lg pos-rlt">
+                                <img src="./images/user.jpg" class="img-circle w-56" style="margin-bottom: -6rem">
+                            </div>
+                        </div>
+                        <div class="p-a">
+                            <p class="m-b-xs m-t">李小四</p>
+                            <p class="text-md block"><strong>西华校区东一奶站</strong></p>
+                            <p><a href class="btn btn-sm rounded primary stabtn">查看</a></p>
+                        </div>
+                        <div class="logintime"><p><strong>当前日期:</strong>2016-08-03<br/><strong>上次登录:</strong>2016-08-02</p></div>
+                    </div>
+                </div>
+                    <div class="col-xs-12 col-md-8">
+                        <div class="box">
+                            <div class="box-header b-b">
+                                <h3>待处理订单</h3>
+                            </div>
+                            <div class="box-tool">
+                                <ul class="nav">
+                                    <li class="nav-item inline">
+                                        <a class="nav-link">
+                                            <i class="material-icons md-18"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item inline dropdown">
+                                        <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="material-icons md-18"></i>
+                                        </a>
+                                        <div class="dropdown-menu pull-right">
+                                            <a class="dropdown-item" href="">更多</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item">设置</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="box-body">
+                               <div class="row">
+                                   <div class="col-xs-12 col-md-4">
+                                       <div class="boxWaitFor">
+                                             <strong>110</strong>
+                                             <p>新增订单</p>
+                                       </div>
+                                   </div>
+                                   <div class="col-xs-12 col-md-4">
+                                       <div class="hidden-sm-down b-v-line"></div>
+                                       <div class="boxWaitFor">
+
+                                       <strong>10</strong>
+                                       <p>停订订单</p>
+                                   </div></div>
+                                   <div class="col-xs-12 col-md-4">
+                                       <div class="hidden-sm-down b-v-line"></div>
+                                       <div class="boxWaitFor war">
+
+                                       <strong>210</strong>
+                                       <p>续订订单</p>
+                                   </div></div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+                <!-- ##  用户信息和待办结束-->
+
+
+                 <!-- ##  当前数据开始-->
+                 <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="box p-a boxCuStu">
+                            <div class="pull-left m-r">
+	            <span class="w-56 rounded primary">
+	              <i class="material-icons">&#xe151;</i>
+	            </span>
+                            </div>
+                            <div class="clear">
+                                <h4 class="m-a-0 text-lg _300"><a href>4110 <span class="text-sm">当前订户</span></a></h4>
+                                <small class="text-muted">新增订户110人</small>
+                                <!--<a class= "graybtn" href=""><p>查看更多</p></a>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="box p-a boxCuStu">
+                            <div class="pull-left m-r">
+	            <span class="w-56 rounded blueLt">
+	              <i class="material-icons">&#xe54f;</i>
+	            </span>
+                            </div>
+                            <div class="clear">
+                                <h4 class="m-a-0 text-lg _300"><a href>24 <span class="text-sm">当前商品</span></a></h4>
+                                <small class="text-muted">新增商品2种</small>
+                                <!--<a class= "graybtn" href=""><p>查看更多</p></a>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="box p-a boxCuStu">
+                            <div class="pull-left m-r">
+	            <span class="w-56 rounded warn">
+	              <i class="material-icons">&#xe8d3;</i>
+	            </span>
+                            </div>
+                            <div class="clear">
+                                <h4 class="m-a-0 text-lg _300"><a href>16 <span class="text-sm">当前送奶工</span></a></h4>
+                                <small class="text-muted">新增送奶工1名.</small>
+                                <!--<a class= "graybtn" href=""><p>查看更多</p></a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- ##  当前数据结束-->
+                 <!-- ##  图表和常用链接开始-->
+                 <div class="row">
+                     <div class="col-xs-12 col-md-8">
+                         <div class="box">
+                             <div class="box-header b-b">
+                                 <h3>数据展示</h3>
+                             </div>
+                             <div class="btn-group dropdown navDropDown">
+                                 <button class="btn white">选择表单</button>
+                                 <button class="btn white dropdown-toggle" data-toggle="dropdown"></button>
+                                 <div class="dropdown-menu">
+                                     <a class="dropdown-item" href>订户数量</a>
+                                     <a class="dropdown-item" href>订单数量</a>
+                                     <a class="dropdown-item" href>送奶工工</a>
+                                 </div>
+                             </div>
+                             <div class="box-tool">
+                                 <ul class="nav">
+                                     <li class="nav-item inline">
+                                         <a class="nav-link">
+                                             <i class="material-icons md-18"></i>
+                                         </a>
+                                     </li>
+                                     <li class="nav-item inline dropdown">
+                                         <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                                             <i class="material-icons md-18"></i>
+                                         </a>
+                                         <div class="dropdown-menu pull-right">
+                                             <a class="dropdown-item" href="">更多</a>
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item">设置</a>
+                                         </div>
+                                     </li>
+                                 </ul>
+                             </div>
+                             <div class="box-body">
+                                 <div class="m-a m-x-lg" ui-jp="plot" ui-refresh="app.setting.color" ui-options="
+              [
+                { data: [[1, 2], [2, 4], [3, 5], [4, 7], [5, 6], [6, 4], [7, 5], [8, 4], [9, 6]] }
+              ],
+              {
+                bars: { show: true, fill: true,  barWidth: 0.3, lineWidth: 1, fillColor: { colors: [{ opacity: 0.8 }, { opacity: 1}] }, align: 'center' },
+                colors: ['#02a5ea'],
+                series: { shadowSize: 3 },
+                xaxis: { show: true, font: { color: '#ccc' }, position: 'bottom' },
+                yaxis:{ show: true, font: { color: '#ccc' }},
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: 'rgba(120,120,120,0.5)' },
+                tooltip: true,
+                tooltipOpts: { content: '%x.0 is %y.4',  defaultTheme: false, shifts: { x: 20, y: -40 } }
+              }
+            " style="height:13rem;" >
+                                 </div>
+
+                             </div>
+                         </div>
+                     </div>
+                     <!--===-->
+                     <div class="col-xs-12 col-md-4">
+                         <div class="box">
+                             <div class="box-header b-b">
+                                 <h3>快捷链接</h3>
+                             </div>
+                             <div class="box-tool">
+                                 <ul class="nav">
+                                     <li class="nav-item inline">
+                                         <a class="nav-link">
+                                             <i class="material-icons md-18"></i>
+                                         </a>
+                                     </li>
+                                     <li class="nav-item inline dropdown">
+                                         <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                                             <i class="material-icons md-18"></i>
+                                         </a>
+                                         <div class="dropdown-menu pull-right">
+                                             <a class="dropdown-item" href="">更多</a>
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item">设置</a>
+                                         </div>
+                                     </li>
+                                 </ul>
+                             </div>
+                             <div class="box-body boxLink">
+
+                                    <ul class="row">
+                                        <a href=""><li class="col-md-4 col-xs-6"><i class="icon01"></i>今日路单</li></a>
+                                        <a href=""><li class="col-md-4 col-xs-6"><i class="icon01"></i>分奶表</li></a>
+                                        <a href=""><li class="col-md-4 col-xs-6"><i class="icon02"></i>批量停奶</li></a>
+                                        <a href=""><li class="col-md-4 col-xs-6"><i class="icon03"></i>帮助文档</li></a>
+                                    </ul>
+
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                <!--《==-->
+                 <!-- ##  图表和常用链接结束-->
+            </div>
+        </div>
+            <!-- #####  右侧正文结束-->
+    </div>
+
+<!-- ######## 右侧结束-->
+    </div>
+<!-- ############ 页面内容结束-->
+</div>
+<!-- build:js scripts/app.html.js -->
+<!-- jQuery -->
+<script src="../libs/jquery/jquery/dist/jquery.js"></script>
+<!-- Bootstrap -->
+<script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
+<script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<!-- core -->
+<script src="../libs/jquery/underscore/underscore-min.js"></script>
+<script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+<script src="../libs/jquery/PACE/pace.min.js"></script>
+
+<script src="scripts/config.lazyload.js"></script>
+
+<script src="scripts/palette.js"></script>
+<script src="scripts/ui-load.js"></script>
+<script src="scripts/ui-jp.js"></script>
+<script src="scripts/ui-include.js"></script>
+<script src="scripts/ui-device.js"></script>
+<script src="scripts/ui-form.js"></script>
+<script src="scripts/ui-nav.js"></script>
+<script src="scripts/ui-screenfull.js"></script>
+<script src="scripts/ui-scroll-to.js"></script>
+<script src="scripts/ui-toggle-class.js"></script>
+
+<script src="scripts/app.js"></script>
+
+<!-- ajax -->
+<script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
+<script src="scripts/ajax.js"></script>
+<!-- endbuild -->
+</body>
+</html>

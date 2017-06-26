@@ -1,0 +1,96 @@
+<div class="padding notitlebar">
+    <div id="body-alert" class="text-center"></div>
+    <div id="modal-alert"></div>
+    
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-a">
+            <div class="filter-content">
+                <div class="date-box">
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="data.search.cplDateStart"
+                               placeholder="起始日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="string" 
+                               data-autoclose="true"
+                               data-max-date="{{ data.search.cplDateEnd }}" 
+                               bs-datepicker>
+                    </div>
+                    <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="data.search.cplDateEnd"
+                               placeholder="结束日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="string" 
+                               data-autoclose="true" 
+                               data-min-date="{{ data.search.cplDateStart }}" 
+                               bs-datepicker>
+                    </div>
+                </div>
+                <div class="select-box" nh-auth="cplain_list_dealer">
+                    <ui-select ng-model="data.search.dealerNo" search-enabled="true" on-select="data.typeSelected($item)">
+                        <ui-select-match placeholder="经销商" allow-clear="true">
+                            <span ng-bind="$select.selected.dealerName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="x.dealerNo as x in (data.dealers | filter: $select.search) track by x.dealerNo">
+                            <span ng-bind="x.dealerName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="select-box" ng-if="data.choseStation">
+                    <ui-select ng-model="data.search.branchNo" search-enabled="true">
+                        <ui-select-match placeholder="奶站" allow-clear="true">
+                            <span ng-bind="$select.selected.branchName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="x.branchNo as x in (data.milkStations | filter: $select.search) track by x.branchNo">
+                            <span ng-bind="x.branchName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="filter-act">
+                <button class="btn btn-fw blueLt" ng-click="doFilter()">筛选</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                     <tr role="row">
+                        <th class="th-nh">问题单号</th>
+                        <th class="th-nh">奶站</th>
+                        <th class="th-nh">送奶员</th>
+                        <th class="th-nh">创建日期</th>
+                        <th class="th-nh">问题类别</th>
+                        <th class="th-nh">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr ng-repeat="item in data.content">
+                            <td class="td-id-nh"><span ng-bind="item.zzobjectid"></span></td>
+                            <td><span ng-bind="item.branchName"></span></td>
+                            <td><span ng-bind="item.sngbh"></span></td>
+                            <td><span ng-bind="item.createdate.nh_formatDate()"></span></td>
+                            <td><span ng-bind="item.category1+' : '+item.category2"></span></td>
+                            <td style="width: 25%"><span ng-bind="item.description"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+	<!-- ###  功能条结束-->
+</div>

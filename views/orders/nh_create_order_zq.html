@@ -1,0 +1,813 @@
+<div class="app-body">
+	<div id="modal-alert"></div>
+	<div id="body-alert"></div>
+	<div class="padding notitlebar">
+		<div class="row">
+			<div class="b-b b-primary nav-active-primary">
+				<ul class="nav nav-tabs text _600">
+					<li class="nav-item">
+						<a id="changetab1" class="nav-link active mouse-disabled" data-target="#tab1" data-toggle="tab" href="" aria-expanded="true">选择订户</a>
+					</li>
+
+					<li class="nav-item">
+						<a id="changetab2" class="nav-link mouse-disabled" data-target="#tab2" data-toggle="tab" href="" aria-expanded="false">创建订单</a>
+					</li>
+
+				</ul>
+			</div>
+
+			<div class="tab-content p-a m-b-md">
+				<div id="tab1" class="tab-pane animated fadeIn text-muted active" aria-expanded="true" ng-controller="orderCreateCtrl">
+					<!-- ###  表格开始-->
+					<div class="box">
+						<div bs-collapse>
+							<a ng-click="toggle1 = !toggle1" bs-collapse-toggle>
+								<div class="box-header blueLt">
+									<h4>
+                                		    选择订户
+                                		  <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle1}" aria-hidden="true"></i>
+                                    </h4>
+								</div>
+							</a>
+
+							<div class="panel-collapse p-b" bs-collapse-target>
+								<div class="box-body">
+									<div class="m-b text-md">
+										<strong>您目前选择的订户:&nbsp {{choosedVipCusName}}
+                                        <strong>&nbsp上一张订单:</strong>{{lastOrder.orderNo}} &nbsp 送奶员: {{lastOrder.empName}}
+										</strong>
+									</div>
+									<div class="form-inline" ng-if="!selectCust">
+										<div class="input-group">
+											<input type="text" name="phoneNum" class="form-control search-control" placeholder="联系电话" ng-keypress="fuzzySearch($event)" ng-model="search.telephone">
+											<span class="input-group-addon search-addon blueWt" ng-click="reloadTable()"> <i class="fa fa-search" aria-hidden="true"></i>
+                                            </span>
+										</div>
+
+									</div>
+
+									<!-- 订户列表 -->
+									<div class="row" ng-show="!selectCust">
+										<div class="col-sm-12">
+											<table class="table table-striped b-t b-b no-footer">
+												<thead>
+													<tr role="row">
+													<!--	<th>
+															<label class="md-check">
+										                       		选择
+										                    </label>
+														</th>-->
+
+														<th class="th-nh">
+															姓名
+														</th>
+														<th class="th-nh">经销商</th>
+														<th class="th-nh">所属奶站</th>
+														<th class="th-nh">首次订奶日期</th>
+														<th class="th-nh">最近订奶日期</th>
+														<th class="th-nh">联系电话</th>
+														<th class="th-nh">订户状态</th>
+														<th class="th-nh">操作</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-if="tbLoding == -1 || tbLoding == 1">
+														<td colspan="10" style="text-align:center;">正在加载数据！</td>
+													</tr>
+													<tr ng-if="tbLoding == 0 && content.length <= 0">
+														<td colspan="10" style="text-align:center;">没有数据！</td>
+													</tr>
+													<tr current-page="curPageno" pagination-id="order_findVips" dir-paginate="user in content|itemsPerPage:itemsPerPage" total-items="total_count">
+														<!--<td>
+															<label class="md-check" ng-if="order.sign!='20'" style="    margin-left: 20px;">
+							                           		 <input type="checkbox"  ng-click="chekOne(user.checkbox,user)" ng-model="user.checkbox"  class="ng-pristine ng-untouched ng-valid">
+							                           		 <i class="blue"></i>
+									                  		</label>
+														</td>-->
+
+														<td class="td-id-nh">
+															{{user.vipName}}
+														</td>
+														<td>{{user.dealerName}}</td>
+														<td>{{user.branchName}}</td>
+														<td ng-bind-html="dateFormat(user.firstOrderTime)"></td>
+														<td ng-bind-html="dateFormat(user.lastOrderTime)"></td>
+														<td>{{user.mp}}</td>
+														<td><span ng-bind="getObjByCode(user.status, handle.cStatuses)"></span></td>
+														<td>
+															<div class="btn-groups">
+																<button ng-click="chooseCustomer(user)" class="btn btn-xs btn-outline rounded b-primary text-primary">选择用户</button>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											<footer class="text-center">
+												<dir-pagination-controls pagination-id="order_findVips" max-size="8" direction-links="true" boundary-links="true" on-page-change="getData(newPageNumber)" template-url="nhtpl/pagination.tpl.html">
+												</dir-pagination-controls>
+											</footer>
+										</div>
+									</div>
+									<!-- end  -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 pull-right">
+							<button class="btn btn-fw blueLt pull-right m-l" ng-click="toTab(2)">下一步</button>
+						</div>
+					</div>
+
+				</div>
+
+				<div id="tab2" class="tab-pane animated fadeIn text-muted" aria-expanded="false" ng-controller="createOrderCtrl">
+					<!-- ###  表格开始-->
+					<div class="modal-body">
+						<div class="box">
+							<div class="box-body">
+
+								<div class="row">
+									<div class="col-md-4 col-md-offset-1">
+										<label for="amountRemain">用户帐户余额</label>
+										<h5 id="amountRemain">￥{{account.acctAmt || 0}}</h5>
+									</div>
+									<div class="col-md-4 col-md-offset-1">
+										<label for="payStyle">选择支付方式</label>
+										<div id="paymentStat">
+											<label class="radio-inline md-check">
+                                            <input type="radio" name="paymentStat" id="prePay" ng-model="order.paymentStat" value=20>
+                                            <i class="blue"></i>预付款
+                                        </label>
+											<label class="radio-inline md-check">
+                                            <input type="radio" name="paymentStat" id="LastPay" ng-model="order.paymentStat" value=10>
+                                            <i class="blue"></i>后付款/货到付款
+                                        </label>
+											<!-- <label class="radio-inline md-check">
+                                            <input type="radio" name="paymentStat" id="firstPay" ng-model="order.paymentStat" value=30>
+                                            <i class="blue"></i>垫付款
+                                        </label> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 商品行项目 -->
+						<div id="">
+							<div class="box info1" ng-repeat="entry in entries">
+								<div bs-collapse>
+									<a bs-collapse-toggle>
+										<div class="box-header blueLt">
+											<h4>
+	                            <span class="m-r-sm" ng-bind="entry.matnr.slice(-8)"></span>
+	                            <span class="m-r-sm" ng-bind="entry.matnrTxt"></span>
+	                            <span ng-bind="entry.qty"></span>{{entry.unit}}
+                            </h4>
+										</div>
+									</a>
+
+									<div class="panel-collapse p-b" bs-collapse-target>
+										<div class="box-body">
+											<br>
+											<div class="row">
+												<div class="col-md-3">
+													<div class="b-b nav-active-bg">
+														<ul class="nav nav-tabs">
+															<li class="nav-item">
+																<a class="nav-link active" data-target="#tab{{entry.rowNum}}" data-toggle="tab" href="" aria-expanded="true" ng-click="changeDeliveryType(entry.rowNum,0)">按周期送
+																</a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link" data-target="#tab{{entry.rowNum+1}}" data-toggle="tab" href="" aria-expanded="false" ng-click="changeDeliveryType(entry.rowNum,1)">按星期送
+																</a>
+															</li>
+														</ul>
+													</div>
+													<div class="form-group tab-content p-a m-b-md" style="border:solid 2px black;">
+														<div id="tab{{entry.rowNum}}" class="tab-pane animated fadeIn text-muted active" aria-expanded="true">
+															<div>
+																间隔天数 &nbsp
+																<input class="inline" rowNum="{{entry.rowNum}}" calentry-directive type="number" ng-model="entry.gapDays" min=0>
+															</div>
+														</div>
+														<div id="tab{{entry.rowNum+1}}" class="tab-pane animated fadeIn text-muted" aria-expanded="false">
+															<div class="row">
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.mon">&nbsp&nbsp周一</div>
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.tue">&nbsp&nbsp周二</div>
+															</div>
+															<br>
+															<div class="row">
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.wed">&nbsp&nbsp周三</div>
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.tur">&nbsp&nbsp周四</div>
+															</div>
+															<br>
+															<div class="row">
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.fri">&nbsp&nbsp周五</div>
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.sat">&nbsp&nbsp周六</div>
+															</div>
+															<br>
+															<div class="row">
+																<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.sun">&nbsp&nbsp周日</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-9">
+													<div class="row">
+														<!-- 预付款的 -->
+														<div class="form-group col-md-4" ng-if="order.paymentStat=='20'">
+															<label>起始日期<p class="small inline m-l">必填</p></label>
+															<div class="select-date">
+																<input type="text" class="form-control" id="payment20StartDispDate" ng-model="entry.startDispDateStr" data-min-date="{{defaultValue.date}}" data-max-date="{{entry.endDispDateStr}}" data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="true" bs-datepicker bs-on-hide="calentry2">
+																<i class="material-icons md-24">&#xe8df;</i>
+															</div>
+														</div>
+														<div class="form-group col-md-4" ng-if="order.paymentStat=='20'">
+															<label>产品配送总数<p class="small inline m-l">必填</p></label>
+															<div class="select-date">
+																<input type="number" class="form-control" ng-model="entry.dispTotal" min='1' rowNum="{{entry.rowNum}}" calentry-directive>
+															</div>
+														</div>
+														<div class="form-group col-md-3" ng-if="order.paymentStat=='20'">
+															<label>行截止日期<p class="small inline m-l">&nbsp;</p></label>
+															<!--<div class="select-date" style="margin-top: 1.25rem; font-size: 1.25rem;"> {{entry.endDispDateStr}}</div>-->
+															<div class="select-date">
+																<input type="text" class="form-control" id="payment20EndDispDate" ng-model="entry.endDispDateStr" data-min-date="{{entry.startDispDateStr}}" data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="true" bs-datepicker bs-on-hide="calentry2">
+																<i class="material-icons md-24">&#xe8df;</i>
+															</div>
+														</div>
+													</div>
+													<!--<div class="row">
+											<div class="form-group col-md-4">
+												<label for="">送奶时间<p class="small inline m-l">必填</p></label>
+												<ui-select ng-model="entry.reachTimeType" search-enabled="false">
+													<ui-select-match allow-clear="false" placeholder="请选择送奶时间">
+														<span ng-bind="$select.selected.text"></span>
+													</ui-select-match>
+													<ui-select-choices repeat="x.code as x in (deliveryTime.data | filter: $select.search) track by x.code">
+														<span ng-bind="x.text"></span>
+													</ui-select-choices>
+												</ui-select>
+											</div>
+										</div>-->
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-md-6 pull-right">
+													每日配送：{{entry.qty}}{{entry.unit}}&nbsp&nbsp每日总价：￥{{10000*entry.salesPrice*entry.qty/10000}}&nbsp&nbsp总配送量:{{entry.dispTotal}}{{entry.unit}}&nbsp&nbsp行总价：￥{{entry.entryTotal}}&nbsp&nbsp
+													<button class="btn btn-sm blueLt" ng-click="deleteEntry(entry)">删除</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="box info1">
+							<div bs-collapse>
+								<div class="panel-collapse p-b" bs-collapse-target>
+									<div class="box-body">
+										<div class="row">
+											<div class="form-group col-md-9">
+												<label for="comment">备注</label>
+												<textarea id="comment" ng-model="order.memoTxt" class="form-control" rows="3"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+
+						<span style="float: left;">
+								<button class="btn blueLt pull-right" ng-click="addProduct()">添加产品</button>
+						</span>
+						<span style="float: right;">
+							 <button class="btn btn-fw blueLt m-l" ng-click="toTab(1)">上一步</button>
+							<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">创建订单</button>
+							<button class="btn blueLt pull-right" ng-click="tosee()">预览日计划</button>
+						</span>
+					</div>
+				</div>
+
+				<div id="tab5" class="tab-pane animated fadeIn text-muted" aria-expanded="false">
+					<!-- ###  表格开始-->
+					<button id="createOrderBtn" class="btn btn-fw blueLt pull-right m-l" ng-click="orderCreating || toCreateOrder()" ng-class="{'disabled': orderCreating, 'nh-disable': orderCreating}"><span ng-class="{'nh-hide': orderCreating}">创建订单</span></button>
+					<button class="btn blueLt pull-right" ng-click="tosee()">预览日计划</button>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/ng-template" id="promotionsSelectModal.html">
+			<div class="modal-header blueLt">
+				<h3 class="modal-title">促销选择</h3>
+			</div>
+			<div class="modal-body p-lg">
+				<div class="promos" ng-repeat="item in psm.promotions">
+					<label class="radio-inline md-check m-t-sm">
+                    <input type="radio" name="promos" value="{{$index}}" ng-model="psm.selectedPromo"> 
+                    <i class="blue"></i> 
+                    <span ng-bind="item.itemDescribe"></span>
+                </label>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn blueLt p-x-md" ng-click="psm.save()">确认</button>
+				<button type="button" class="btn primary p-x-md" ng-click="psm.cancelModal()">关闭</button>
+			</div>
+		</script>
+	</div>
+
+</div>
+
+<!--创建订单-->
+<script type="text/ng-template" id="createOrderCtrl.html">
+	<form name="createOrderCtrl" role='form' novalidate>
+		<div class="modal-header">
+			<a style="float: left;">
+				<h3 class="modal-title">{{user.vipName}}-创建年卡订单</h3></a>
+			<a style="float: right;">
+				<h3 class="modal-title" ng-click="cancelModal()">关闭</h3></a>
+		</div>
+		<div class="modal-body">
+			<div class="box">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-1">
+							<label for="amountRemain">用户帐户余额</label>
+							<h5 id="amountRemain">￥{{account.acctAmt || 0}}</h5>
+						</div>
+						<div class="col-md-4 col-md-offset-1">
+							<label>选择折扣类型</label>
+							<div>
+								<label class="radio-inline md-check m-r-md" ng-repeat="item in promData.promTypes">
+                                        <input type="radio" name="promType" ng-model="promData.promIdx" value="{{$index}}">
+                                        <i class="blue"></i>{{item.discountAmt}}
+                                    </label>
+							</div>
+						</div>
+					</div>
+					<br/>
+				</div>
+				<div class="box-body">
+					<button class="btn blueLt pull-right" ng-click="addProduct()">添加产品</button>
+				</div>
+			</div>
+
+			<!-- 商品行项目 -->
+			<div id="" style="overflow-y:auto;height: 450px;border: 1px solid  wwheat !important">
+				<div class="box info1" ng-repeat="entry in entries">
+					<div bs-collapse>
+						<a bs-collapse-toggle>
+							<div class="box-header blueLt">
+								<h4>
+	                            <span class="m-r-sm" ng-bind="entry.matnr.slice(-8)"></span>
+	                            <span class="m-r-sm" ng-bind="entry.matnrTxt"></span>
+	                            <span ng-bind="entry.qty"></span>{{entry.unit}}
+                            </h4>
+							</div>
+						</a>
+
+						<div class="panel-collapse p-b" bs-collapse-target>
+							<div class="box-body">
+								<br>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="b-b nav-active-bg">
+											<ul class="nav nav-tabs">
+												<li class="nav-item">
+													<a class="nav-link active" data-target="#tab{{entry.rowNum}}" data-toggle="tab" href="" aria-expanded="true" ng-click="changeDeliveryType(entry.rowNum,0)">按周期送
+													</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" data-target="#tab{{entry.rowNum+1}}" data-toggle="tab" href="" aria-expanded="false" ng-click="changeDeliveryType(entry.rowNum,1)">按星期送
+													</a>
+												</li>
+											</ul>
+										</div>
+										<div class="form-group tab-content p-a m-b-md" style="border:solid 2px black;">
+											<div id="tab{{entry.rowNum}}" class="tab-pane animated fadeIn text-muted active" aria-expanded="true">
+												<div>
+													间隔天数 &nbsp
+													<input class="inline" rowNum="{{entry.rowNum}}" calentry-directive type="number" ng-model="entry.gapDays" min=0>
+												</div>
+											</div>
+											<div id="tab{{entry.rowNum+1}}" class="tab-pane animated fadeIn text-muted" aria-expanded="false">
+												<div class="row">
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.mon">&nbsp&nbsp周一</div>
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.tue">&nbsp&nbsp周二</div>
+												</div>
+												<br>
+												<div class="row">
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.wed">&nbsp&nbsp周三</div>
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.tur">&nbsp&nbsp周四</div>
+												</div>
+												<br>
+												<div class="row">
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.fri">&nbsp&nbsp周五</div>
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.sat">&nbsp&nbsp周六</div>
+												</div>
+												<br>
+												<div class="row">
+													<div class="col-md-6"><input name="{{entry.rowNum+1}}" type="checkbox" ng-click="calentry(entry.rowNum)" ng-model="entry.sendByWeeks.sun">&nbsp&nbsp周日</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-9">
+										<div class="row">
+											<!-- 预付款的 -->
+											<div class="form-group col-md-4" ng-if="order.paymentStat=='20'">
+												<label>起始日期<p class="small inline m-l">必填</p></label>
+												<div class="select-date">
+													<input type="text" class="form-control" id="payment20StartDispDate" ng-model="entry.startDispDateStr" data-min-date="{{defaultValue.date}}" data-max-date="{{entry.endDispDateStr}}" data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="true" bs-datepicker bs-on-hide="calentry2">
+													<i class="material-icons md-24">&#xe8df;</i>
+												</div>
+											</div>
+											<div class="form-group col-md-4" ng-if="order.paymentStat=='20'">
+												<label>产品配送总数<p class="small inline m-l">必填</p></label>
+												<div class="select-date">
+													<input type="number" class="form-control" ng-model="entry.dispTotal" min='1' rowNum="{{entry.rowNum}}" calentry-directive>
+												</div>
+											</div>
+											<div class="form-group col-md-3" ng-if="order.paymentStat=='20'">
+												<label>行截止日期<p class="small inline m-l">&nbsp;</p></label>
+												<!--<div class="select-date" style="margin-top: 1.25rem; font-size: 1.25rem;"> {{entry.endDispDateStr}}</div>-->
+												<div class="select-date">
+													<input type="text" class="form-control" id="payment20EndDispDate" ng-model="entry.endDispDateStr" data-min-date="{{entry.startDispDateStr}}" data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="true" bs-datepicker bs-on-hide="calentry2">
+													<i class="material-icons md-24">&#xe8df;</i>
+												</div>
+											</div>
+										</div>
+										<!--<div class="row">
+											<div class="form-group col-md-4">
+												<label for="">送奶时间<p class="small inline m-l">必填</p></label>
+												<ui-select ng-model="entry.reachTimeType" search-enabled="false">
+													<ui-select-match allow-clear="false" placeholder="请选择送奶时间">
+														<span ng-bind="$select.selected.text"></span>
+													</ui-select-match>
+													<ui-select-choices repeat="x.code as x in (deliveryTime.data | filter: $select.search) track by x.code">
+														<span ng-bind="x.text"></span>
+													</ui-select-choices>
+												</ui-select>
+											</div>
+										</div>-->
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-md-6 pull-right">
+										每日配送：{{entry.qty}}{{entry.unit}}&nbsp&nbsp每日总价：￥{{10000*entry.salesPrice*entry.qty/10000}}&nbsp&nbsp总配送量:{{entry.dispTotal}}{{entry.unit}}&nbsp&nbsp行总价：￥{{entry.entryTotal}}&nbsp&nbsp
+										<button class="btn btn-sm blueLt" ng-click="deleteEntry(entry.rowNum)">删除</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="box info1">
+				<div bs-collapse>
+					<div class="panel-collapse p-b" bs-collapse-target>
+						<div class="box-body">
+							<div class="row">
+								<div class="form-group col-md-9">
+									<label for="comment">备注</label>
+									<textarea id="comment" ng-model="order.memoTxt" class="form-control" rows="3"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<span style="float: left;">
+				<button class="btn blueLt pull-right" ng-click="tosee()">预览日计划</button>
+			</span>
+
+			<span style="float: right;">
+					<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">创建订单</button>
+					<button class="btn btn-fw primary p-x-md" type="button" ng-click="showDetailOrder()">预览明细</button>
+			</span>
+		</div>
+	</form>
+</script>
+
+<script type="text/ng-template" id="productSearchCtrl.html">
+	<form name="productSearchCtrl" role='form' novalidate>
+		<div class="modal-header">
+			<a style="float: left;">选择产品</a>
+		</div>
+		<div class="modal-body">
+			<div class="box">
+				<div class="box-body">
+					<div class="box">
+						<div bs-collapse>
+							<div class="panel-collapse p-b" bs-collapse-target>
+								<div class="box-body">
+									<label for="productId">商品编码或名称</label>
+									<div class="row">
+										<div class="form-group col-md-3">
+											<input id="productId" type="text" ng-model="matnrTxt" ng-keypress="fuzzySearch($event)" class="form-control">
+										</div>
+										<div class="form-group col-md-3">
+											<button class="btn blueLt btn-sm" ng-click="reloadProductTable()">搜索</button>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="box" style="border-radius: 2px;">
+											<div class="row">
+												<div class="col-sm-12">
+													<table class="table table-striped b-t b-b no-footer">
+														<thead>
+															<tr role="row">
+																<th class="th-nh">商品编码</th>
+																<th class="th-nh">商品名称</th>
+																<th class="th-nh">中类</th>
+																<th class="th-nh">每日配送数量</th>
+																<th class="th-nh">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="tbLoding == -1 || tbLoding == 1">
+																<td colspan="10" style="text-align:center;">正在加载数据！</td>
+															</tr>
+															<tr ng-if="tbLoding == 0 && content.length <= 0">
+																<td colspan="10" style="text-align:center;">没有数据！</td>
+															</tr>
+															<tr id="productRow" current-page="curPageno" pagination-id="order_findproducts" dir-paginate="item in content|itemsPerPage:itemsPerPage" total-items="total_count">
+																<td class="td-id-nh">
+																	<span ng-bind="item.matnr.slice(-8)"></span>
+																</td>
+																<td class="td-id-nh" hidden id="productId">{{item.matnr}}
+																</td>
+																<td id="productName">{{item.matnrTxt}}</td>
+																<td>{{item.secCateName}}</td>
+																<td>
+																	<input id="productCount" class="form-control" ng-model='item.qty' style="width:130px" placeholder="请选择数量" type="number" min="1">
+
+																</td>
+																<td>
+																	<div class="btn-groups">
+																		<button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="addProduct(item)">添加</button>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													<footer class="text-center">
+														<dir-pagination-controls pagination-id="order_findproducts" max-size="5" direction-links="true" boundary-links="true" on-page-change="getData(newPageNumber)" template-url="nhtpl/pagination.tpl.html">
+														</dir-pagination-controls>
+													</footer>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+		</div>
+	</form>
+</script>
+
+<!--预览明细-->
+<script type="text/ng-template" id="showDetailOrder.html">
+	<form name="showDetailOrder" role='form' novalidate>
+		<div class="modal-header">
+			<a style="float: left;">订单明细</a>
+		</div>
+		<div class="modal-body">
+			<div class="box">
+				<div class="box-body">
+					<div class="box">
+
+						<div class="box-header">
+							<h2>
+                                        <strong>
+                                    	        请确认订单信息无误
+                                        </strong>
+                                    </h2>
+						</div>
+
+						<div class="box-body">
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>用户姓名</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{choosedVipCusName}}
+								</div>
+								<div class="form-group col-md-1">
+									<strong>联系电话</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{choosedVipCusTel}}
+								</div>
+								<div class="form-group col-md-1">
+									<strong>送奶奶站</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{order.branchName}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>付费方式</strong>
+								</div>
+								<div class="form-group col-md-2" ng-if="order.paymentStat=='10' ">
+									后付款
+								</div>
+								<div class="form-group col-md-2" ng-if="order.paymentStat=='20' ">
+									预付款
+								</div>
+								<div class="form-group col-md-2" ng-if="order.paymentStat=='30' ">
+									垫付款
+								</div>
+								<div class="form-group col-md-1" ng-if="order.payMethod=='10' ||order.payMethod=='20' ">
+									<strong>收款类型</strong>
+								</div>
+								<div class="form-group col-md-2" ng-if="order.payMethod=='10' ">
+									卡支付
+								</div>
+								<div class="form-group col-md-2" ng-if="order.payMethod=='20' ">
+									现金支付
+								</div>
+								<div class="form-group col-md-1">
+									<strong>数额</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{order.frontAmt}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>收款人</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{order.solicitorNo}}
+								</div>
+								<div class="form-group col-md-1">
+									<strong>收款日期</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{order.solicitDateStr}}
+								</div>
+								<div class="form-group col-md-1">
+									<strong>账户余额</strong>
+								</div>
+								<div class="form-group col-md-2">
+									￥{{account.acctAmt || 0}}
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>收款备注</strong>
+								</div>
+								<div class="form-group col-md-2">
+									{{order.memoTxt}}
+								</div>
+							</div>
+						</div>
+
+						<div class="box-body">
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>送奶计划</strong>
+								</div>
+							</div>
+							<!-- 产品行项目 -->
+							<div class="row">
+								<div class="form-group col-md-10" style="border:solid 3px black;"><br>
+									<div class="row col-md-offset-1" ng-repeat="entry in entries">
+										<div class="row">
+											<div class="col-md-8 col-sm-8">
+												<strong>{{entry.matnr.slice(-8)}} &nbsp&nbsp {{entry.matnrTxt}}  &nbsp&nbsp {{entry.qty}}{{entry.unit}}</strong> &nbsp&nbsp
+												<strong>总数:&nbsp&nbsp</strong>{{entry.dispTotal}}{{entry.unit}}
+											</div>
+										</div><br>
+										<div class="row">
+											<div class="col-md-3 col-sm-3" ng-if="entry.gapDays!=undefined">
+												<strong>配送规律&nbsp&nbsp</strong>按周期送 间隔{{entry.gapDays}}天
+											</div>
+											<div class="col-md-3 col-sm-3" ng-if="entry.sendByWeeks!=undefined">
+												<strong>配送规律&nbsp&nbsp</strong>按星期送
+												<strong ng-if="entry.sendByWeeks.mon==true">1</strong>
+												<strong ng-if="entry.sendByWeeks.tue==true">2</strong>
+												<strong ng-if="entry.sendByWeeks.wed==true">3</strong>
+												<strong ng-if="entry.sendByWeeks.tur==true">4</strong>
+												<strong ng-if="entry.sendByWeeks.fri==true">5</strong>
+												<strong ng-if="entry.sendByWeeks.sat==true">6</strong>
+												<strong ng-if="entry.sendByWeeks.sun==true">7</strong>
+											</div>
+											<div class="col-md-3 col-sm-3" ng-if="entry.reachTimeType==10">
+												<strong>送奶时间&nbsp&nbsp</strong>上午配送
+											</div>
+											<div class="col-md-3 col-sm-3" ng-if="entry.reachTimeType==20">
+												<strong>送奶时间&nbsp&nbsp</strong>下午配送
+											</div>
+											<div class="col-md-4 col-sm-3">
+												<strong>送奶期限&nbsp&nbsp</strong>{{entry.startDispDateStr}}至{{entry.endDispDateStr}}
+											</div>
+											<div class="col-md-2 col-sm-2">
+												<strong>行总计:&nbsp&nbsp</strong>￥{{entry.entryTotal}}
+											</div>
+										</div>
+										<hr>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="box-body">
+							<div class="row">
+								<div class="form-group col-md-1">
+									<strong>配送地址</strong>
+								</div>
+							</div>
+							<!-- 产品行项目 -->
+							<div class="row">
+								<div class="form-group col-md-10" style="border:solid 3px black;" ng-if="address.addressMode==0"><br>
+									<div class="row col-md-offset-1">
+										<div class="row">
+											<div class="col-md-12 col-sm-12">
+												<strong>地址&nbsp&nbsp</strong> {{confirmAddress.provinceName}}{{confirmAddress.cityName}}{{confirmAddress.countyName}}{{confirmAddress.residentialAreaName}}{{confirmAddress.addressTxt}}
+
+											</div>
+										</div><br>
+										<div class="row">
+											<!-- <div class="col-md-4 col-sm-4"> 
+                                                        <strong>奶站&nbsp&nbsp</strong> 华西配送中
+                                                    </div> -->
+											<div class="col-md-4 col-sm-4">
+												<strong>联系电话&nbsp&nbsp</strong> {{confirmAddress.mp}}
+											</div>
+											<!-- <div class="col-md-4 col-sm-4"> 
+                                                        <strong>奶箱&nbsp&nbsp</strong> 已安装
+                                                    </div> -->
+										</div><br>
+									</div>
+								</div>
+
+								<div class="form-group col-md-10" style="border:solid 3px black;" ng-if="address.addressMode==1"><br>
+									<div class="row col-md-offset-1">
+										<div class="row">
+											<div class="col-md-4 col-sm-4">
+												<strong>地址&nbsp&nbsp</strong> {{newAddr.arrs[0].itemName}}{{newAddr.arrs[1].itemName}}{{newAddr.arrs[2].itemName}}{{residentArea.residentialAreaTxt}}{{address.addressTxt}}
+											</div>
+										</div><br>
+										<div class="row">
+											<!-- <div class="col-md-4 col-sm-4"> 
+                                                        <strong>奶站&nbsp&nbsp</strong> 华西配送中
+                                                    </div> -->
+											<div class="col-md-4 col-sm-4">
+												<strong>联系电话&nbsp&nbsp</strong> {{address.mp}}
+											</div>
+											<!-- <div class="col-md-4 col-sm-4"> 
+                                                        <strong>奶箱&nbsp&nbsp</strong> 已安装
+                                                    </div> -->
+										</div><br>
+									</div>
+								</div>
+							</div>
+
+							<div class="row"><br>
+								<div class="form-group col-md-3">
+									<label><strong>是否安装奶箱</strong><p class="small inline m-l">必填</p></label>
+									<ui-select ng-model="order.milkboxStat" remove-selected="false" search-enabled="false">
+										<ui-select-match allow-clear="false" placeholder="请选择奶箱">
+											<span ng-bind="$select.selected.text"></span>
+										</ui-select-match>
+										<ui-select-choices repeat="x.code as x in (milkBoxs.data | filter: $select.search) track by x.code">
+											<span ng-bind="x.text"></span>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button id="createOrderBtn" class="btn btn-fw blueLt pull-right m-l" ng-click="orderCreating || toCreateOrder()" ng-class="{'disabled': orderCreating, 'nh-disable': orderCreating}"><span ng-class="{'nh-hide': orderCreating}">创建订单</span></button>
+			<button class="btn blueLt pull-right" ng-click="tosee()">预览日计划</button>
+		</div>
+	</form>
+</script>

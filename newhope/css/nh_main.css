@@ -1,0 +1,79 @@
+.nh body{ font-family: "microsoft yaHei"}
+.nh_logo{ background:url("../images/logo.png") no-repeat; display: block; height: 50px;width: 210px;float:left;margin-top: 0.7rem;}
+.nh_logo_sm{ background:url("../images/logo.png") no-repeat;background-size: contain; display: block; height: 35px;width: 147px;float:left;margin-top: 1.1rem;}
+.blueLt{  background-color: #02a5ea; color:rgba(255, 255, 255, 1);}
+.navDropDown{    position: absolute; top: 0.3rem;left: 7rem;}
+/*-----------------------侧边导航栏----------------------------*/
+.app-aside{ -webkit-box-shadow: 0 0 2px 2px #999;box-shadow: 0 0 2px 2px #999; color: #fff}
+.navside{ background-color: #02a5ea;}
+.navside .navbar{ background-color: #4ea834;}
+.navside .nav-text{ font-size: 16px; opacity: .9; }
+.navside .nav-sub .nav-text{ font-size: 14px; }
+.navside .nav li a{ padding: 0.4rem  0.5rem}
+.navside .nav li li a{padding:0rem 0rem 0rem 1rem}
+.navbar-brand{ font-weight: 400;}
+.navbar-brand > span{margin: 0px}
+.navbar-brand  .material-icons{ color: #fff; position: absolute; right:20px; line-height: 4rem;}
+/*-----------------------顶部banner----------------------------*/
+.app-header ~ .app-body{padding-top: 4rem;}
+.app-header{ min-width: 320px;}
+.navbar{ height: 4rem}
+.navbar-nav > .nav-link, .navbar-nav > .nav-item > .nav-link, .navbar-item, .navbar-brand{ line-height: 4rem;}
+#collapse h4{
+    display: inline;
+    position: relative;
+    top: 4px;
+    left: 5px;
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 60px;}
+.nhWelcome{ line-height: 4rem;  min-width: 6em; font-size: 14px;color: #666; position: relative; top: 4px;}
+/*-------------------------首页内容-----------------------------*/
+.titlebar{padding: 0.5rem 1rem}
+.titlebar h5{  color: #02a5ea}
+.logintime{line-height:1.5rem; text-align: right; position: absolute; top: 0.8rem; right: 1rem; color: #fff;  width: 12rem;}
+.logintime strong{ padding-right: 20px; font-weight: 400}
+.stabtn{right: 1rem;bottom: 1.8rem;position: absolute;}
+.iconSetting{ background: url("../images/icon_list.png") no-repeat; display: inline-block; width: 28px; height: 28px;}
+.boxWaitFor{ padding: 1.25rem 0.5rem; text-align: center;}
+.boxWaitFor p{font-size:1rem ;font-weight: 600; color: #999;}
+.boxWaitFor strong{ color: #0cc2aa ; font-size: 3rem; font-weight: 400;}
+.boxWaitFor.war strong{color: #fcc100}
+.b-v-line{height: 7rem;border-left: 1px solid #ccc;position: absolute; top:1.2rem;}
+.boxCuStu{ height:6rem;}
+.boxCuStu .clear{padding-top: 0.5rem; padding-left: 1rem}
+.graybtn{ position: absolute; right: 1rem; bottom: 0; color:#999;}
+.boxLink{padding: 0px; min-height: 17rem;}
+.boxLink ul{margin: 0;padding: 0; }
+.boxLink li{list-style:none; text-align: center ; border-bottom: 1px solid #ccc; border-right: 1px solid #ddd; padding: 0.8rem;}
+.boxLink i{ width: 36px; height: 36px; display: block; margin: 0 auto;}
+.boxLink .icon01{background:url("../images/icon_link1.png") no-repeat}
+.boxLink .icon02{background:url("../images/icon_link2.png") no-repeat}
+.boxLink .icon03{background:url("../images/icon_link3.png") no-repeat}
+
+/*-------------------------列表页面-----------------------------*/
+.filterArrow:after{display: block; position: absolute;top: -15px; width: 16px; height: 16px; border: 8px solid transparent; border-bottom-color: #e0e0e0; content: ""; right:4rem;}
+/*-------------------------详细页面-----------------------------*/
+.showtext label{ font-weight: 600;}
+/*-------------------------媒体变动-----------------------------*/
+@media (max-width: 991px){
+    .app-aside .left {
+        position: fixed;
+        width: 250px;
+    }
+}
+@media (min-width: 992px){
+    .app-aside, .app-aside .scroll {
+        width: 10rem;
+    }
+    .folded.nav-expand:hover > *, .folded.nav-expand:focus > *, .folded.nav-expand.active > *
+    { width: 10rem}
+    .folded, .folded .scroll{
+        width: 4rem;
+    }
+    .app-aside:not(.hide) ~ .app-content {
+        margin-left: 10rem;
+    }
+    .folded.nav-expand:hover, .folded.nav-expand:hover .scroll, .folded.nav-expand:focus, .folded.nav-expand:focus .scroll, .folded.nav-expand.active, .folded.nav-expand.active .scroll {
+        width: 10rem !important;}
+}

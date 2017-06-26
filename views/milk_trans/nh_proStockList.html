@@ -1,0 +1,72 @@
+<div>
+<div id="modal-alert"></div>
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="item-title"></span>
+							</div>
+						</div>     
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="delStock()">清除库存</button>
+						<button class="btn btn-fw blueLt m-l-sm" ng-click="addInnerSales()">库存内部销售</button>
+                        <button class="btn btn-fw blueLt m-l-sm" ng-click="refuseResendInnerSales()">拒收复送内部销售</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+        <div class="col-sm-12 m-t td-id-nh">库存数量合计：<span ng-bind="data.total_stock"></span></div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">商品编码</th>
+                                    <th class="th-nh">商品名称</th>
+                                    <th class="th-nh">中类</th>
+                                    <th class="th-nh">包装类型</th>
+                                    <th class="th-nh">规格</th>
+                                    <th class="th-nh">库存数量</th>
+                                    <th class="th-nh">拒收复送数量</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="prostocklist" current-page="data.curPageno">
+                                        <td>{{item.matnr.substring(10)}}</td>
+                                        <td>{{item.matnrTxt}}</td>   
+                                        <td>{{item.secCateName}}</td>
+                                        <td>{{item.zbotCodeName}}</td>
+                                        <td>{{item.specName}}{{item.specUnit}}</td>
+                                        <td>{{item.qty}}</td>   
+                                        <td>{{item.tmpQty}}</td>                            
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            pagination-id="prostocklist"
+                                            boundary-links="true" 
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+</div>
+<!--出库管理-->
+<script type="text/ng-template" id="nh_proStockTransplan.html"></script>
+<!--内部销售订单创建-->
+<script type="text/ng-template" id="nh_innerSales.html"></script>

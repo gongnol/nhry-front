@@ -1,0 +1,439 @@
+<style>
+	.hover{
+		background-color: cornflowerblue !important;
+	}
+	
+	
+</style>
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-r pull-right">
+        <div class="pull-right m-l" >
+            <a class="nav-link"  href="" ng-click="addClassBase()">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus" style="margin-right: 5px;"></i>
+                 	   班级基础信息添加
+                </span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div class="padding">
+    <div id="body-alert" class="text-center"></div>
+    <div id="modal-alert"></div>
+	<!--条件开始 -->
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="filterbar p-b p-l p-r">
+			<div class="filter-content">
+					<div class="select-box p-t">
+					<input class="form-control" type="text" placeholder="学校名称，学校编码" ng-model="search.keyWord">
+				</div>
+
+				<div class="select-box p-t">
+					<ui-select ng-model="search.visiable" search-enabled="false" append-to-body="true">
+						<ui-select-match placeholder="选择状态" allow-clear="true">
+							<span ng-bind="$select.selected.label"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="x.code as x in visibles ">
+							<span ng-bind="x.label"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			<div class="filter-act m-t">
+				<button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+			</div>
+		</div>
+	</div>
+	<!--条件结束 -->
+
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                        	<th class="th-nh" style="text-align: center;" nowrap="nowrap" >禁用</th>
+                            <th class="th-nh" style="text-align: center;">代码</th>
+                            <th class="th-nh" style="text-align: center;">学校名称</th>
+                            <th class="th-nh" style="text-align: center;">客户编码</th>
+                            <th class="th-nh" style="text-align: center;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+							<td colspan="10" style="text-align:center;">正在加载数据！</td>
+						</tr>
+						<tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+							<td colspan="10" style="text-align:center;">没有数据！</td>
+						</tr>
+
+						<tr dir-paginate="item in data.content | itemsPerPage : data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="school_list_set">
+                        
+                        	<td class="th-nh">
+								<label class="md-check" style="    margin-left: 44px;" >
+			                        <input type="checkbox"  ng-click="chekvisiable(item)"  ng-model="item.chekbox"  class="ng-pristine ng-untouched ng-valid">
+			                        <i class="red"></i>
+                   				 </label>
+							</td>
+                            <td class="td-id-nh" style="width: 10%;text-align: center;"><span>{{item.schoolCodeTxt}}</span></td>
+                            <td style="width: 20%;text-align: center;"><span>{{item.schoolName}}</span></td>
+                            <td style="width: 20%;text-align: center;"><span>{{item.erpCode}}</span></td>
+                            <td style="width: 40%;text-align: center;" nowrap="nowrap">
+                                <div class="btn-groups" align="center">
+                                    <button class="btn btn-xs btn-outline rounded b-info text-info  " ng-click="editSchoolInfo(item)">编辑</button>
+                                    <button class="btn btn-xs btn-outline rounded b-info text-info  " ng-click="wastage(item)">损耗设置</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <footer class="text-center">
+					<dir-pagination-controls max-size="8" direction-links="true" boundary-links="true" pagination-id="school_list_set" on-page-change="data.getData(newPageNumber)" template-url="nhtpl/pagination.tpl.html">
+					</dir-pagination-controls>
+				</footer>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--新增学校-->
+<script type="text/ng-template" id="newSchollInfo.html">
+	<form name="newSchollInfo" role='form' novalidate>
+		<div class="modal-header">
+			<h3 class="modal-title">{{school.erpCode}}-{{school.schoolName}}学校详情</h3>
+		</div>
+		<div class="modal-body">
+			<div class="box-body label-lg">
+				<div class="row form-lh m-b">
+					<div class="col-md-2 text-right modal-label">学校代码</div>
+					<div class="col-md-3 form-check">
+						
+						<span id="">
+							{{school.schoolCodeTXT}}
+						</span>
+						<!--<input type="text" class="form-control" ng-model="school.schoolCode" ng-minlength="10" ng-maxlength="10" ng-pattern="/\d{10}/" required>-->
+					</div>
+
+					<!--<div class="col-md-1 form-check">
+						<button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="gain(school.schoolCode)">获取</button>
+					</div>-->
+
+					<div class="col-md-2 text-right modal-label">学校名称</div>
+					<div class="col-md-3">
+						
+						<span id="">
+							{{school.schoolName}}
+						</span>
+						<!--
+						<input type="text" class="form-control" ng-model="school.schoolName" required>
+						<i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>-->
+					</div>
+
+				</div>
+				<div class="row form-lh m-b">
+					<div class="col-md-2 text-right modal-label">联系电话</div>
+					<div class="col-md-3 form-check">
+						
+						<span id="">
+							{{school.tel}}
+						</span>
+						
+						<!--<input name="orgTel" type="text" class="form-control" ng-model="school.tel" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="nom.focus('telError')" ng-blur="nom.blur('telError')">
+						<div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="nom.telError">
+							<span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+						</div>-->
+					</div>
+
+					<!--<div class="col-md-1 form-check">
+					</div>
+-->
+					<div class="col-md-2 text-right modal-label">手机</div>
+					<div class="col-md-3 form-check">
+						<span id="">
+							{{school.phone}}
+						</span>
+						
+						<!--<input name="orgMp" type="text" class="form-control" ng-model="school.phone" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" ng-focus="nom.focus('mpError')" ng-blur="nom.blur('mpError')">
+						<div class="error-msg" style="visibility: hidden; bottom: -22px; right: auto;" ng-show="nom.mpError">
+							<span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请输入有效的电话号码！</span>
+						</div>-->
+					</div>
+				</div>
+				<div class="row form-lh m-b">
+					<div class="col-md-2 text-right modal-label">联系人</div>
+					<div class="col-md-3">
+						<span id="">
+							{{school.contact}}
+						</span>
+						<!--<input type="text" class="form-control" ng-model="school.contact" required>
+						<i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>-->
+					</div>
+
+					<div class="col-md-2 text-right modal-label">学校地址</div>
+					<div class="col-md-3">
+						<span id="">
+							{{school.address}}
+						</span>
+						<!--<input type="text" class="form-control" ng-model="school.address">-->
+					</div>
+				</div>
+				
+				<div class="row form-lh m-b">
+					<div class="col-md-2 text-right modal-label">客户编码</div>
+					<div class="col-md-3">
+						
+						<span id="">
+							{{school.erpCode}}
+						</span>
+						<!--<input type="text" class="form-control" ng-model="school.code" required>
+						<i class="fa fa-asterisk noEmptyIcon" aria-hidden="true"></i>-->
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="row form-lh m-b">
+				<div class="col-md-7" style="border: 1px solid #ccc ;width:90%;height: 280px;wbackground-color: red;margin-left: 55px;overflow-y: scroll;">
+					<table class="table table-striped b-t b-b no-footer">
+						<thead>
+							<tr role="row">
+								<th class="th-nh" nowrap="nowrap">代码</th>
+								<th class="th-nh" nowrap="nowrap">班级</th>
+								<th class="th-nh" nowrap="nowrap">操作</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr ng-repeat="cls in school.classInfoArray">
+								<td style=""><span>{{cls.classCode}}</span></td>
+								<td style=""><span>{{cls.className}}</span></td>
+								<td class="td-id-nh" style="">
+									<div class="btn-groups">
+										<button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="deleteClas(cls)">删除</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row form-lh m-b">
+				<button class="btn btn-fw blueLt" style="margin-left: 55px;" type="button" ng-click="setClass()">添加班级</button>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">保存</button>
+			<button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+		</div>
+	</form>
+</script>
+
+<script type="text/ng-template" id="setClass.html">
+	<form name="setClass" role='form' novalidate>
+		<div class="modal-header">
+			<h3 class="modal-title">班级列表</h3>
+		</div>
+		<div class="modal-body">
+			<div style="overflow-y: scroll;max-height:200px;min-height: 120px;">
+				<table class="table">
+					<thead>
+						<tr role="row">
+							<th class="th-nh">
+								<label class="md-check" style="left: 20px;" >
+			                        <input type="checkbox"  ng-click="chekAll(checkAll)"  ng-model="checkAll" class="ng-pristine ng-untouched ng-valid">
+			                        <i class="blue"></i>
+                   				 </label>
+							</th>
+							<th class="th-nh" nowrap="nowrap">代码</th>
+							<th class="th-nh" nowrap="nowrap">班级</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="cls in classes">
+							<td class="th-nh">
+								<label class="md-check" style="left: 20px;" >
+			                        <input type="checkbox"  ng-click="chekOne(cls.checkbox,cls)" ng-model="cls.checkbox"  class="ng-pristine ng-untouched ng-valid">
+			                        <i class="blue"></i>
+                   				 </label>
+							</td>
+							<td style=""><span>{{cls.classCode}}</span></td>
+							<td style=""><span>{{cls.className}}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">确认</button>
+			<button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+		</div>
+	</form>
+</script>
+
+
+
+<script type="text/ng-template" id="wastage.html">
+	<form name="newSchollInfo" role='form' novalidate>
+		<div class="modal-header">
+			<h3 class="modal-title">{{school.schoolCodeTXT}}-{{school.schoolName}}损耗</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" >
+				<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="breed()">增加</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button class="btn btn-fw primary p-x-md" type="button" ng-click="save()">保存</button>
+			</div>
+			
+			<div id=""  style="position:absolute;border: 1px solid rgb(2, 165, 234); background-color: red;height: 400px;width: 60%;margin-top: 10px;" >
+				<div class="box" style="border-radius: 2px;height: 100%;">
+						<div class="row" style="height: 100%;">
+							<div class="col-sm-12" style="overflow-y:scroll;height: 100%;">
+								<table class="table table-striped b-t b-b no-footer">
+									<thead>
+										<tr role="row">
+											<!--<th class="th-nh" nowrap="nowrap">选择</th>-->
+											<th class="th-nh" nowrap="nowrap">代码</th>
+											<th class="th-nh" nowrap="nowrap">名称</th>
+											<th class="th-nh" nowrap="nowrap">包装类型</th>
+											<th class="th-nh" nowrap="nowrap" style="text-align: center;" >数量</th>
+											<th class="th-nh" nowrap="nowrap">操作</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in school.maraRuleList"  id="{{item.matnr}}"   ng-click="hover(item)"  >
+											<!--<td class="th-nh">
+												<label class="md-check" style="left: 20px;" >
+							                        <input type="checkbox"  ng-click="hover(item)"    ng-model="item.checkbox"   class="ng-pristine ng-untouched ng-valid">
+							                        <i class="blue"></i>
+				                   				 </label>
+											</td>-->
+											<td style=""><span ng-bind="item.matnr.slice(-8)"></span></td>
+											<td style=""><span>{{item.matnrTxt}}</span></td>
+											<td style=""><span>{{item.specUnit}}</span></td>
+											<td style=""><span>
+												 <input type="number"   ng-model="item.matnrQty"   style="width: 120px;text-align: center;"  class="ng-pristine ng-untouched ng-valid">
+											</span>
+											</td>
+											<td  style="">
+												<div class="btn-groups">
+													<button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="deleteMaraRuleList(item)">删除</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div id=""  style="border: 1px solid rgb(2, 165, 234);;height: 400px;width: 37%;margin-left: 63%;margin-top: 10px;" >
+				 	<form  >
+					 	<div id="" style="    margin-left: 40px;" >
+							<div id=""  class="td-id-nh" style="margin-top: 30px;" >
+								<label  > 固定数据:</h6></label>
+								<input type="number" style="width: 200px;text-align: center;"  min="0"   ng-change="changBase(true)"  ng-model="school.ruleBase.fixedQty"  required>
+							</div>
+							<div id=""  class="td-id-nh" style="margin-top: 40px;" >
+								<label  > 固定比例:</label>
+								<input type="number" style="width: 200px;text-align: center;"  min="0" ng-change="changBase(false)"  ng-model="school.ruleBase.fixedScale"  required>
+							</div>
+							<div id="" class="td-id-nh" style="margin-top: 10px;" >
+								<label  > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上限:</label>
+								<input type="number" style="width: 200px;text-align: center;"  min="0" ng-model="school.ruleBase.fixedMaxQty"  required>
+							</div>
+						</div>
+					</form>
+			</div>
+		</div>
+	</form>
+</script>
+
+
+
+<script type="text/ng-template" id="breed.html">
+	<form name="breed" role='form' novalidate>
+		<div class="modal-header">
+			<h3 class="modal-title">品种</h3>
+		</div>
+		<div class="modal-body">
+			<div style="overflow-y: scroll;max-height:200px;min-height: 120px;">
+				<table class="table">
+					<thead>
+						<tr role="row">
+							<th class="th-nh">
+								<label class="md-check" style="left: 20px;" >
+			                        <input type="checkbox"   ng-click="chekAll(checkAll)"  ng-model="checkAll"   class="ng-pristine ng-untouched ng-valid">
+			                        <i class="blue"></i>
+                   				 </label>
+							</th>
+							<th class="th-nh" nowrap="nowrap">代码</th>
+							<th class="th-nh" nowrap="nowrap">名称</th>
+							<th class="th-nh" nowrap="nowrap">单位</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in maraRuleList">
+							<td class="th-nh">
+								<label class="md-check" style="left: 20px;" >
+			                        <input type="checkbox"  ng-click="chekOne(item.checkbox,item)" ng-model="item.checkbox"  class="ng-pristine ng-untouched ng-valid">
+			                        <i class="blue"></i>
+                   				 </label>
+							</td>
+							<td style=""><span ng-bind="item.matnr.slice(-8)"></span></td>
+							<td style=""><span>{{item.matnrTxt}}</span></td>
+							<td style=""><span>{{item.baseUnit}}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">确认</button>
+			<button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+		</div>
+	</form>
+</script>
+
+
+
+<script type="text/ng-template" id="addClassBase.html">
+	<form name="addClassBase" role='form' novalidate>
+		<div class="modal-header">
+			<h3 class="modal-title">班级基础信息</h3>
+		</div>
+		
+		<div class="modal-body">
+            <div  id="classDiv" style="overflow-y: auto;max-height: 500px;min-height: 200px;"  >
+                <table class="table">
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">代码</th>
+                            <th class="th-nh">名称</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in classData">
+                        	 <td class="td-id-nh"><span><input class="form-control" style="width:230px;" placeholder="班级代码" type="text"  ng-model='item.classCode' ng-blur="validateItem($index,item)"  required></span></td>
+                            <td class="td-id-nh"><span><input class="form-control" style="width:230px;" placeholder="班级名称" type="text"  ng-model='item.className'required ></span></td>
+                            <td class="td-id-nh"><span><button ng-click="delClass($index)" class="btn btn-xs btn-outline rounded b-danger text-danger">删除</button></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+		<a style="margin: 0 0 10px 30px;" class="nav-link" href="" ng-click="toAdd()"><span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"style="margin-right: 5px;"></i>新增班级</span></a>
+		<div class="modal-footer">
+			<button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">确认</button>
+			<button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+		</div>
+	</form>
+</script>

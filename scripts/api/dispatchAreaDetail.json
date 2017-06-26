@@ -1,0 +1,16 @@
+   [{
+        "dispatchNo": "0001",
+        "country": "中国",
+        "province": "四川",
+        "city": "成都",
+        "district": "锦江区",
+        "street": "三圣栀子街",
+        "streetNo": "66号",
+        "guidepost": "中鼎国际1站",
+        "hourse": "66号小区",
+        "milkStationName": "1号奶站",
+        "tel": "123",
+        "Property": "A物业",
+        "subcompany": "川乳",
+        "address": "中国四川成都锦江三圣栀子街66号"
+    }]

@@ -1,0 +1,20 @@
+/**
+ * @ngdoc overview
+ * @name nh_templates
+ *
+ * 应用主模块定义
+ */
+(function() {
+	'use strict';
+	angular
+	  .module('newhope')
+	  .run(['$templateCache' ,function ($templateCache) {
+	  	$templateCache.put('nhtpl/tab.tpl.html', '<div class="addr-select-box"><div class="b-b b-blue nav-active-blue"><ul class="nav nav-tabs"><li class="nav-item" ng-repeat="(idx, pane) in panes"><a class="nav-link" ng-class="{active: activeIdx == idx}" href data-toggle="tab" data-target="#addr-selection" ng-click="setActive(idx)" ng-bind-html="pane.title"></a></li></ul></div><div class="tab-content p-t-sm p-l"><div class="tab-pane animated fadeIn text-muted active" id="addr-selection"><a ng-class="itemWidth(selection.itemName)" ng-repeat="selection in selctions[activeIdx]" ng-click="setAddr($event, activeIdx, selection)" ng-bind-html="selection.itemName"></a></div></div></div>');
+
+		$templateCache.put('nhtpl/pagination.tpl.html', '<ul class="pagination" ng-if="1 < pages.length"><li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }"><a href="" ng-click="setCurrent(1)">首页</a></li><li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }"><a href="" ng-click="setCurrent(pagination.current - 1)"><i class="fa fa-arrow-left"></i></a></li><li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == \'...\' }"><a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a></li><li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }"><a href="" ng-click="setCurrent(pagination.current + 1)"><i class="fa fa-arrow-right"></i></a></li><li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }"><a href="" ng-click="setCurrent(pagination.last)">尾页</a></li></ul>');
+
+		$templateCache.put('nhtpl/address.tpl.html', '<div class="address-block"><div class="addr-selected"><span class="btn btn-default form-control"><span ng-show="!addrEmpty() && !disFlag"><a class="btn btn-xs btn-link pull-right" ng-click="clearAddr($event)"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></a></span><span class="placeholder" ng-show="addrEmpty()" ng-bind="placeholder"></span><span ng-bind="addrSelected[0].itemName"></span><span ng-bind="addrSelected[1].itemName"></span><span ng-bind="addrSelected[2].itemName"></span><span ng-bind="addrSelected[3].itemName"></span></span></div><div class="addr-select-box" ng-class="{active: isVisible}"><div class="b-b b-blue nav-active-blue"><ul class="nav nav-tabs"><li class="nav-item" ng-repeat="(idx, pane) in panes"><a class="nav-link" ng-class="{active: activeIdx == idx}" href data-toggle="tab" data-target="#addr-selection" ng-click="setActive(idx)" ng-bind-html="pane.title"></a></li></ul></div><div class="tab-content p-t-sm p-l"><div class="tab-pane animated fadeIn text-muted active" id="addr-selection"><a ng-class="itemWidth(selection.itemName)" ng-repeat="selection in selctions[activeIdx]" ng-click="setAddr($event, activeIdx, selection)" ng-bind-html="selection.itemName"></a></div></div></div></div>')
+
+		$templateCache.put('nhtpl/selectRole.tpl.html', '<ul tabindex="-1" class="select dropdown-menu" ng-show="$isVisible()" role="select"><li ng-if="$showAllNoneButtons"><div class="btn-group" style="margin-bottom: 5px; margin-left: 5px"><button type="button" class="btn btn-default btn-xs" ng-click="$selectAll()">{{$allText}}</button> <button type="button" class="btn btn-default btn-xs" ng-click="$selectNone()">{{$noneText}}</button></div></li><li role="presentation" ng-repeat="match in $matches" ng-class="{active: $isActive($index)}"><a style="cursor: default" role="menuitem" tabindex="-1" ng-click="data.beforeSelect(match, user) || $select($index, $event)"><i class="{{$iconCheckmark}} pull-right" ng-if="$isMultiple && $isActive($index)"></i> <span ng-bind="match.label"></span></a></li></ul>')
+	  }]);
+})();

@@ -1,0 +1,106 @@
+<div>
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+							<div class="flex-item"> <i class="fa fa-arrows-h"></i>
+							</div>
+							<div class="flex-item">
+								<span class="material-icons l-b-round">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="search.dateEnd" ng-model="search.untilDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ search.fromDate }}" 
+                                           bs-datepicker></div>
+						</div>
+              <div class="select-box" nh-auth="stat_emptransplan_dealer">
+                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="经销商" allow-clear="true">
+                    <span ng-bind="$select.selected.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo">
+                    <span ng-bind="status.dealerName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div> 
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">日期</th>
+                                    <th class="th-nh">原因</th>
+                                    <th class="th-nh">订户姓名</th>
+                                    <th class="th-nh">订户电话</th>
+                                    <th class="th-nh">订户地址</th>
+                                    <th class="th-nh">应送产品/数量</th>
+                                    <th class="th-nh">实送产品/数量</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                        <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                    </tr>
+                                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                        <td colspan="10" style="text-align:center;">没有数据！</td>
+                                    </tr>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="changeplanstat">
+                                        <td>{{item.BRANCH_NAME}}</td>
+                                        <td>{{item.EMP_NAME}}</td>
+                                        <td>{{item.ORDER_DATE}}</td>   
+                                        <td>
+                                            <span ng-bind="data.getStatusLabel(item.REPLACE_REASON,data.handle.statuses)"/>
+                                        </td>
+                                        <td>{{item.VIP_NAME}}</td>
+                                        <td>{{item.MP}}</td>
+                                        <td>{{item.ADDRESS_TXT}}</td>
+                                        <td>{{item.SHORT_TXT}}<strong>/</strong>{{item.QTY}}</td>
+                                        <td>{{item.CONFIRM_SHORT_TXT}}<strong>/</strong>{{item.CONFIRM_QTY}}</td>                         
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="changeplanstat"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+</div>

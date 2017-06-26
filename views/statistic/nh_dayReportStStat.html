@@ -1,0 +1,92 @@
+<div id="modal-alert"></div>
+<div class="padding notitlebar">
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+						</div>
+              <div class="select-box" nh-auth="stat_dayrp_dealer">
+                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true" on-select="data.typeSelected($item)">
+                  <ui-select-match placeholder="经销商" allow-clear="true">
+                    <span ng-bind="$select.selected.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo">
+                    <span ng-bind="status.dealerName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div> 
+              <div class="select-box" ng-if="data.choseStation">
+                <ui-select ng-model="search.branchNo" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="奶站" allow-clear="true">
+                    <span ng-bind="$select.selected.branchName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.branchNo as status in data.milkStations track by status.branchNo" ng-class="{'over-hidden' : data.handle.statuses.length < 8}">
+                    <span ng-bind="status.branchName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>       
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+            <button class="btn btn-fw blueLt" ng-click="dayReportOutput()">导出</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站编码</th>
+                                    <th class="th-nh">奶站名称</th>
+                                    <th class="th-nh">产品</th>
+                                    <th class="th-nh">单位</th>
+                                    <th class="th-nh">饮户订奶</th>
+                                    <th class="th-nh">电商订奶</th>
+                                    <th class="th-nh">牛奶钱包</th>
+                                    <th class="th-nh">年卡订奶</th>
+                                    <th class="th-nh">机构订奶</th>
+                                    <th class="th-nh">赠品数量</th>
+                                    <th class="th-nh">合计数量</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr ng-repeat="item in data.content">
+                                        <td>{{item.BRANCH_NO}}</td>
+                                        <td>{{item.BRANCH_NAME}}</td>   
+                                        <td>{{item.SHORT_TXT}}</td>
+                                        <td>{{item.ITEM_NAME}}</td>
+                                        <td>{{item.normalOrder}}</td>
+                                        <td>{{item.DSOrder}}</td>
+                                        <td>{{item.NNQBOrder}}</td>  
+                                        <td>{{item.yearOrder}}</td> 
+                                        <td>{{item.orgOrder}}</td>  
+                                        <td>{{item.giveOrder}}</td>   
+                                        <td>{{item.totalQty}}</td>                          
+                                    </tr>
+                                </tbody>
+                            </table>  
+                           
+                        </div>
+                    </div>
+                </div>
+</div>

@@ -1,0 +1,160 @@
+<!-- ######## 右侧开始-->
+
+<div id="modal-alert"></div>
+<div class="titlebar white box-shadow">
+
+	<div class="l-h m-r pull-right">
+		<div class="pull-right m-l">
+			<a class="nav-link" href=""  ui-sref="newhope.orginfolist">
+				<span class="hidden-xs-down btn btn-sm rounded blueLt">返回</span>
+			</a>
+		</div>
+		
+
+	</div>
+
+</div>
+	<div class="padding">
+	    <div class="white r box-shadow-z0 m-b filter-box">
+
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#filter"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                           
+                            <div class="col-md-4">
+        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入产品代码或简称" ng-model="data.search.search"  style="font-size: 1.125rem">
+        </div>				
+                            <div class="date-box">
+                                <div class="flex-item"><span class="item-title">有效期限</span></div>
+                               
+                                <div class="flex-item">
+                                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="data.search.untilDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           bs-datepicker>
+                                </div>
+                            </div>
+                             <div class="select-box">
+                             	<ui-select ng-model="data.search.status" search-enabled="false" append-to-body="true">
+                             		<ui-select-match placeholder="选择状态" allow-clear="true">
+                             			<span ng-bind="$select.selected.text"></span>
+                             		</ui-select-match>
+                             		<ui-select-choices repeat="x.code as x in (data.statuses | filter: $select.search) track by x.code">
+                             			<span ng-bind="x.text"></span>
+                             		</ui-select-choices>
+                             	</ui-select>
+                             </div>
+                        </div>
+
+                        <div class="filter-act">
+                            <button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div> 
+		<div class="box" style="border-radius: 2px;">
+		<form ng-submit="data.upOrgPrice()">
+			<div class="box-header">
+				<div>
+					<button class="hidden-xs-down btn btn-sm rounded blueLt" nh-mulclick-disable="data.orgPriceCreate">全部更新</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<table class="table table-striped b-t b-b no-footer" nh-checkbox>
+						<thead>
+							<tr role="row">
+								<th class="th-nh" style="width: 5%;">产品编号</th>
+								<th class="th-nh" style="width: 10%;">产品名称</th>
+								<th class="th-nh" style="width: 10%;">协议价</th>
+								<th class="th-nh" style="width: 10%;">配送费</th>
+								<th class="th-nh" style="width: 10%;">到户费</th>
+								<th class="th-nh" style="width: 10%;">净值</th>
+								<th class="th-nh" style="width: 10%;">开始日期</th>
+								<th class="th-nh" style="width: 10%;">结束日期</th>
+								<th class="th-nh" style="width: 15%;">是否显示</th>
+								<th class="th-nh" style="width: 10%;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in data.orgPirce">
+								<td class="td-id-nh">
+									<span ng-bind="item.matnr.substring(10)"></span>
+								</td>
+								<td>
+									<span ng-bind="item.shortTxt"></span>
+								</td>
+								<td>
+									<input type="number" class="md-input" step="0.1" ng-model="item.priceAgree" ng-disabled="true">
+									
+									</td>
+								<td>
+									<input type="number" class="md-input" min="0" step="0.1" ng-model="item.priceDeliver" ng-disabled="item.status=='N'" required></td>
+									<td>
+								<input type="number" class="md-input"  min="0" step="0.1" ng-model="item.priceHome" ng-disabled="item.status=='N'"></td>
+								<td>
+								<input type="number" class="md-input"  min="0" step="0.1" ng-model="item.priceNetValue" ng-disabled="item.status=='N'" required></td>
+								<td>                                
+                                    <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="item.startDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{item.endDate}}" 
+                                           bs-datepicker ng-disabled="true">
+								</td>
+								<td>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="item.endDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ item.startDate }}" 
+                                           bs-datepicker ng-disabled="true">
+								</td>
+								<td>
+									<div class="col-">
+										<label class="radio-inline md-check m-t-sm">
+											<input type="radio" id="item.id"  value='Y' ng-model="item.isShow"> <i class="primary"></i>
+											是
+										</label>
+										<label class="radio-inline md-check m-t-sm">
+											<input type="radio" id="item.id" value='N' ng-model="item.isShow"> <i class="primary"></i>
+											否
+										</label>
+									</div>
+								</td>
+								<td>
+                                    <div class="btn-groups" ng-if="item.status=='Y'">
+	                                    <a class="nav-link" href=""  ng-click="data.upOneOrgPrice(item)">
+											<span class="btn btn-xs btn-outline rounded b-primary text-primary">更新</span>
+										</a>
+                                        
+                                    </div>
+
+                                </td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+
+
+<!-- ############ 页面内容结束-->

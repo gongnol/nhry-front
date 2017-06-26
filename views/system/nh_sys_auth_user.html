@@ -1,0 +1,48 @@
+<!-- 用户-->
+<div class="row-col">
+    <div class="col-sm w w-auto-xs light lt">
+        <div class="padding pos-rlt message-pd-nh">
+
+            <div class="hidden-xs-down m-t" id="inbox-menu">
+                <div class="m-y">角色分类</div>
+                <div class="nav-active-{{app.setting.theme.primary}}">
+                    <div class="nav nav-pills nav-sm">
+                        <a class="nav-link" ui-sref="newhope.authorization.user.list({role:role.id})" ng-repeat="role in roles" ui-sref-active="active">
+                            {{role.roleName}}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="m-y">用户分组</div>
+                <div class="nav-active-white">
+                    <ul class="nav nav-pills nav-stacked nav-sm">
+                        <li class="nav-item" ng-repeat="label in groups" ui-sref-active="active">
+                            <a class="nav-link" ui-sref="newhope.authorization.user.list">
+                                <i class="fa m-r-sm fa-circle text-muted" color="{{label.color}}" label-color ></i>
+                                {{label.groupName}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-y">
+                    <form name="label">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" ng-model="newLabel.name" placeholder="New label" required>
+              <span class="input-group-btn">
+                <button class="btn btn-default b-a no-shadow" type="button" ng-click="addLabel()" ng-disabled="label.$invalid">添加</button>
+              </span>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div ui-view class="m-l fade-in"></div>
+    </div>
+</div>
+
+
+
+

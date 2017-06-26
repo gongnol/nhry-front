@@ -1,0 +1,84 @@
+<div class="titlebar white box-shadow">
+  <div class="l-h m-r pull-right">
+    <a class="nav-link"  ng-click="saveDispRate()">
+      <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-save"></i>
+         保存
+      </span>
+    </a>
+  </div>
+  <div class="l-h m-r pull-right">
+    <a class="nav-link"  ng-click="uptDispRate()">
+      <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-edit"></i>
+         修改配送费率
+      </span>
+    </a>
+  </div>
+</div>
+
+<div class="padding" >
+  <div id="body-alert"></div>
+  <div id="modal-alert"></div>
+  <div class="box">
+    <div class="row">
+      <div class="com-md-12 col-sm-12">
+        <table class="table table-hover m-a-0">
+         <tbody>
+          <tr style="font-weight: bold">
+            <th class="th-nh">销售组织编码</th>
+            <th class="th-nh">销售组织</th>
+            <th class="th-nh">结算方式</th>
+            <th class="th-nh">配送起始数量</th>
+            <th class="th-nh">配送截止数量</th>
+            <th class="th-nh">配送费率</th>
+            <th class="th-nh">操作</th>
+          </tr> 
+          <tr ng-repeat="item in rates">
+            <td class="td-id-nh"><span ng-bind="salesOrg"></span></td>
+            <td><span ng-bind="salesOrgName"></span></td>
+            <td><span ng-bind="salaryMet == '10'?'数量结算':'产品结算'"></span></td>
+            <td><span ng-bind="item.startValue"></span></td>
+            <td><span ng-bind="item.endValue"></span></td>
+            <td><span ng-bind="item.rate"></span></td>
+            <td>
+              <button class="btn btn-xs btn-outline rounded b-danger text-danger" ng-click="delRate(item, $index)">删除</button>
+            </td>
+          </tr>
+         </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="uptDisprate.html">
+  <div class="modal-header">
+    <h3 class="modal-title">修改配送费率（按数量结算）</h3>
+  </div>
+  <div class="modal-body">
+    <h4 class="modal-title text-center">{{ salesOrgName }}</h4>
+    <div class="row m-t" ng-repeat="rate in dispRates">
+      <div class="col-md-2 col-md-offset-1 text-right">
+        <div style="margin: 7px 0;">起始数量</div>
+      </div>
+      <div class="col-md-3">
+        <input type="number" min=0 class="form-control nh-number-valid" ng-disabled="$index == 0" ng-model="rate.startValue">
+        <div class="error-msg" style="visibility: hidden; bottom: auto; right: auto;">
+          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请填写大于0的数字！</span>
+        </div>
+      </div>
+      <div class="col-md-2 text-right">
+        <div style="margin: 7px 0;">配送费率</div>
+      </div>
+      <div class="col-md-3">
+        <input type="number" min=0 step=0.01 class="form-control nh-number-valid" ng-model="rate.rate">
+        <div class="error-msg" style="visibility: hidden; bottom: auto; right: auto;">
+          <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow top b-danger" style="left: 20%"></b>请填写大于0的数字！</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn blueLt" type="button" ng-click="update()">保存</button>
+      <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+  </div>
+</script>

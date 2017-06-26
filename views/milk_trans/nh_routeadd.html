@@ -1,0 +1,185 @@
+
+        <!-- / -->
+<!-- ######## 右侧开始-->
+        <div ui-view class="app-body" id="view" ng-controller="routeAddCtrl">
+
+            <!-- #####  右侧正文开始-->
+            <div class="titlebar white lt box-shadow b-b">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8 col-xs-12 p-y-sm">
+                        <h5 class="m-b-0">新建路线</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ###  功能条开始-->
+            <div class="padding">
+              <div class="box">
+                  <div bs-collapse>
+
+                      <a bs-collapse-toggle>
+                          <div class="box-header blueLt">
+                              <h4>
+                              基本信息 <p class="pull-right">收起</p>
+                              </h4>
+                          </div>
+                      </a>
+                      
+                      <div class="panel-collapse p-b" bs-collapse-target>
+                          <div class="box-body">
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label for="routeName">路线名称<p class="small inline m-l">必填</p></label>
+                                          <input type="text" placeholder="请输入路线名称" class="form-control" id="routeName" ng-model="form.routeName">
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="form-group col-md-3">
+                                          <label for="form.subCompany">分公司<p class="small inline m-l">必填</p></label>
+                                          <ui-select ng-model="search.deliveryMan" search-enabled="true">
+                                              <ui-select-match allow-clear="false" placeholder="选择分公司">
+                                                  <span ng-bind="$select.selected.text"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.code as x in (subCompanies.data | filter: $select.search) track by x.code">
+                                                  <span ng-bind="x.text"></span>
+                                              </ui-select-choices>
+                                          </ui-select>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label for="orderStation">奶站<p class="small inline m-l">必填</p></label>
+                                          <ui-select ng-model="search.deliveryMan" search-enabled="true">
+                                              <ui-select-match allow-clear="false" placeholder="选择奶站">
+                                                  <span ng-bind="$select.selected.text"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.code as x in (milkstations.data | filter: $select.search) track by x.code">
+                                                  <span ng-bind="x.text"></span>
+                                              </ui-select-choices>
+                                          </ui-select>
+                                      </div>
+                                      <div class="form-group col-md-3">
+                                          <label for="deliver">送奶员<p class="small inline m-l">必填</p></label>
+                                          <ui-select ng-model="search.deliveryMan" search-enabled="true">
+                                              <ui-select-match allow-clear="false" placeholder="选择送奶员">
+                                                  <span ng-bind="$select.selected.text"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.code as x in (deliveryMen.data | filter: $select.search) track by x.code">
+                                                  <span ng-bind="x.text"></span>
+                                              </ui-select-choices>
+                                          </ui-select>
+                                      </div>
+                                  </div>
+                                  
+                              </div>
+                      </div>
+                  </div>
+              </div>
+            </div>          
+                                                    
+
+            <div class="padding">
+              <div class="box">
+                <div bs-collapse>
+
+                    <a bs-collapse-toggle>
+                        <div class="box-header blueLt">
+                            <h4>
+                            绑定订单 <p class="pull-right">收起</p>
+                            </h4>
+                        </div>
+                    </a>
+                    
+                    <div class="panel-collapse p-b" bs-collapse-target>
+                        <!-- ###  功能条结束-->
+                      <!-- ###  表格开始1-->
+                        <div class="table-responsive">
+                                <table datatable dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback" class="table table-striped b-t b-b" nh-checkbox></table>
+                        </div>
+                      <!-- ###  表格结束1-->
+                        
+                        <div ng-controller="routeAddSubCtrl">
+                        <div class="filterbar grey-300 p-a pos-rlt">
+                          <div class="row">
+                            <div class="col-md-3 col-md-offset-3">
+                              <button class="btn btn-md blueLt" ng-click="refreshDownTable()"> 除去<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+                            </div>  
+                            <div class="col-md-3 col-md-offset-1">
+                              <button class="btn btn-md blueLt" ng-click="refreshUpTable()"> 加入<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
+                            </div> 
+                          </div>
+                        </div>
+
+                      
+                        <div class="titlebar white lt box-shadow">
+                            <div class="row">
+                              <div class="col-md-6" style=""><h3>华西配送站&nbsp所有当前订单</h3></div>
+                            </div>
+                        </div>
+
+                        <div class="filterbar grey-300 p-a pos-rlt">
+                            <button class="btn btn-fw primary pull-md-right hidefilter" ng-click="reloadTable()">筛选</button>
+                            
+                            <div class="select-box">
+                                  <ui-select ng-model="search.status" search-enabled="false">
+                                      <ui-select-match allow-clear="true" placeholder="订单状态">
+                                          <span ng-bind="$select.selected.text"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="x.code as x in (statuses.data | filter: $select.search) track by x.code">
+                                          <span ng-bind="x.text"></span>
+                                      </ui-select-choices>
+                                  </ui-select>
+                            </div>
+
+                            <div class="date-box">
+                                    <label class="col-md-2 text-right">创建日期</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control"
+                                               ng-model="search.fromDate"
+                                               data-max-date=""
+                                               name="dateStart"
+                                               bs-datepicker>
+                                        <i class="material-icons md-24">&#xe8df;</i>
+                                    </div>
+
+                                    <label class="col-md-1">至</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control"
+                                               ng-model="search.untilDate"
+                                               data-min-date=""
+                                               name="dateEnd"
+                                               bs-datepicker>
+                                        <i class="material-icons md-24">&#xe8df;</i>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <!-- ###  表格开始2-->
+                        <div class="box">
+                          <div class="table-responsive">
+                                <table datatable dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback" class="table table-striped b-t b-b" nh-checkbox></table>
+                          </div>      
+                        </div>
+                        <!-- ###  表格结束2-->
+                        </div><!-- controller -->
+                        
+                        <div class="row">
+                            <div class="col-md-3 pull-right">
+                                <button class="btn btn-md blueLt">保存</button>&nbsp
+                                <button class="btn btn-md blueLt" ng-click="backPage()">取消</button>
+                            </div>
+                        </div><br>
+
+                      <!--  -->
+                    </div>
+                </div>
+              </div>
+              
+            </div>
+
+    </div>
+
+
+
+            <!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

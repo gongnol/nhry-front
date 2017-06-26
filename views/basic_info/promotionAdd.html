@@ -1,0 +1,222 @@
+
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
+    </div>
+</div>
+<!-- ###  基本信息开始-->
+<!-- 单品满减 -->  <!-- -->
+<div class="padding"  >
+    <div id="modal-alert"></div>
+    <div class="box info1" ">
+        <div bs-collapse>
+          <form name="userInfoForm" role='form' nh-keydown novalidate>
+            <a ng-click="toggle1 = !toggle1" bs-collapse-toggle>
+                <div class="box-header blueLt">
+                    <h2 class="_600">
+                        促销信息
+                        <i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle1}" aria-hidden="true"></i>
+                    </h2>
+                </div>
+            </a>
+            <div class="panel-collapse p-b" bs-collapse-target>
+                <div class="box-body">
+                            
+                          <div class="row" >
+                                <div class="col-md-4">
+                                    <div class="col-md-3">促销编号</div>
+                                    <div class="col-md-9">
+                                        <input type="text" name="promNo" class="md-input md-input-blue" ng-model="prom.promNo" disabled  placeholder="自动生成" >  
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="col-md-3">促销描述</div>
+                                    <div class="col-md-9">
+                                        <input type="text" name="promDes" class="md-input md-input-blue" ng-model="prom.promDes" required>  
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="col-md-4">下单开始时间</div>
+                                    <div class="col-md-8">
+                                         <input type="text"  class="form-control r-b-round " name="planStartTime" ng-model="prom.planStartTime"
+                                             placeholder="选择下单开始时间"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                             data-min-date="{{defaultValue.date}}"
+                                             data-max-date="{{ prom.planStopTime }}" 
+                                             bs-datepicker required>
+                                    </div>
+                                </div>
+                          </div>
+                            <br>
+                            <div class="row" >
+                                
+                                <div class="col-md-4">
+                                    <div class="col-md-4">下单结束日期</div>
+                                    <div class="col-md-8">
+                                         <input type="text"  class="form-control r-b-round " name="planStopTime" ng-model="prom.planStopTime"
+                                             placeholder="选择下单结束日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                            data-min-date="{{prom.planStartTime}}" 
+                                             bs-datepicker required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="col-md-4">配送开始日期</div>
+                                    <div class="col-md-8">
+
+                                      <input type="text"  class="form-control r-b-round " name="buyStartTime" ng-model="prom.buyStartTime"
+                                             placeholder="选择配送开始日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                             data-min-date="{{defaultValue.date}}"
+                                             data-max-date="{{ prom.buyStopTime }}" 
+                                             bs-datepicker required>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-4">
+                                    <div class="col-md-4">配送结束日期</div>
+                                    <div class="col-md-8">
+
+                                       <input type="text"  class="form-control r-b-round" name="buyStopTime" ng-model="prom.buyStopTime"
+                                             placeholder="选择配送结束日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                             data-min-date="{{prom.buyStopTime}}"
+                                             bs-datepicker required>
+                                    </div>
+                                </div>
+                          </div>
+
+                            <br><br><br>
+                          
+                            <div class="table-responsive"  ng-if="promotion=='Z008'">
+                                <table class="table table-striped b-t b-b" >
+                                    <thead>
+                                        <tr>
+                                            <td><strong>序号</strong>
+                                            </td>
+                                            <td><strong>参加促销的产品</strong>
+                                            </td>
+                                            <td><strong>满足促销的个数</strong>
+                                            </td>
+                                            <td><strong>赠送产品</strong>
+                                            </td>
+                                            <td><strong>赠品个数</strong></td>
+                                             <td><button class="btn btn-sm primary" ng-click="addItem()">增加</button></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="orig in promOrig | filter: searchTerm">
+                                           <td>{{$index+1}}</td> 
+                                          <td >
+                                            <ui-select ng-model="orig.goodNo" remove-selected="true" search-enabled="true">
+                                              <ui-select-match allow-clear="true" placeholder="请选择产品">
+                                                <span ng-bind="$select.selected.matnrTxt"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.matnr as x in (Rproducts | filter: $select.search) track by x.matnr">
+                                                <span ng-bind="x.matnrTxt"></span>
+                                              </ui-select-choices>
+                                            </ui-select>
+                                          </td>
+                                          <td><input type="text" ng-model="orig.origNum"></td>
+                                          <td >
+                                                <ui-select ng-model="orig.giftNo" remove-selected="true" search-enabled="true">
+                                                  <ui-select-match allow-clear="true" placeholder="请选择产品">
+                                                    <span ng-bind="$select.selected.matnrTxt"></span>
+                                                  </ui-select-match>
+                                                  <ui-select-choices repeat="x.matnr as x in (Rproducts | filter: $select.search) track by x.matnr">
+                                                    <span ng-bind="x.matnrTxt"></span>
+                                                  </ui-select-choices>
+                                                </ui-select>
+                                          </td>
+                                           <td><input type="text" ng-model="orig.giftNum"></td>
+                                            <td><button class="btn btn-sm danger" ng-click="delItem(orig.itemNo,$index)">删除</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
+
+
+                              <div class="table-responsive" ng-if="promotion=='Z015'">
+                                <table class="table table-striped b-t b-b" >
+                                    <thead>
+                                        <tr>
+                                            <td><strong>序号</strong>
+                                            </td>
+                                            <td><strong>参加促销的产品</strong>
+                                            </td>
+                                            <td><strong>满足促销最低金额</strong>
+                                            </td>
+                                            <td><strong>折扣金额</strong></td>
+                                             <td><button class="btn btn-sm primary" ng-click="addItem()">增加</button></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="orig in promOrig | filter: searchTerm">
+                                           <td>{{$index+1}}</td> 
+                                          <td >
+                                            <ui-select ng-model="orig.goodNo" remove-selected="true" search-enabled="true">
+                                              <ui-select-match allow-clear="true" placeholder="请选择产品">
+                                                <span ng-bind="$select.selected.matnrTxt"></span>
+                                              </ui-select-match>
+                                              <ui-select-choices repeat="x.matnr as x in (Rproducts | filter: $select.search) track by x.matnr">
+                                                <span ng-bind="x.matnrTxt"></span>
+                                              </ui-select-choices>
+                                            </ui-select>
+                                          </td>
+                                          <td><input type="text" ng-model="orig.low"></td>
+                                           <td><input type="text" ng-model="orig.discountAmt"></td>
+                                            <td><button class="btn btn-sm danger" ng-click="delItem(orig.itemNo,$index)">删除</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+                              <div class="table-responsive" ng-if="promotion=='Z016'">
+                                <table class="table table-striped b-t b-b" >
+                                    <thead>
+                                        <tr>
+                                            <td><strong>序号</strong>
+                                            </td>
+                                            <td><strong>整单满足促销最低金额</strong>
+                                            </td>
+                                            <td><strong>折扣金额</strong></td>
+                                             <td><button class="btn btn-sm primary" ng-click="addItem()">增加</button></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="orig in promOrig | filter: searchTerm">
+                                           <td>{{$index+1}}</td> 
+                                          <td><input type="number" ng-model="orig.low"></td>
+                                           <td><input type="text" ng-model="orig.discountAmt"></td>
+                                            <td><button class="btn btn-sm danger" ng-click="delItem(orig.itemNo,$index)">删除</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+               
+                    </div>
+            </form>
+    <!-- ######## panel-collapse结束-->
+                <div class="l-h m-r pull-right">
+                        <button class="btn btn-sm primary" ng-click="addPromotion()">新增</button>
+                </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- ######## 右侧结束-->

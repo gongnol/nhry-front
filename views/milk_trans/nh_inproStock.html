@@ -1,0 +1,114 @@
+<div>
+<div id="modal-alert"></div>
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+						<div class="col-md-4">
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.searchDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker placeholder="查询交货单"></div>
+						</div>
+						<button class="btn btn-fw blueLt" ng-click="filter(search.searchDate)">查询交货单</button>
+						</div>
+						<div class="col-md-4">
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker placeholder="获取交货单"></div>
+						</div>
+						<button class="btn btn-fw blueLt" ng-click="generateJHD(search.fromDate)">获取交货单</button>
+						</div>
+						<div class="col-md-3">
+						<input class="form-control ng-pristine ng-untouched ng-valid" type="text" placeholder="请输入ERP要货凭证号" ng-model="search.searchOrderNo">
+						
+						</div>
+						
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="getJHD(search.searchOrderNo)">获取交货单</button>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box" style="border-radius: 2px;">
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-striped b-t b-b no-footer">
+					<thead>
+						<tr role="row">
+							<th class="th-nh">交货单号</th>
+							<th class="th-nh">凭证单号</th>
+							<th class="th-nh">日期</th>
+							<th class="th-nh">状态</th>
+							
+							<!-- liuyin  add  start -->
+							<th class="th-nh">交货单数量</th>
+							<th class="th-nh">实际到货数量</th>
+							<!-- liuyin  add   end -->
+							
+							<th class="th-nh">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<!--tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count"  pagination-id="inprostock"-->
+						<tr ng-repeat="x in data.content" ng-if="showList">
+							<td>{{x.orderNo}}</td>
+							<td>{{x.reqOrderNo}}</td>
+							<td>
+							<label ng-bind-html="data.dateFormat(x.orderDate)">
+                			</label>
+							</td>
+							
+							<td><span ng-bind="x.status==10 ? '未确认' : '已完成交货确认'"></span></td>
+							
+							<!-- liuyin  add  start -->
+							<td>{{x.qtY}}</td>
+							<td>{{x.confirm_QTY}}</td>
+							<!-- liuyin  add   end -->
+							<td>
+								<div class="btn-groups">
+		 								<button ui-sref="newhope.inproStockEdit({stockId: x.orderNo,status:x.status})" class="btn btn-xs btn-outline rounded b-primary text-primary">交货确认</button>
+		 							</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!--footer class="text-center">
+					<dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="inprostock"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+				</footer-->
+			</div>
+		</div>
+	</div>
+<script type="text/ng-template" id="inproStockEdit.html"></script>
+</div>
+	

@@ -1,0 +1,109 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+     		<button class="hidden-xs-down btn btn-sm rounded blueLt" style="width: 160px;"  ng-click="updateSort()">保存</button>
+    </div>
+</div>
+
+
+<div class="padding csmbill-content" >
+
+	<div id="modal-alert"></div>
+	<div id="body-alert"></div>
+
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="filterbar p-b p-l p-r">
+			<div class="filter-content">
+				<div class="select-box p-t">
+					<input class="form-control" type="text" placeholder="商品名称" ng-model="search.matnrTxt">
+				</div>
+
+				<div class="select-box p-t" ng-hide="showOrhide" >
+					<ui-select ng-model="search.hide" search-enabled="false" append-to-body="true">
+						<ui-select-match placeholder="选择状态" allow-clear="true">
+							<span ng-bind="$select.selected.text"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="x.code as x in statuses ">
+							<span ng-bind="x.text"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				
+				
+			</div>
+			<div class="filter-act m-t">
+				<button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!-- ###  筛选条结束-->
+	<div class="box" style="border-radius: 2px;">
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-striped b-t b-b no-footer">
+					<thead>
+						<tr role="row">
+							<th class="th-nh">商品编码</th>
+							<th class="th-nh">商品名称</th>
+							<th class="th-nh">中类</th>
+							<th class="th-nh">包装类型</th>
+							<th class="th-nh">规格</th>
+							<th class="th-nh">排序优先级</th>
+							<th class="th-nh"  ng-hide="showOrhide" >操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+							<td colspan="10" style="text-align:center;">正在加载数据！</td>
+						</tr>
+						<tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+							<td colspan="10" style="text-align:center;">没有数据！</td>
+						</tr>
+
+						<tr dir-paginate="product in data.content | itemsPerPage : data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="product_list_set">
+
+							<td class="td-id-nh">
+								<span ng-bind="product.matnr.slice(-8)"></span>
+							</td>
+							<td style="width: 25%;"><span ng-bind="product.matnrTxt"></span></td>
+							<td><span ng-bind="product.secCateName"></span></td>
+							<td><span ng-bind="product.zbotCodeName"></span></td>
+							<td><span ng-bind="product.specName"></span></td>
+							<td style="width: 160px" >
+								<span>
+									<input type="number"  id="sort" class="form-control"  ng-model="product.sort " ng-change="dataChange(product)"  />
+								</span>
+							</td>
+
+							<td  ng-hide="showOrhide" >
+									<div class="select-box p-t"  style="margin-top: -16px;width: 180px;" >
+										<ui-select  ng-model="product.hide"  ng-change="dataChange(product)"    search-enabled="false" append-to-body="false">
+											<ui-select-match placeholder="选择状态" allow-clear="false">
+												<span ng-bind="$select.selected.text"></span>
+											</ui-select-match>
+											<ui-select-choices repeat="x.code as x in statuses ">
+												<span ng-bind="x.text"></span>
+											</ui-select-choices>
+											
+										</ui-select>
+									</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<footer class="text-center">
+					<dir-pagination-controls max-size="8" direction-links="true" boundary-links="true" pagination-id="product_list_set" on-page-change="data.getData(newPageNumber)" template-url="nhtpl/pagination.tpl.html">
+					</dir-pagination-controls>
+				</footer>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+	
+	</div>
+
+</div>

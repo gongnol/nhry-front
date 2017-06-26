@@ -1,0 +1,11 @@
+<div class="app-content">
+    <div class="app-body blueLt bg-auto w-full">
+        <div class="text-center pos-rlt p-y-md">
+            <h1 class="text-shadow text-white text-4x">
+		    	<span class="font-bold block m-t-lg">访问失败！</span>
+		    </h1>
+            <p class="h5 m-y-lg text-u-c font-bold" ng-if="showErrMsg() == 0">系统服务器产生内部错误，请稍后再试或联系系统管理员。</p>
+            <p class="h5 m-y-lg text-u-c font-bold" ng-if="showErrMsg() == 1">该登录账号没有分配销售组织信息，请联系部门内勤或系统管理员进行分配。</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,303 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <a class="nav-link m-l" href="" ng-click="allEditStatus()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量修改装箱状态
+            </span>
+        </a>
+    </div>
+    <div class="pull-right m-r" style="border-bottom: 3px solid #42a5f5;">
+        <input type="text" id="fuzzySearch" class="input-line w-17" placeholder="根据订单号查询" ng-model="search.orderNo" ng-keypress="fuzzySearch($event)" style="border-bottom-width: 0; font-size: 1.125rem;">
+        <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+    </div>
+</div>
+
+
+<!-- ######## 右侧奶箱列表开始-->
+<div class="padding">
+
+  <div id="modal-alert"></div>
+  <div id="body-alert"></div>
+
+  <!-- ###  功能条开始-->
+  <!-- <div class="titlebar white lt box-shadow">
+    <button class="btn btn-fw blueLt m-r" ng-click="printMbOrder()">打印装箱单</button>
+  </div> -->
+
+  <div class="white r box-shadow-z0 m-b filter-box">
+    <div class="box p-r p-l p-b">
+        <a data-toggle="collapse" data-target="#filter"
+           class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="filter">
+            <div class="filterbar">
+                <div class="filter-content">
+                    <!-- <div class="select-box m-t">
+                        <input class="form-control" placeholder="根据订单号查询" type="text" ng-model="search.orderNo">
+                    </div> -->
+                    <div class="select-box m-t">
+                        <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="状态" allow-clear="true">
+                                <span ng-bind="$select.selected.label"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="status.code as status in (handle.statuses | filter: $select.search) track by status.code">
+                                <span ng-bind="status.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-box m-t">
+                        <ui-select ng-model="search.emp" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                <span ng-bind="x.empName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <!-- <div class="select-box" >
+                      <ui-select ng-model="search.branchNo" search-enabled="true" append-to-body="true">
+                        <ui-select-match placeholder="所属奶站" allow-clear="true">
+                          <span ng-bind="$select.selected.branchName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="station.branchNo as station in (stations | filter: {branchName: $select.search}) track by station.branchNo" ng-class="{'over-hidden' : stations.length < 8}">
+                          <span ng-bind-html="station.branchName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div> -->
+                    <div class="date-box m-t">
+                        <div class="flex-item"><span class="item-title">计划安装日期</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.setDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   data-max-date="{{ search.setDateEnd }}" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.setDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   data-min-date="{{ search.setDateStart }}" 
+                                   bs-datepicker>
+                        </div>
+                        
+                    </div>                   
+                </div>
+
+                <div class="filter-act m-t">
+                    <button class="btn btn-fw blueLt" ng-click="printAll(search.emp)">导出</button>
+                    <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                </div>
+            </div>
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+  </div>
+  <!-- ###  功能条结束-->
+<!--### 表格开始 -->
+       <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="checkboxArrs">
+                                <thead>
+                                 <tr role="row">
+                                    <th>
+                                        <label class="md-check">
+                                            <input type="checkbox" ng-model="allChFlag">
+                                            <i class="blue"></i>
+                                        </label>
+                                    </th>
+                                    <th class="th-nh">
+                                        订单编号
+                                    </th>
+                                    <th class="th-nh">订户名称</th>
+                                    <th class="th-nh">联系方式</th>
+                                    <th class="th-nh">送货地址</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">计划安装日期</th>
+                                    <th class="th-nh">奶箱状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                        </tr>
+                                        <tr ng-if="tbLoding == 0 && content.length <= 0">
+                                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                                        </tr>
+                                        <tr current-page="curPageno" pagination-id="milkbox_list" dir-paginate="milkbox in content|itemsPerPage:itemsPerPage" total-items="total_count"  pagination-id="nh_milkbox">
+                                            <td>
+                                                <label class="md-check" ng-if="milkbox.milkboxStat == '20' ">
+                                                    <input type="checkbox" checked-data="{{milkbox.planNo}}">
+                                                    <i class="blue"></i>
+                                                </label>
+                                            </td>
+                                            <td class="td-id-nh">
+                                                {{milkbox.orderNo}}
+                                            </td>
+                                            <td>{{milkbox.memberName}}</td>
+                                            <td>{{milkbox.memberTel}}</td>
+                                            <td>{{milkbox.custAddress}}</td>
+                                            <td>{{milkbox.empName}}</td>
+                                            <td ng-bind-html="dateFormat(milkbox.planDate)"></td>
+                                            <td ng-bind-html="milkstatFormat(milkbox.milkboxStat)"></td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="detail(milkbox.planNo,milkbox.milkboxStat,milkbox.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                    <button ng-click="mbUpdate(milkbox.planNo,milkbox.milkboxStat,milkbox.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">变更状态</button>
+                                                    <!-- <button ng-click="printMbOrder()" class="btn btn-xs btn-outline rounded b-danger text-danger">打印装箱单</button> -->
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                
+                                        <dir-pagination-controls pagination-id="milkbox_list"
+                                            pagination-id="nh_milkbox"
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            on-page-change="getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+ <!--### 表格结束 --> 
+
+  <script type="text/ng-template" id="batchEditStatus.html">
+        <div class="modal-header">
+            <h3 class="modal-title">状态变更</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <label for="itemStatus" class="col-md-2"><strong>装箱状态</strong></label>
+            <div class="col-md-3">
+              <ui-select ng-model="milkBox.status" search-enabled="false">
+                <ui-select-match allow-clear="false">
+                  <span ng-bind="$select.selected.label"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="status.code as status in handle.statuses track by status.code">
+                  <span ng-bind="status.label"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <label for="itemDate" class="col-md-2 col-md-offset-1"><strong>安装日期</strong></label>
+            <div class="col-md-3 select-date">
+              <input type="text" class="form-control" ng-model="milkBox.setDate" data-autoclose="true" bs-datepicker>
+              <i class="material-icons md-24">&#xe8df;</i>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="save()">保存</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+  </script>
+
+  <script type="text/ng-template" id="mbDetail.html">
+        <div class="modal-header">
+            <h3 class="modal-title" ng-if="!update">装箱详情</h3>
+            <h3 class="modal-title" ng-if="update">状态变更</h3>
+        </div>
+        <div class="modal-body">
+          <div ng-if="!update">
+            <div class="row">
+              <label class="col-md-2"><strong>订单地址</strong></label>
+              <label class="col-md-10">{{ milkBox.adressNo }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2"><strong>订单编号</strong></label>
+              <label class="col-md-4">{{ milkBox.orderNo }}</label>
+              <label class="col-md-2"><strong>送奶员</strong></label>
+              <label class="col-md-4">{{ milkBox.empName }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2"><strong>奶站</strong></label>
+              <label class="col-md-4">{{ milkBox.branchName }}</label>
+              <label class="col-md-2"><strong>奶站电话</strong></label>
+              <label class="col-md-4">{{ milkBox.branchTel }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-2"><strong>订户</strong></label>
+              <label class="col-md-4">{{ milkBox.memberName }}</label>
+              <label class="col-md-2"><strong>订户电话</strong></label>
+              <label class="col-md-4">{{ milkBox.memberTel }}</label>
+            </div>
+            <div class="row" ng-if="!update">
+              <label class="col-md-2"><strong>装箱状态</strong></label>
+              <label class="col-md-4" ng-if="milkBox.milkboxStat=='10'">已安装</label>
+              <label class="col-md-4" ng-if="milkBox.milkboxStat=='20'">未安装</label>
+              <label class="col-md-4" ng-if="milkBox.milkboxStat=='30'">无需安装</label>
+              <label class="col-md-2"><strong>安装日期</strong></label>
+              <label class="col-md-4" ng-bind-html="dateFormat(milkBox.planDate)"></label>
+            </div>
+            <div class="nhdivider"></div>
+          </div>
+          <div class="row" ng-if="update">
+            <label for="itemStatus" class="col-md-2"><strong>装箱状态</strong></label>
+            <div class="col-md-3">
+              <ui-select ng-model="milkBox.milkboxStat" search-enabled="false">
+                <ui-select-match allow-clear="false">
+                  <span ng-bind="$select.selected.label"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="status.code as status in handle.statuses track by status.code">
+                  <span ng-bind="status.label"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <label for="itemDate" class="col-md-2 col-md-offset-1"><strong>安装日期</strong></label>
+            <div class="col-md-3 select-date">
+              <input type="text" class="form-control" ng-model="milkBox.planDate" data-autoclose="true" bs-datepicker>
+              <i class="material-icons md-24">&#xe8df;</i>
+            </div>
+          </div><hr>
+          <div ng-if="update && milkBox.milkboxStat!='20' ">
+            <h5>订单行项目信息</h5>
+            <div ng-repeat="entry in orderDetail.entries">
+              <div class="row">
+                <div class="col-md-7">
+                  {{entry.matnr.slice(-8)}} &nbsp {{entry.matnrTxt}} &nbsp 每日配送 {{entry.qty}}{{entry.unit}}
+                </div>
+                <div class="col-md-5">
+                  <label class="col-md-2">起始日期</label>
+                  <div class="col-md-10 select-date">
+                      <input type="text" class="form-control"
+                      ng-model="entry.startDispDate"
+                      data-min-date="{{defaultValue.date}}"
+                      data-max-date=""
+                      data-autoclose="true"
+                      bs-datepicker>
+                      <i class="material-icons md-24">&#xe8df;</i>  
+                  </div>     
+                </div>
+              </div>  
+            </div><hr>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+            <!--button class="btn blueLt" type="button" ng-click="printMbOrder()" ng-if="!update">打印装箱单</button-->
+            <button class="btn blueLt" type="button" ng-if="status=='20' && update" ng-click="save()">保存</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+</div>
+<!-- ######## 奶箱列表结束-->

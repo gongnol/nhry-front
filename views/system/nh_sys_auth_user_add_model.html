@@ -1,0 +1,62 @@
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" ng-show="title">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h6 class="modal-title" ng-bind-html="title"></h6>
+      </div>
+      <div class="modal-body" ng-show="content">
+
+        <div class="m-b">
+
+          <div class="btn-group pull-right">
+            <label class="md-check m-r">
+              <input type="checkbox" ng-model="allChecked" ng-click="data.markAll(allChecked)"><i class="blue"></i>
+              全选
+            </label>
+          </div>
+
+          <div class="btn-toolbar">
+            <div class="btn-group">
+              <div class="input-group input-group-sm">
+                <input ng-model="data.queryUserParam" class="form-control p-x b-a rounded" placeholder="查询用户" type="text" style="width: 260px;">
+      <span class="input-group-btn">
+        <button ng-click="data.searchUserNoPages()"  class="btn white b-a rounded no-shadow"><i class="fa fa-search"></i></button>
+      </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / header -->
+        <!-- list -->
+        <div class="list white">
+          <div ng-repeat="user in data.allUser| filter:query" ng-hide="user.hasRoleHide"
+               class="list-item b-l b-l-2x b-l-{{user.color}}">
+            <div class="list-left">
+              <label class="md-check m-r-xs">
+                <input type="checkbox" ng-model="user.completed" ng-change="data.markOne(user)"><i></i>
+              </label>
+            </div>
+            <div class="list-body">
+
+              <div><a href=""><strong>{{user.displayName}}</strong></a>
+              </a>
+                <div class="text-sm">
+                  <span class="text-muted m-r">员工编号： <strong>{{user.loginName}}</strong></span>
+                  <span class="text-muted m-r">手机： <strong>{{user.mobile}}</strong></span>
+                  <span class="text-muted">身份证号： <strong>{{user.smartIdcardnumber}}</strong></span>
+                  <span class="label"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$hide()">关闭</button>
+        <button type="button" class="btn info" ng-click="data.saveMutiUserAssignOneRole()">保存授权</button>
+      </div>
+    </div>
+  </div>
+</div>

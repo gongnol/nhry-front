@@ -1,0 +1,189 @@
+<div class="col-sm-11">
+    <!-- header -->
+    <div class="m-b">
+
+        <div class="btn-group pull-right" ng-show="false">
+            <label class="md-check m-r">
+                <input type="checkbox" ng-model="allChecked" ng-click="data.markAll(allChecked)"><i class="blue"></i>
+                全选
+            </label>
+        </div>
+        <div class="btn-group pull-right m-r" style="margin-top: -5px;" ng-show="false">
+            <div>
+                <button type="button" class="btn btn-sm white"
+                        ng-model="data.selectedIcon"
+                        ng-change="data.selectRoles()"
+                        placeholder="批量分配角色"
+                        data-html="1"
+                        data-multiple="1"
+                        data-animation="am-flip-x"
+                        bs-options="icon.value as icon.label for icon in data.icons"
+                        bs-select>
+                    <span class="caret"></span>
+                </button>
+            </div>
+        </div>
+        <div class="btn-toolbar">
+            <!--
+            <div class="btn-group dropdown">
+                <button class="btn white btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <span class="dropdown-label">过滤</span>
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu text-left text-sm">
+                    <a class="dropdown-item" ui-sref="newhope.inbox.list({fold:'unread'})">未读</a>
+                    <a class="dropdown-item" ui-sref="newhope.inbox.list({fold:'starred'})">已读</a>
+                </div>
+            </div>
+            -->
+            <div class="btn-group" ng-show="data.showAddUserButton">
+                <a class="btn btn-sm white" data-toggle="tooltip"
+                   data-animation="am-fade-and-slide-top"
+                   data-template-url="views/system/nh_sys_auth_user_add_model.html"
+                   bs-modal="modal"
+                   data-placement="bottom" data-title="Refresh"
+                   data-original-title="" title=""><i class="fa fa-plus"></i> 加用户</a>
+            </div>
+            <div class="btn-group">
+                <a ng-click="data.reload()" class="btn btn-sm white" data-toggle="tooltip"
+                   data-placement="bottom" data-title="Refresh"
+                   data-original-title="" title=""><i class="fa fa-refresh"></i></a>
+            </div>
+            <div class="btn-group">
+                <div class="input-group input-group-sm">
+                    <input ng-model="data.queryParam" class="form-control p-x b-a rounded" placeholder="输入姓名、员工号查询" type="text" style="width: 260px;">
+      <span class="input-group-btn">
+        <button ng-click="data.getData(1)" class="btn white b-a rounded no-shadow"><i class="fa fa-search"></i></button>
+      </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / header -->
+
+    <!-- list -->
+    <div class="list white">
+        <div pagination-id="nh_sys_auth_user_list_001" dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count"
+             class="list-item b-l b-l-2x b-l-{{user.color}}">
+            <div class="list-left">
+                <span class="w-40 avatar {{user.color}}">
+		                  <span>P</span>
+		                  <i class="away b-white bottom"></i>
+		                </span>
+            </div>
+            <div class="list-body">
+                <div class="box-tool">
+                    <ul class="nav">
+
+                        <li class="nav-item inline m-r">
+                            <!--a class="btn btn-sm white" data-toggle="tooltip"
+                               data-animation="am-fade-and-slide-top"
+                               data-template-url="views/system/nh_sys_auth_user_sales_model.html"
+                               bs-modal="saleModal"
+                               data-placement="bottom" data-title="Refresh"
+                               data-original-title="" title=""><i class="fa fa-plus"></i> 销售组织</a-->
+                            <a class="btn btn-sm white" data-toggle="tooltip"
+                               data-animation="am-fade-and-slide-top"
+                               ng-click="data.detailSalesModel(user)"
+                               data-placement="bottom" data-title="Refresh"
+                               data-original-title="" title=""><i class="fa fa-plus"></i> 销售组织</a>
+                        </li>
+                        <!--
+                        <li class="nav-item inline m-r">
+
+                        </li>
+
+                        <li class="nav-item inline m-r">
+                            <button type="button" class="btn btn-sm white"
+                                    ng-model="user.dealerId"
+
+                                    placeholder="经销商"
+                                    data-html="1"
+                                    container="body"
+                                    bs-options="dealer.value as dealer.label for dealer in user.dealers"
+                                    bs-select>
+                                <span class="caret"></span>
+                            </button>
+                        </li>
+                        -->
+                        <li class="nav-item inline m-r">
+                            <button ng-show="user.doChangeRole"
+                                    ng-click="data.oneUserAuth(user)"
+                                    class="btn btn-sm btn-outline rounded b-danger text-danger">授权发生变化,请保存</button>
+                        </li>
+                        <li class="nav-item inline m-r">
+                            <button type="button" class="btn btn-sm white"
+                                    ng-model="user.roleIdArray"
+                                    ng-change="data.selectRoles(user)"
+                                    placeholder="无角色"
+                                    data-html="1"
+                                    data-multiple="1"
+                                    data-animation="am-flip-x"
+                                    data-template-url="nhtpl/selectRole.tpl.html"
+                                    bs-options="icon.value as icon.label for icon in data.icons"
+                                    bs-select>
+                                <span class="caret"></span>
+                            </button>
+                        </li>
+                        <li class="nav-item inline" ng-show="false">
+
+                            <label class="md-check m-r-xs">
+                                <input type="checkbox" ng-model="user.completed" ng-change="doChecked(user)"><i></i>
+                            </label>
+
+                        </li>
+                    </ul>
+                </div>
+                <div><a href=""><strong>{{user.displayName}}</strong></a><a
+                        ui-sref="newhope.inbox.list({fold:inbox.label})">
+                        <span class="label label-md m-l-sm text-u-c"
+                              ng-class="labelBgClass(user.label)">{{user.customizedEmptypetxt}}</span>
+                </a>
+                    <span class="label label-md m-l-sm text-u-c info">{{ user.departmentName }}</span>
+                    <span class="label label-md m-l-sm text-u-c primary">{{ user.saleName }}</span>
+                    <span class="label label-md m-l-sm text-u-c warn">{{ user.dealerName }}</span>
+                    <span class="label label-md m-l-sm text-u-c warning">{{ user.branchName }}</span>
+                    <div class="text-sm">
+                        <span class="text-muted m-r">员工编号： <strong>{{user.loginName}}</strong></span>
+                        <span class="text-muted m-r">手机： <strong>{{user.mobile}}</strong></span>
+                        <span class="text-muted">身份证号： <strong>{{user.smartIdcardnumber}}</strong></span>
+                        <span class="label"></span>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / list -->
+
+    <footer class="text-center">
+        <dir-pagination-controls
+                pagination-id="nh_sys_auth_user_list_001"
+                max-size="8"
+                direction-links="true"
+                boundary-links="true"
+                on-page-change="data.getData(newPageNumber)"
+                template-url="nhtpl/pagination.tpl.html">
+        </dir-pagination-controls>
+    </footer>
+</div>
+<div class="col-sm-1">
+    <div class="p-y text-center text-sm-right">
+        <a href="" class="inline p-x text-center">
+            <span class="h2 block m-a-0" ng-bind="data.total_count"></span>
+            <small class="text-xs text-muted">查询总数</small>
+        </a>
+        <!--
+        <a href="" class="inline p-x b-l b-r text-center">
+            <span class="h4 block m-a-0" ng-bind=="data.all_user_count"></span>
+            <small class="text-xs text-muted">Following</small>
+        </a>
+        <a href="" class="inline p-x text-center">
+            <span class="h4 block m-a-0">89</span>
+            <small class="text-xs text-muted">Activities</small>
+        </a>
+        -->
+    </div>
+</div>

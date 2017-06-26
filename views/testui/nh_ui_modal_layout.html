@@ -1,0 +1,300 @@
+<div style="" class="ng-scope" ui-view="">
+    <div class="padding ng-scope">
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>OK!</strong> 您的信息已经保存成功！.
+        </div>
+        <div class="white r box-shadow-z0 m-b navbar-md">
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#navbar-4"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+
+
+                <!-- brand -->
+
+                <!-- / brand -->
+
+                <!-- nabar right -->
+                <ul class="nav navbar-nav pull-right">
+
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link" data-toggle="dropdown">
+                            <i class="material-icons"></i>
+                            <span class="label up p-a-0 accent"></span>
+                        </a>
+                        <div class="dropdown-menu w-xl text-color pull-right p-a-0 animated flipInX ng-scope">
+                            <div class="row no-gutter text-blue-hover">
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Alarm</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Favorite</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">History</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Call</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Chat</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Inbox</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <!-- / navbar right -->
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="navbar-4">
+
+
+
+                    <!-- / link and dropdown -->
+                    <!-- search form -->
+                    <form class="navbar-form form-inline navbar-item m-l v-m ng-pristine ng-valid ng-scope"
+                          role="search">
+
+                        <div class="form-group l-h m-a-0">
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ng-click="addEmp()" >
+              <span class="hidden-xs-down btn btn-sm rounded blue text-u-c _600">
+                  <i class="fa fa-plus"></i>
+                新增
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+
+              <span class="hidden-xs-down btn btn-sm rounded green text-u-c _600">
+                  <i class="fa fa-save"></i>
+                保存
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+
+              <span class="hidden-xs-down btn btn-sm rounded pink text-u-c _600">
+                  <i class="fa fa-trash"></i>
+                删除
+              </span>
+                                </a>
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                    <!-- / search form -->
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>
+
+        <div class="row m-b">
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+
+    </div>
+    <script type="text/ng-template" id="empAdd.html">
+        <div class="modal-header">
+            <h5 class="modal-title" ng-if="!update">新增员工</h5>
+            <h5 class="modal-title" ng-if="update">编辑员工信息</h5>
+        </div>
+        <div class="modal-body">
+            <div class="box">
+                <div class="box-header blueLt">
+                    <h4>基本信息 </h4>
+                </div>
+
+                <!--box body begin-->
+                <div class="box-body">
+                    <div class="row  m-r-md">
+                        <div class="col-md-3  col-sm-3 showtext">
+                            <div class="row"><label>姓名：必填</label></div>
+                            <div class="row"><input type="text" ng-model="emp.name" class="form-control"></div>
+                        </div>
+                        <div class="form-group col-md-3 col-md-offset-1">
+                            <br><br>
+                            <label class="radio-inline md-check m-t-sm">
+                                <input type="radio" name="gender" id="genderMan" value=0 ng-model="emp.gender" > <i class="blue"></i>男
+                            </label>
+                            <label class="radio-inline md-check m-t-sm">
+                                <input type="radio" name="gender" id="genderWoman" value=1 ng-model="emp.gender"> <i class="blue"></i>女
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 col-sm-3  col-sm-offset-1 showtext">
+                            <div class="row"><label>分公司</label></div>
+                            <div class="row">
+                                <ui-select ng-model="emp.subORG" search-enabled="false">
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="org in (handle.ORGs | filter: $select.search) track by org.code">
+                                        <span ng-bind="org.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  m-r-md">
+                        <div class="col-md-3  col-sm-3  showtext">
+                            <div class="row">
+                                <label>职位: 必填</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="form-control" ng-model="emp.position">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                            <div class="row">
+                                <label>员工编号:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="form-control" ng-model="emp.id">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                            <div class="row">
+                                <label>状态:</label>
+                            </div>
+                            <div class="row">
+                                <ui-select ng-model="emp.status" search-enabled="false">
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="status in (handle.statuses | filter: $select.search) track by status.code">
+                                        <span ng-bind="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  m-r-md">
+                        <div class="col-md-3  col-sm-3 showtext">
+                            <div class="row">
+                                <label>身份证号:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="form-control" ng-model="emp.identiNo"></div>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                            <div class="row">
+                                <label>微信号:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="form-control" ng-model="emp.weChat"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--box body end-->
+            </div>
+            <!--box  end-->
+
+            <!--box begin-->
+            <div class="box">
+                <div class="box-header blueLt">
+                    <h4>负责路线 </h4>
+                </div>
+
+                <!---body start-->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="row  m-r-md">
+                                <label>所属奶站：</label>
+                            </div>
+                            <div class="row  m-r-md">
+                                <ui-select ng-model="emp.station" search-enabled="false">
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected.label"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="station in (handle.stations | filter: $select.search) track by station.code">
+                                        <span ng-bind="station.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <!-- <div class="col-md-3 col-sm-3">
+                                    <button class="btn btn-fw blueLt m-r">新增路线</button>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <button class="btn btn-fw grey-600  m-r">删除路线</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="margin-top: 50px;">
+                        <div class="col-md-5 col-sm-5" style="height:200px;overflow:auto;border:1px solid #003366">
+                            <div class="checkbox" style="margin-left:5px;" data-ng-repeat="route in routes">
+                                <label>
+                                    <input type="checkbox"  ng-checked="isSelected1(route.id)" ng-click="updateSelection1($event,route.id)">{{route.routeName}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 ">
+                            <div class="row" style="margin-top:50px;margin-left:5px;">
+                                <button class="btn btn-fw bluelt m-r" ng-click="addroute()"> 加入
+                                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="row" style="margin-top:50px;margin-left:5px;" >
+                                <button class="btn btn-fw bluelt m-r" ng-click="removeroute()">
+                                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>移除
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5" style="height:200px;overflow:auto;border:1px solid #003366">
+                            <div class="checkbox" style="margin-left:5px;" data-ng-repeat="route in routeds">
+                                <label>
+                                    <input type="checkbox" ng-checked="isSelected2(route.id)"   ng-click="updateSelection2($event,route.id)" >{{route.routeName}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--box-body end -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div>{{ succMsg }}</div>
+            <button class="btn blueLt" type="button" ng-click="save()">保存</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+</div>

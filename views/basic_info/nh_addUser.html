@@ -1,0 +1,163 @@
+ <div class="modal-header">
+            <h3 class="modal-title">新增用户</h3>
+        </div>
+        <div class="modal-body">
+            <div class="box">
+           
+                <a data-toggle="collapse">
+                    <div class="box-header blueLt">
+                        <h4>
+                            基本信息 
+                        </h4>
+                    </div>
+                </a>
+                    <!--box body begin-->
+                <div class="box-body">
+                      <div class="row  m-r-md">
+                          <div class=" col-md-3  col-sm-3 showtext">
+                              <div class="row"><label>姓名：必填</label></div>
+                              <div class="row"><input type="text" ng-model="name" class="form-control"></div>
+                          </div>
+                          <div class="form-group col-md-2 col-md-offset-1">
+                              <br><br>
+                              <label class="radio-inline md-check m-t-sm">
+                                  <input type="radio" name="gender" id="genderMan" value=0 ng-model="user.gender" >
+                                  <i class="blue"></i>男
+                              </label>
+                              <label class="radio-inline md-check m-t-sm">
+                                  <input type="radio" name="gender" id="genderWoman" value=1 ng-model="user.gender">
+                                  <i class="blue"></i>女
+                              </label>
+                          </div>
+                          <div class=" col-md-3 col-md-offset-1 col-sm-3  col-sm-offset-1 showtext">
+                              <div class="row"><label>分公司</label></div>
+                              <div class="row">
+                                 <select class="select2 form-control ">
+                                  <option>川乳</option>
+                                 </select>
+                              </div>
+                          </div>
+                      </div>
+
+
+                      <div class="row  m-r-md" style="margin-top: 15px;">
+                          <div class="col-md-3  col-sm-3  showtext">
+                              <div class="row">
+                                  <label>职位: 必填</label>
+                              </div>
+                              <div class="row">
+                                  <input type="text" class="form-control" >
+                              </div>
+                          </div>
+                          <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                              <div class="row">
+                                  <label>员工编号:</label>
+                               </div>
+                              <div class="row">
+                                  <input type="text" class="form-control">
+                              </div>
+                          </div>
+                          <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                              <div class="row">
+                                  <label>状态:</label>
+                              </div>
+                              <div class="row">
+                                  <select class="form-control" >
+                                      <option>在职</option>
+                                      <option>休假中</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+
+
+                      <div class="row  m-r-md">
+                          <div class="col-md-3  col-sm-3 showtext">
+                              <div class="row">
+                                  <label>身份证号:</label>
+                              </div>
+                              <div class="row">
+                                  <input type="text" class="form-control">
+                              </div>
+                          </div>
+                          <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 showtext">
+                              <div class="row">
+                                  <label>微信号:</label>
+                              </div>
+                              <div class="row">
+                                  <input type="text" class="form-control">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                    <!--box body end-->
+          </div>
+        <!--box  end-->
+        <!--box begin-->
+
+          <div class="box">
+                    <a data-toggle="collapse" >
+                        <div class="box-header blueLt">
+                            <h4>
+                                负责路线 
+                            </h4>
+                        </div>
+                    </a>
+                    <!---body start-->
+                    <div class="box-body">
+                        <div class="row  m-r-md">
+                            <label>所属奶站：</label>
+                        </div>
+                        <div class="row  m-r-md">
+                           <div class="col-md-3 col-sm-3">
+                               <select class="form-control">
+
+                               </select>
+                           </div>
+                           <div class="col-md-3 col-sm-3">
+                               <button class="btn btn-fw blueLt m-r"> 新增路线</button>
+                           </div>
+                           <div class="col-md-3 col-sm-3">
+                               <button class="btn btn-fw grey-600  m-r"> 删除路线</button>
+                           </div>
+                        </div>
+
+
+
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="col-md-5 col-sm-5" style="height:200px;overflow:auto;border:1px solid #003366">
+                                <div class="checkbox" style="margin-left:5px;" data-ng-repeat="route in routes">
+                                    <label>
+                                        <input type="checkbox"  ng-checked="isSelected1(route.id)" ng-click="updateSelection1($event,route.id)">{{route.routeName}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <div class="row" style="margin-top:50px;margin-left:5px;">
+                                    <button class="btn btn-fw bluelt m-r" ng-click="addroute()"> 加入
+                                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="row" style="margin-top:50px;margin-left:5px;" >
+                                    <button class="btn btn-fw bluelt m-r" ng-click="removeroute()"> 
+                                       <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>移除
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-5" style="height:200px;overflow:auto;border:1px solid #003366">
+                              <div class="checkbox" style="margin-left:5px;" data-ng-repeat="route in routeds">
+                                  <label>
+                                      <input type="checkbox" ng-checked="isSelected2(route.id)"   ng-click="updateSelection2($event,route.id)" >{{route.routeName}}
+                                  </label>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--box-body end -->
+          </div>
+        </div>
+
+           <div class="modal-footer">
+              <button class="btn btn-warning" type="button" ng-click="cancelModal()">关闭</button>
+          </div>

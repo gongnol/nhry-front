@@ -1,0 +1,428 @@
+<div ui-view class="app-body" id="view">
+    <div id="modal-alert"></div>
+    <div id="body-alert"></div>
+
+    <div class="padding notitlebar" >
+        <div class="b-b b-primary nav-active-primary">
+            <ul class="nav nav-tabs text _600">
+                <li class="nav-item">
+                <a id="changetab1"  ng-click="selectType('customer')"  class="nav-link active" data-target="#customer" data-toggle="tab" href=""
+                aria-expanded="true">订户维度
+                </a>
+                </li>
+                <li class="nav-item">
+                <a id="changetab2" ng-click="selectType('emp')" class="nav-link" data-target="#emp" data-toggle="tab" href="" aria-expanded="false">送奶员维度
+                </a>
+                </li>
+                <li class="nav-item">
+                <a id="changetab3" ng-click="selectType('account')" class="nav-link" data-target="#account" data-toggle="tab" href="" aria-expanded="false">送奶员台帐
+                </a>
+                </li>
+            </ul>
+        </div>
+
+           <div class="tab-content p-a m-b-md">
+                <div id="customer" class="tab-pane animated fadeIn text-muted active" aria-expanded="true" >
+                       
+                  <div class="white r box-shadow-z0 m-b filter-box">
+
+                    <div class="navbar ng-scope">
+                        <!-- navbar collapse -->
+                        <div class="collapse navbar-toggleable-sm" id="filter">
+                            <div class="filterbar p-t">
+                                <div class="filter-content">
+                                    <div class="date-box">
+                                        <div class="flex-item"><span class="text-md">订单截止日期</span></div>
+                                        <div class="flex-item">
+                                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.custStartDate"
+                                                     placeholder="起始日期"
+                                                     data-date-format="yyyy-MM-dd"
+                                                     data-date-type="date" 
+                                                     data-autoclose="true"
+                                                     data-max-date="{{ search.custEndDate }}" 
+                                                     bs-datepicker>
+                                        </div>
+                                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                                        <div class="flex-item">
+                                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.custEndDate"
+                                                     placeholder="结束日期"
+                                                     data-date-format="yyyy-MM-dd"
+                                                     data-date-type="date" 
+                                                     data-autoclose="true" 
+                                                     data-min-date="{{ search.custStartDate }}" 
+                                                     bs-datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="select-box" nh-auth="bill_milkstation_select">
+                                        <ui-select ng-model="search.custBranch" search-enabled="true">
+                                            <ui-select-match placeholder="奶站" allow-clear="true">
+                                                <span ng-bind="$select.selected.branchName"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="branch.branchNo as branch in (custBranchs | filter: $select.search) track by branch.branchNo"
+                                             >
+                                            <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="filter-act">
+                                    <button class="btn btn-fw blueLt" ng-click="custSearch()">筛选</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / navbar collapse -->
+                    </div>
+                  </div> 
+                  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                      <div class="com-md-12 col-sm-12">
+                          <table class="table table-striped b-t b-b no-footer">
+                            <thead>
+                              <tr role="row">
+                                      <th class="th-nh">订单号</th>
+                                      <th class="th-nh">订单来源</th>
+                                      <th class="th-nh">付款选择</th>
+                                      <th class="th-nh">订户名称</th>
+                                      <th class="th-nh">订户电话</th>
+                                      <th class="th-nh">订户地址</th>
+                                      <th class="th-nh">实收款</th>
+                                      <th class="th-nh">结算价</th>
+                                      <th class="th-nh">付款日期</th>
+                                      <th class="th-nh">送奶员</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="data.custTBLoding == 1">
+                                  <td colspan="10" style="text-align:center;">
+                                    <div class="nh-activity m-r"></div>
+                                    <span>正在加载数据！</span></td>
+                                  </td>
+                                </tr>
+                                <tr ng-if="data.custTBLoding == 0 && data.custContent.length <= 0">
+                                  <td colspan="10" style="text-align:center;">
+                                    <span>没有数据！</span></td>
+                                </tr>
+                                 <tr dir-paginate="item in data.custContent|itemsPerPage:data.cust_itemsPerPage" total-items="data.cust_total_count" current-page="data.custCurPageno" pagination-id="custMSlist">
+                                    <td class="td-id-nh"><span ng-bind="item.orderNo"></span></td>
+                                     <td><span ng-bind="item.preorderSource =='10'?'电商':item.preorderSource =='20'?'线下征订':'奶站'"></span></td>
+                                    <td><span ng-bind="item.paymentType=='10'?'后付款':item.paymentType=='20'?'先付款':'垫付款'"></span></td>
+                                    <td><span ng-bind="item.vipName"/></td>
+                                    <td><span ng-bind="item.vipMp"/></td>
+                                    <td><span ng-bind="item.address"/></td>
+                                    <td><span ng-bind="item.realCollection"/></td>
+                                    <td><span ng-bind="item.factAmt == null ? 0 :item.factAmt"/></td>
+                                    <td><span ng-bind-html="dateFormat(item.receiptDate)"/></td>
+                                    <td><span ng-bind="item.empName"/></td>
+                                </tr>
+                            </tbody>
+                          </table>
+                         
+                      </div>
+                       <footer class="text-center">
+                                  <dir-pagination-controls
+                                      max-size="8"
+                                      direction-links="true"
+                                      boundary-links="true"
+                                      pagination-id="custMSlist" 
+                                      on-page-change="data.getCustData(newPageNumber)" 
+                                      template-url="nhtpl/pagination.tpl.html">
+                                  </dir-pagination-controls>
+                      </footer>  
+                    </div>
+                  </div>     
+                                           
+                 </div>
+                <div id="emp" class="tab-pane animated fadeIn text-muted" aria-expanded="false" >
+                  <div class="white r box-shadow-z0 m-b filter-box">
+                    <div class="navbar ng-scope">
+                        <!-- navbar collapse -->
+                      <div class="collapse navbar-toggleable-sm" id="filter">
+                        <div class="filterbar p-t">
+                          <div class="filter-content">
+                            <div class="date-box">
+                                <div class="flex-item"><span class="text-md">日期</span></div>
+                                <div class="flex-item">
+                                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.empStartDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="date" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.empEndDate }}" 
+                                           bs-datepicker>
+                                </div>
+                                <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                                <div class="flex-item">
+                                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.empEndDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="date" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ search.empStartDate }}" 
+                                           bs-datepicker>
+                                </div>
+                            </div>
+                            <div class="select-box" nh-auth="bill_milkstation_select">
+                                <ui-select ng-model="search.empBranch" search-enabled="true">
+                                    <ui-select-match placeholder="奶站" allow-clear="true">
+                                        <span ng-bind="$select.selected.branchName"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="branch.branchNo as branch in (empBranchs | filter: $select.search) track by branch.branchNo"
+                                     >
+                                    <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                          </div>
+                          <div class="filter-act">
+                              <button class="btn btn-fw blueLt" ng-click="empSearch()">筛选</button>
+                          </div>
+                        </div>
+                      </div>
+                        <!-- / navbar collapse -->
+                    </div>
+                  </div>   
+                    <div class="box" style="border-radius: 2px;">
+                      <div class="row">
+                              <div class="com-md-12 col-sm-12">
+                                  <table class="table table-striped b-t b-b no-footer">
+                                    <thead>
+                                      <tr role="row">
+                                              <th class="th-nh">送奶员</th>
+                                              <th class="th-nh">送奶日期</th>
+                                              <th class="th-nh">总数量</th>
+                                              <th class="th-nh">销售额总计</th>
+                                              <th class="th-nh">结算价总计</th>
+                                              <th class="th-nh">操作</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr ng-if="data.empTBLoding == 1">
+                                            <td colspan="10" style="text-align:center;">
+                                              <div class="nh-activity m-r"></div>
+                                              <span>正在加载数据！</span></td>
+                                            </td>
+                                          </tr>
+                                          <tr ng-if="data.empTBLoding == 0 && data.empContent.length <= 0">
+                                            <td colspan="10" style="text-align:center;">
+                                              <span>没有数据！</span></td>
+                                          </tr>
+                                         <tr dir-paginate="item in data.empContent|itemsPerPage:data.emp_itemsPerPage" total-items="data.emp_total_count" current-page="data.empCurPageno" pagination-id="empMSlist">
+                                            <td class="td-id-nh"><span ng-bind="item.empName"></span></td>
+                                            <td><span  ng-bind-html="dateFormat(item.dispDate)"></span></td>
+                                            <td><span ng-bind="item.qty"></span></td>
+                                            <td><span ng-bind="item.salePrice"/></td>
+                                             <td><span ng-bind="item.billPrice"/></td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                    <button ng-click="showDetail(item.empNo,item.empName,item.dispDate)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看详情</button>
+                                               </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                                 
+                              </div>
+                               <footer class="text-center">
+                                          <dir-pagination-controls
+                                              max-size="8"
+                                              direction-links="true"
+                                              boundary-links="true" 
+                                              pagination-id="empMSlist"
+                                              on-page-change="data.getEmpData(newPageNumber)" 
+                                              template-url="nhtpl/pagination.tpl.html">
+                                          </dir-pagination-controls>
+                              </footer>  
+                      </div>
+                    </div>                           
+                </div>
+                <!--台帐-->
+                 <div id="account" class="tab-pane animated fadeIn text-muted" aria-expanded="false" >
+                 <div class="box" style="border-radius: 2px;">
+                      <div class="box-header blueLt">
+                        <h3>台帐初始化</h3>
+                      </div>
+                      <div class="row p-a" >
+                        <div class="col-sm-12">
+                          <table class="table table-striped b-t b-b no-footer">
+                              <thead>
+                               <tr role="row">
+                                  <th class="th-nh">送奶员</th>
+                                  <th class="th-nh">结余初始金额</th>
+                                  <th class="th-nh">日期</th>
+                                  <th class="th-nh">操作</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="user in data.daybookContent">
+                                      <td class="td-id-nh">
+                                        <span ng-bind="user.empName"></span>
+                                      </td>
+                                      <td>
+                                        <input type="number" class="form-control nh-number-valid"  placeholder="上日结余初始金额" ng-model="user.reAmt">
+                                      </td>
+                                      <td>
+                                        <div class="select-date tb-nopadding">
+                                          <input type="text" class="form-control"
+                                             ng-model="user.orderDate"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="string"
+                                             data-autoclose="true"
+                                             name="orderDate"
+                                             bs-datepicker>
+                                          <i class="material-icons md-24">&#xe8df;</i>
+                                        </div>
+                                      </td>
+                                      <td>
+                                          <div class="btn-groups">
+                                              <button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="data.initDaybookItem(user)" ng-if="!user.editFlag">初始化</button>
+                                              <button class="btn btn-xs btn-outline rounded b-info text-info" ng-click="data.saveDaybookItem(user)" ng-if="user.editFlag">修改</button>
+                                          </div>
+                                      </td>                         
+                                  </tr>
+                              </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--指定日期生成出奶表-->
+                    <div class="box" style="border-radius: 2px;">
+                      <div class="box-header blueLt">
+                        <h3>台帐指定日期重新统计</h3>
+                      </div>
+                      <div class="row p-a" >
+                        <div class="col-sm-12">
+                          <div class="col-sm-5">
+                          <span class="text-info">注：鉴于此功能需要统计计算所有送奶员数据，为了执行效率，建议避免使用高峰期执行</span>                         
+                          </div>
+                          
+                          <div class="form-group col-sm-2">
+                            <div class="input-group">
+                              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control r-b-round" ng-model="search.reDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number"
+                                           data-autoclose="true"
+                                           bs-datepicker></div>
+                          </div>
+                          <div class="form-group col-sm-2">
+                            
+                          </div>
+                          <div class="form-group col-sm-1">
+                              <button class="btn btn-fw blueLt" ng-click="reEmpAccount()" nh-mulclick-disable="daybookSaving">保存</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--月度台帐导出-->
+                    <div class="box" style="border-radius: 2px;">
+                      <div class="box-header blueLt">
+                        <h3>台帐导出</h3>
+                      </div>
+                      <div class="row p-a" >
+                        <div class="col-sm-12">
+                          <div class="col-sm-2">
+                           <div class="select-box">
+                              <ui-select ng-model="search.reportEmpNo" search-enabled="true">
+                                  <ui-select-match placeholder="送奶员" allow-clear="true">
+                                      <span ng-bind="$select.selected.empName"></span>
+                                  </ui-select-match>
+                                  <ui-select-choices repeat="item.empNo as item in (data.emps | filter: $select.search) track by item.empNo">
+                                      <span ng-bind="item.empName"></span>
+                                  </ui-select-choices>
+                              </ui-select>
+                          </div>                           
+                          </div>
+                          <div class="col-sm-3">
+                           
+                          </div>
+                          <div class="form-group col-sm-2">
+                            <div class="input-group">
+                              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control r-b-round" ng-model="search.monthDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM"
+                                           data-date-type="number"
+                                           data-autoclose="true"
+                                            min-view=1
+                                           bs-datepicker></div>
+                          </div>
+                          <div class="form-group col-sm-2">
+                            
+                          </div>
+                          <div class="form-group col-sm-1">
+                              <button class="btn btn-fw blueLt" ng-click="reportEmpAccount()">导出</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--台帐end-->
+            </div>
+    </div>
+</div>
+
+
+<!-- ###  送奶员维度日期详情弹出框开始-->
+  <script type="text/ng-template" id="EmpDetail.html">
+        <div class="modal-header">
+            <h3 class="modal-title">详情</h3>
+        </div>
+        <div class="modal-body">
+         <div class="row m-b-md">
+            <div class="col-md-12">送奶员：{{empName}}</div>
+         </div>
+
+          <div class="row  m-b-md">
+            <div class="col-md-12">送奶日期：<label ng-bind-html="dateFormat(dispDate)"></div>
+         </div>
+             <div class="row">
+                    <div class="com-md-12 col-sm-12">
+                        <table class="table table-striped b-t b-b no-footer">
+                          <thead>
+                            <tr role="row">
+                                    <th class="th-nh">产品编号</th>
+                                     <th class="th-nh">产品</th>
+                                    <th class="th-nh">数量</th>
+                                    <th class="th-nh">价格</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                               <tr ng-show="data.content.length <= 0"><td colspan="4" style="text-align:center;">没有数据！</td>
+                               </tr>
+                               <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="empMSDetail">
+                                  <td><span ng-bind="item.matnr"></span></td>
+                                   <td><span ng-bind="item.matnrTxt"></span></td>
+                                  <td><span ng-bind="item.qty"></span></td>
+                                  <td><span ng-bind="item.price"></span></td>
+                              </tr>
+                          </tbody>
+                        </table>
+                       
+                    </div>
+                     <footer class="text-left">
+                                <dir-pagination-controls
+                                    max-size="8"
+                                    direction-links="true"
+                                    boundary-links="true" 
+                                    pagination-id="empMSDetail"
+                                    on-page-change="data.getData(newPageNumber)" 
+                                    template-url="nhtpl/pagination.tpl.html">
+                                </dir-pagination-controls>
+                    </footer>  
+            </div>   
+                        
+        </div>
+        <div class="modal-footer">
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+  </script>
+  <!-- ###  送奶员维度日期详情弹出框结束-->

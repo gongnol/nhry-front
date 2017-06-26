@@ -1,0 +1,220 @@
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <a class="nav-link"  ng-click="confirm()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量确认
+            </span>
+        </a>
+       
+    </div>
+</div>
+
+
+<!-- / -->
+<!-- ######## 右侧开始-->
+<div class="padding" >
+    <div id="modal-alert"></div>
+    <div id="body-alert"></div>
+    <!-- ###  过滤条件开始-->
+   
+    <div class="white r box-shadow-z0 m-b filter-box">
+      <div class="navbar">
+        <div class="collapse navbar-toggleable-sm" id="filter">
+          <div class="filterbar p-t">
+              <div class="filter-content">
+
+                    <div class="select-box">
+                        <ui-select ng-model="search.status" search-enabled="false">
+                            <ui-select-match placeholder="回瓶状态" allow-clear="true">
+                                <span ng-bind="$select.selected.label"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="state.code as state in (status | filter: $select.search) track by state.code"
+                             >
+                            <span ng-bind="state.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <!-- <div class="select-box">
+                        <ui-select ng-model="search.status" search-enabled="false">
+                            <ui-select-match placeholder="经销商" allow-clear="true">
+                                <span ng-bind="$select.selected.label"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="dealer.code as dealer in (dealers | filter: $select.search) track by dealer.code"
+                             >
+                            <span ng-bind="state.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div> -->
+
+                    <!-- <div class="select-box">
+                        <ui-select ng-model="search.branch" search-enabled="true">
+                            <ui-select-match placeholder="奶站" allow-clear="true">
+                                <span ng-bind="$select.selected.branchNo"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search) track by branch.branchNo"
+                             >
+                            <span ng-bind="branch.branchNo+'——'+branch.branchName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div> -->
+
+                    <div class="select-box">
+                        <ui-select ng-model="search.emp" search-enabled="true">
+                            <ui-select-match placeholder="送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="emp.empNo as emp in (emps | filter: $select.search) track by emp.empNo"
+                             >
+                            <span ng-bind="emp.empNo+'——'+emp.empName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                     <div class="date-box">
+                          <div class="flex-item"><span class="item-title">创建回瓶日期</span></div>
+                          <div class="flex-item">
+                              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.startDate"
+                                     placeholder="起始日期"
+                                     data-date-format="yyyy-MM-dd"
+                                     data-date-type="string" 
+                                     data-autoclose="true"
+                                     data-max-date="{{ search.endDate }}" 
+                                     bs-datepicker>
+                          </div>
+                          <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                          <div class="flex-item">
+                              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.endDate"
+                                     placeholder="结束日期"
+                                     data-date-format="yyyy-MM-dd"
+                                     data-date-type="string" 
+                                     data-autoclose="true" 
+                                     data-min-date="{{ search.startDate }}" 
+                                     bs-datepicker>
+                          </div>
+                    </div>
+              </div>
+              <div class="filter-act">
+                <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+              </div>
+          </div>   
+        </div>
+      </div>
+         
+    </div>
+  
+     <!-- ###  过滤条件结束-->
+
+    
+    <!-- ###  表格开始-->
+        <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <!-- <th class="th-nh">流水号</th> -->
+                                    <th class="th-nh">状态</th>
+                                    <th class="th-nh">产生回瓶日期</th>
+                                    <!-- <th class="th-nh">经销商名称</th> -->
+                                    <!-- <th class="th-nh">奶站名称</th> -->
+                                    <th class="th-nh">送奶员名称</th>
+                                    <th class="th-nh">规格</th>
+                                    <th class="th-nh">应回数量</th>
+                                    <th class="th-nh">实回数量</th>
+                                    <th class="th-nh">实际回瓶日期</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                        </tr>
+                                        <tr ng-if="data.tbLoding == 0 && data.testcontent.length <= 0">
+                                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                                        </tr>
+                                        <tr dir-paginate="item in data.testcontent|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="returnbox_list">
+                                             <!-- <td class="td-id-nh"><span ng-bind="item.detLsh"/></td> -->
+                                             <td><span ng-bind="item.status == '10'?'未回瓶':'已回瓶' "/></td>
+                                            <td >
+                                               <span ng-bind-html="dateFormat(item.createAt)"/>
+                                            </td>
+                                            <!-- <td><span ng-bind="item.dealerName"/></td> -->
+                                            <!-- <td><span ng-bind="item.branchName"/></td> -->
+                                            <td><span ng-bind="item.empName"/></td>
+                                            <td><span ng-bind="item.specName"/></td>
+                                            <td><span ng-bind="item.receiveNum"/></td>
+                                            <td><span ng-bind="item.realNum == null?0:item.realNum "/></td>
+                                             <td >
+                                                 <span ng-bind-html="dateFormat(item.lastModified)"/>
+                                              </td>
+                                            <td>
+                                                <div class="btn-groups">
+                                                  <button ng-click="update(item.detLsh,item.retLsh,item.receiveNum,item.spec,item.specName,item.empName,item.recDate.substring(0,10))" 
+                                                   class="btn btn-xs btn-outline rounded b-primary text-primary"
+                                                   >录入回瓶</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            <footer class="text-center">
+                              <dir-pagination-controls
+                                  max-size="8"
+                                  direction-links="true"
+                                  boundary-links="true" 
+                                  pagination-id="returnbox_list"
+                                  on-page-change="data.getData(newPageNumber)"
+                                  template-url="nhtpl/pagination.tpl.html">
+                              </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+    <!-- ###  表格结束-->
+    
+    
+    <!-- 编辑模态框 开始-->
+    <script type="text/ng-template" id="uptReturnBox.html">
+        <div class="modal-header">
+            <h3 class="modal-title">回瓶确认</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row" style="margin-top:20px">
+                <div class="col-md-3 col-sm-3">送奶员</div>
+                <div class="col-md-4 col-sm-4"><input type="text" class="form-control" ng-model="info.empName" ng-disabled="true"></div>
+            </div>
+         
+            <div class="row m-r-d" style="margin-top:20px">
+                <div class="col-md-3 col-sm-3">规格</div>
+                <div class="col-md-4 col-sm-4"><input type="text" class="form-control" ng-model="info.specName" ng-disabled="true"></div>
+            </div>
+            <div class="row m-r-d" style="margin-top:20px">
+                <div class="col-md-3 col-sm-3">应收瓶数</div>
+                <div class="col-md-4 col-sm-4"><input type="number" class="form-control" ng-model="info.receiveNum"
+                  ng-disabled="true"></div>
+            </div>
+            <div class="row m-r-d" style="margin-top:20px">
+                <div class="col-md-3 col-sm-3">实收瓶数</div>
+                <div class="col-md-4 col-sm-4"><input type="number" class="form-control" ng-model="realNum" min="0"></div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm blueLt" type="button" ng-click="updateRet()">录入</button>
+            <button class="btn btn-sm primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+    <!--编辑模态框  结束  -->
+
+
+
+
+</div>
+
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

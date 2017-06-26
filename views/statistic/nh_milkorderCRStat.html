@@ -1,0 +1,104 @@
+<div id="modal-alert"></div>
+<div class="padding notitlebar">
+	<div class="white r box-shadow-z0 m-b filter-box">
+    <div class="navbar ng-scope">
+      <!-- navbar collapse -->
+      <div class="collapse navbar-toggleable-sm" id="filter">
+
+        <div class="filterbar p-t">
+          <div class="filter-content">
+            <div class="date-box">
+              <div class="flex-item">
+                <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                </span>
+                <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+            </div>
+            
+              <div class="select-box" nh-auth="stat_ordercr_dealer">
+                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true"  on-select="data.typeSelected($item)">
+                  <ui-select-match placeholder="经销商" allow-clear="true">
+                    <span ng-bind="$select.selected.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo" ng-class="{'over-hidden' : data.dealers.length < 8}">
+                    <span ng-bind="status.dealerName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div> 
+              <div class="select-box" ng-if="data.choseStation">
+                <ui-select ng-model="search.branchNo" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="奶站" allow-clear="true">
+                    <span ng-bind="$select.selected.branchName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.branchNo as status in data.milkStations track by status.branchNo" ng-class="{'over-hidden' : data.milkStations.length < 8}">
+                    <span ng-bind="status.branchName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div> 
+            </div>      
+          
+
+          <div class="filter-act">
+            <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+            <button class="btn btn-fw blueLt" ng-click="orderRatioOutput()">导出</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站名称</th>
+                                    <th class="th-nh">奶站类别</th>
+                                    <th class="th-nh">{{date1}}</th>
+                                    <th class="th-nh">{{date2}}</th>
+                                    <th class="th-nh">信息错误</th>
+                                    <th class="th-nh">客户原因</th>
+                                    <th class="th-nh">超区订单</th>
+                                    <th class="th-nh">其他</th>
+                                    <th class="th-nh">转化率</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                        <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                    </tr>
+                                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                        <td colspan="10" style="text-align:center;">没有数据！</td>
+                                    </tr>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="milkordercrstat">
+                                        <td>{{item.branchName}}</td>   
+                                        <td>{{item.branchGroup==01 ? '自营奶站' : '经销商奶站'}}</td>
+                                        <td>{{item.validQty}}</td>
+                                        <td>{{item.initQty}}</td>
+                                        <td>{{item.infoErrQty}}</td>  
+                                        <td>{{item.custQty}}</td>
+                                        <td>{{item.superQty}}</td> 
+                                        <td>{{item.otherQty}}</td> 
+                                        <td>{{item.ratio}}</td>                       
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="milkordercrstat"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+</div>

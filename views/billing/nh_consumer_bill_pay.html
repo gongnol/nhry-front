@@ -1,0 +1,78 @@
+ <div class="modal-header">
+    <h3 class="modal-title">付款提醒</h3>
+</div>
+<div class="modal-body">
+  <div class="row" style="border:1px;height:400px;overflow:scroll;">
+    <table class="table table-striped b-t b-b">
+        <thead>
+           <th>内容</th>
+           <th>发送条件</th>
+           <th>日数</th>
+           <th>例外</th>
+           <th>操作</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="p in pay">
+              <td>{{p.content}}</td>  
+              <td>{{p.sendCondition}}</td>
+              <td>{{p.days}}</td>
+              <td style="max-width: 7rem; overflow: hidden; text-overflow: ellipsis;">{{p.except}}</td>
+              <td>
+                <button class="btn btn-sm blueLt" ng-click="modify(p.id)">编辑</button>
+                <button class="btn btn-sm primary" ng-click="del(p.id)">删除</button>
+              </td>          
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  <br>
+  <br>
+  <div class="titlebar white  lt box-shadow b-b" style="border:1px solid #003366">
+      <div class="row">
+        <div class="col-md-6">
+          <label>内容</label>
+          <ui-select ng-model="detail.content" search-enabled="false">
+              <ui-select-match allow-clear="true" placeholder="选择内容">
+                  <span ng-bind="$select.selected"></span>
+              </ui-select-match>
+              <ui-select-choices 
+                repeat="c in content">
+                  <span ng-bind="c"></span>
+              </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="row m-t">
+        <div class="col-md-3">
+          <label>发送条件</label>
+          <ui-select ng-model="detail.sendCondition" search-enabled="false">
+              <ui-select-match allow-clear="true" placeholder="选择发送条件">
+                  <span ng-bind="$select.selected"></span>
+              </ui-select-match>
+              <ui-select-choices 
+                repeat="cond in sendCondition">
+                  <span ng-bind="cond"></span>
+              </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+          <label>日数</label>
+          <input type="number" class="form-control" min="1" ng-model="detail.days" >
+        </div>
+      </div>
+      <div class="row m-t">
+        <div class="col-md-12">
+          <label>例外(多个请用;隔开)</label>
+          <textarea class="form-control" rows="3" ng-model="detail.except"></textarea>
+        </div>
+      </div>
+      <div class="row m-t p-r text-right">
+          <button class="btn primary" type="button" ng-show="!detailIsNullFlag" ng-click="update()">保存</button>
+          <button class="btn primary" type="button" ng-show="detailIsNullFlag" ng-click="update()">添加</button>
+      </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+</div>

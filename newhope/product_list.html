@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nh">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>新希望送奶到户系统</title>
+    <!-- Bootstrap -->
+    <!-- for ios 7 style, multi-resolution icon of 152x152 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
+    <link rel="apple-touch-icon" href="./images/logo_s.png">
+    <meta name="apple-mobile-web-app-title" content="Flatkit">
+    <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196" href="./images/logo_s.png">
+
+    <!-- style -->
+    <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
+
+    <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- build:css ../assets/styles/app.min.css -->
+    <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="./css/nh_main.css" type="text/css" />
+</head>
+<body>
+<div class="app" id="app">
+<!-- ############ 页面内容开始-->
+
+<!-- 侧边导航栏 -->
+    <div id="aside" class="app-aside modal fade" ng-class="{'folded': app.setting.folded}">
+        <!-- fluid app aside -->
+        <div class="left navside" layout="column">
+            <div class="navbar no-radius">
+                <div ui-include="'./include/nh.navbar.top.html'"></div>
+            </div>
+            <div flex class="hide-scroll">
+                <nav class="scroll nav-light">
+                    <div ui-include="'./include/nh.nav.html'"></div>
+                </nav>
+            </div>
+            <!--<div flex-no-shrink class="b-t">-->
+                <!--<div ui-include="'../views/blocks/aside.top.0.html'"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+        <!-- / -->
+<!-- ######## 右侧开始-->
+    <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header white box-shadow">
+            <div ui-include="'./include/nh.header.html'"></div>
+        </div>
+        <div class="app-footer" ng-class="{'hide': $state.current.data.hideFooter}">
+            <div ui-include="'./include/nh.footer.html'"></div>
+        </div>
+        <div ui-view class="app-body" id="view">
+
+            <!-- #####  右侧正文开始-->
+            <div class="titlebar white lt box-shadow b-b">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8 col-xs-12 p-y-sm">
+                        <h5 class="m-b-0">商品列表</h5>
+                    </div>
+                    <!--<div class="col-md-3 col-sm-4 col-xs-12">-->
+                        <!--<div class="form-group l-h m-b-0 m-t-xs">-->
+                            <!--<div class="input-group input-group-sm">-->
+                                <!--<input type="text" class="form-control" placeholder="输入搜索条件">-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button type="submit" class="btn white b-a no-shadow">-->
+                                        <!--<i class="fa fa-search"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <!-- ###  功能条开始-->
+            <div class="titlebar white lt box-shadow">
+                <button class="btn btn-fw blueLt m-r">发布商品</button>
+                <button class="btn btn-fw grey-600  m-r">删除商品</button>
+                <button class="btn btn-fw warn pull-md-right hidefilter">收起筛选</button>
+                <button class="btn btn-fw warn pull-md-right showfilter" style="display: none">高级筛选</button>
+            </div>
+            <div class="filterbar grey-300 p-a pos-rlt">
+               <span class="filterArrow"></span>
+                <button class="btn btn-fw primary pull-md-right hidefilter">筛选</button>
+                <div class="btn-group dropdown m-r-md">
+                    <button class="btn white">选择品牌</button>
+                    <button class="btn white dropdown-toggle" data-toggle="dropdown"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="">新希望</a>
+                        <a class="dropdown-item" href="">川乳</a>
+                        <a class="dropdown-item" href="">雪花</a>
+                    </div>
+                </div>
+
+                <div class="btn-group dropdown m-r-md">
+                    <button class="btn white">选择品类</button>
+                    <button class="btn white dropdown-toggle" data-toggle="dropdown"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="">加工乳</a>
+                        <a class="dropdown-item" href="">乳制品</a>
+                        <a class="dropdown-item" href="">含乳饮料</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+            <div class="box">
+            <div class="table-responsive">
+                <table ui-jp="dataTable" ui-options="{
+               <!--'searching':false,-->
+               <!--'lengthMenu':false,-->
+                'bAutoWidth':false,
+          sAjaxSource: './api/datatable.json',
+
+          aoColumns: [
+            { mData: 'engine' },
+            { mData: 'browser' },
+            { mData: 'platform' },
+            { mData: 'version' },
+            { mData: 'grade' },
+            { mData: null },
+            { mData: null }
+          ],
+
+            aoColumnDefs:[
+                {
+                'bSortable':false,
+                'aTargets':[5],
+                'mData': null,
+                'mRender': function(data,type,full) {
+                return ' <div class=\'buttons\' ng-show=\'!rowform.$visible\'><button class=\'btn btn-sm primary\' ng-click=\'rowform.$show()\'>查看</button> <button class=\'btn btn-sm blueLt\' ng-click=\'removeUser($index)\'>编辑</button></div>';
+                }
+                },
+                {
+            'bSortable':false,
+                'aTargets':[6],
+                'mData': null,
+                'mRender': function(data,type,full) {
+                return '<input type=\'checkbox\'>';
+                }
+                } ],
+             'oLanguage': {
+                'sLengthMenu': '每页显示 _MENU_ 条记录',
+                'sZeroRecords': '抱歉， 没有找到',
+                'sInfo': '显示第 _START_ 到第 _END_ 条记录/共 _TOTAL_ 条记录',
+                'sInfoEmpty': '没有数据',
+                'sInfoFiltered': '(从 _MAX_ 条数据中检索)',
+                'oPaginate': {
+                'sFirst': '首页',
+                'sPrevious': '前一页',
+                'sNext': '后一页',
+                'sLast': '尾页'
+                }
+                }
+
+        }" class="table table-striped b-t b-b">
+                    <thead>
+                    <tr>
+                        <th>Rendering engine</th>
+                        <th>Browser</th>
+                        <th>Platform(s)</th>
+                        <th>Engine version</th>
+                        <th>CSS grade</th>
+                        <th>操作</th>
+                        <th>
+
+                                <input type="checkbox"><i></i>
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <!-- ###  表格结束-->
+        </div>
+
+
+            <!-- #####  右侧正文结束-->
+    </div>
+
+<!-- ######## 右侧结束-->
+
+<!-- ############ 页面内容结束-->
+</div>
+<!-- build:js scripts/app.html.js -->
+<!-- jQuery -->
+<script src="../libs/jquery/jquery/dist/jquery.js"></script>
+<!-- Bootstrap -->
+<script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
+<script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<!-- core -->
+<script src="../libs/jquery/underscore/underscore-min.js"></script>
+<script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+<script src="../libs/jquery/PACE/pace.min.js"></script>
+<script src="../libs/angular/angular-strap/ui-bootstrap-tpls.min.js"></script>
+<script src="scripts/config.lazyload.js"></script>
+<script src="scripts/palette.js"></script>
+<script src="scripts/ui-load.js"></script>
+<script src="scripts/ui-jp.js"></script>
+<script src="scripts/ui-include.js"></script>
+<script src="scripts/ui-device.js"></script>
+<script src="scripts/ui-form.js"></script>
+<script src="scripts/ui-nav.js"></script>
+<script src="scripts/ui-screenfull.js"></script>
+<script src="scripts/ui-scroll-to.js"></script>
+<script src="scripts/ui-toggle-class.js"></script>
+
+<script src="scripts/app.js"></script>
+
+<!-- ajax -->
+<script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
+<script src="scripts/ajax.js"></script>
+<!-- endbuild -->
+</body>
+</html>

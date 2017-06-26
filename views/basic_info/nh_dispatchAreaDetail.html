@@ -1,0 +1,83 @@
+<div class="modal-header blueLt">
+            <h3 class="modal-title">配送区域信息</h3>
+      </div>
+      <div class="modal-body p-lg" style="font-size: 1.25rem;">  
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="col-md-4">
+              <label class="modal-label">小区名称</label>
+            </div>
+            <div class="col-md-8">{{atm.residentialAreaTxt}}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-4">
+              <label class="modal-label">规模(人数)</label>
+            </div>
+            <div class="col-md-8">{{atm.residentialNum}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="col-md-4">
+              <label class="modal-label">所属物业</label>
+            </div>
+            <div class="col-md-8">{{atm.propertyTxt}}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-4">
+              <label class="modal-label">联系电话</label>
+            </div>
+            <div class="col-md-8">{{atm.propertyTel}}</div>
+          </div>
+        </div>
+         <div class="row"> 
+   <!--      liuyin add  start-->
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="modal-label">已关联奶站</label>
+            </div>
+            <div class="col-md-10">{{atm.branchNo}}</div>
+          </div>
+            <!--      liuyin add  end-->
+        </div>  
+        <div class="nhdashline"></div>
+         <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">省份</label>
+            </div>
+            <div class="col-md-8">{{atm.provinceName}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">城市</label>
+            </div>
+            <div class="col-md-8">{{atm.cityName}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">区县</label>
+            </div>
+            <div class="col-md-8">{{atm.countyName}}</div>
+          </div>          
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">小区</label>
+            </div>
+            <div class="col-md-8">{{atm.residentialAreaTxt}}</div>
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-2">
+              <label class="modal-label">地址</label>
+            </div>
+            <div class="col-md-10">{{atm.addressTxt}}</div>
+          </div>
+        </div>       
+               
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-fw primary p-x-md" ng-click="cancelModal()">关闭</button>
+      </div>

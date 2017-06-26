@@ -1,0 +1,265 @@
+<div id="body-alert"></div>
+
+<form name="userInfoForm" role='form' nh-keydown novalidate>
+    <div class="row">
+        <!-- 基本信息 -->
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header blueLt">
+                    <h2 class="_600">基本信息</h2>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <div class="md-form-group p-b-2">
+                                <input type="text" name="vipName" class="md-input md-input-blue" ng-model="data.user.vipName" required>                            
+                                <label class="modal-label">用户姓名<p class="small inline m-l">必填</p></label>
+                            </div>
+                            <div class="error-msg" ng-messages="userInfoForm.vipName.$error" ng-show="userInfoForm.vipName.$touched">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 p-t-lg">
+                            <label class="radio-inline md-check m-r">
+                                <input type="radio" name="sex" value="1" ng-model="data.user.sex">
+                                <i class="blueLt"></i>男
+                            </label>
+                            <label class="radio-inline md-check">
+                                <input type="radio" name="sex" value="0" ng-model="data.user.sex">
+                                <i class="blueLt"></i>女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="md-form-group p-b-2">
+                        <input type="text" name="mp" class="md-input md-input-blue" disabled="true" ng-model="data.user.mp">
+                        <label class="modal-label">联系电话<p class="small inline m-l">必填</p></label>
+                    </div>
+
+                    <div class="form-group item">
+                        <span>小区<p class="small inline m-l">必填<span ng-if="!data.hasbranch">(请先选择经销商和奶站)</span></p></span>
+                        <ui-select ng-model="data.user.subdist" search-enabled="true" remove-selected="false" on-select="data.areaSelected($item)" name="subdist" required>
+                            <ui-select-match allow-clear="true">
+                                <span ng-bind="$select.selected.residentialAreaTxt"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.id as x in (data.subdist | filter: $select.search) track by x.id">
+                                <span ng-bind="x.residentialAreaTxt"></span>
+                            </ui-select-choices>
+                            <ui-select-no-choice ng-show="data.subdist.length == 0 &&" class="p-l">
+                                没有数据！
+                            </ui-select-no-choice>
+                        </ui-select>
+                        <div class="error-msg" ng-messages="userInfoForm.subdist.$error" ng-show="userInfoForm.subdist.$touched" style="bottom: 6px; right: 1.5rem">
+                            <div ng-message="required">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <span>省市区街道<p class="small inline m-l">必填</p></span>
+                        <div class="address-block" style="position: relative;">
+                            <input type="text" name="selectAddr" class="form-control r-b-round l-b-round" ng-model="selectAddr" placeholder="请选择" nh-address required>
+                            <div class="error-msg" ng-messages="userInfoForm.selectAddr.$error" ng-show="userInfoForm.selectAddr.$touched" style="bottom: 8px;">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+                        </div> 
+                        <div nh-address-select addr-selected="selectAddr" addr-callback="data.getArea(addr)"></div>
+                        <div nh-address-select addr-selected="selectAddr" addr-disabled></div>
+                        
+                    </div> -->
+                    <div class="md-form-group p-b-2">
+                        <input type="text" name="addressTxt" class="md-input md-input-blue" ng-model="data.user.addressTxt" ng-change="data.getFullAddress()" required>
+                        <label class="modal-label">房号<p class="small inline m-l">必填</p></label>
+                        <div class="error-msg" ng-messages="userInfoForm.addressTxt.$error" ng-show="userInfoForm.addressTxt.$touched">
+                            <div ng-message="required">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                            </div>
+                        </div>
+                    </div>
+                    <label style="position: relative; margin-bottom: 0; top: -1rem;">{{ data.fullAddressText }}</label>
+                
+                    <div class="md-form-group p-b-2">
+                        <input type="email" name="userEmail" class="md-input md-input-blue" ng-model="data.user.email">
+                        <label class="modal-label">电子邮箱</label>
+                        <div class="error-msg" ng-messages="userInfoForm.userEmail.$error" ng-show="userInfoForm.userEmail.$touched">
+                            <div ng-message="email">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>邮箱格式错误！</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="md-form-group p-b-2">
+                        <input type="text" name="certId" class="md-input md-input-blue" ng-model="data.user.certId" ng-pattern="/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/">
+                        <label class="modal-label">身份证号码</label>
+                        <div class="error-msg" ng-messages="userInfoForm.certId.$error" ng-show="userInfoForm.certId.$touched">
+                            <div ng-message="pattern">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>身份证格式错误！</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderDate">生日</label>
+                        <div class="input-group">
+                            <span class="input-group-addon blueLt l-b-round"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control r-b-round" ng-model="data.user.birthday"
+                                   data-date-format="yyyy-MM-dd" data-date-type="string" data-autoclose="true"
+                                   name="date" bs-datepicker> 
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- 订奶信息 -->
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header blueLt">
+                    <h2 class="_600">订奶信息</h2>
+                </div>
+                <div class="box-body">
+                    <div ng-if="data.hasDealer">
+                        <div class="md-form-group p-b-2">
+                            <input class="md-input md-input-blue" disabled="true" ng-model="data.user.dealerName">
+                            <label class="modal-label">经销商</label>
+                        </div>
+                    </div>
+                    <div ng-if="!data.hasDealer">
+                        <div class="form-group item">
+                            <span>经销商<p class="small inline m-l">必填</p></span>
+                            <ui-select ng-model="data.user.dealerNo" search-enabled="true" on-select="data.dealerSelected($item)" name="dealer" required>
+                                <ui-select-match allow-clear="true">
+                                    <span ng-bind="$select.selected.dealerName"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="dealer.dealerNo as dealer in (data.dealers | filter: $select.search ) track by dealer.dealerNo">
+                                    <span ng-bind-html="dealer.dealerName | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <div class="error-msg" ng-messages="userInfoForm.dealer.$error" ng-show="userInfoForm.dealer.$touched" style="bottom: 6px; right: 1.5rem">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="data.hasbranch">
+                        <div class="md-form-group p-b-2">
+                            <input class="md-input md-input-blue" disabled="true" ng-model="data.user.branchName">
+                            <label class="modal-label">订奶奶站</label>
+                        </div>
+                    </div>
+                    <div ng-if="!data.hasbranch">
+                        <div class="form-group item">
+                            <span>订奶奶站<p class="small inline m-l">必填</p></span>
+                            <ui-select ng-model="data.user.branchNo" search-enabled="true" name="branch" on-select="data.branchSelected($item)" required>
+                                <ui-select-match allow-clear="true">
+                                    <span ng-bind="$select.selected.branchName"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="b.branchNo as b in (data.branchs | filter: $select.search) track by b.branchNo">
+                                    <span ng-bind="b.branchName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <div class="error-msg" ng-messages="userInfoForm.branch.$error" ng-show="userInfoForm.branch.$touched" style="bottom: 6px; right: 1.5rem">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group item">
+                                <span>订户来源<p class="small inline m-l">必填</p></span>
+                                    <ui-select ng-model="data.user.vipSrc" search-enabled="false" name="vipSrc" required>
+                                        <ui-select-match allow-clear="true">
+                                            <span ng-bind="$select.selected.itemName"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="src.itemCode as src in data.vipSrcs track by src.itemCode">
+                                            <span ng-bind="src.itemName"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <div class="error-msg" ng-messages="userInfoForm.vipSrc.$error" ng-show="userInfoForm.vipSrc.$touched" style="bottom: 6px; right: 1.5rem">
+                                        <div ng-message="required">
+                                            <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-md-offset-1">
+                            <div>订户类型<p class="small inline m-l">必填</p></div>
+                            <label class="radio-inline md-check m-r m-t">
+                                <input type="radio" name="vipType" value="10" ng-model="data.user.vipType">
+                                <i class="blueLt"></i>自取
+                            </label>
+                            <label class="radio-inline md-check m-t">
+                                <input type="radio" name="vipType" value="20" ng-model="data.user.vipType">
+                                <i class="blueLt"></i>到户
+                            </label>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group item">
+                        <span>订户类型<p class="small inline m-l">必填</p></span>
+                        <ui-select ng-model="data.user.vipType" search-enabled="false" name="vipType" required>
+                            <ui-select-match allow-clear="true">
+                                <span ng-bind="$select.selected.itemName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="type.itemCode as type in data.userTypes track by type.itemCode">
+                                <span ng-bind="type.itemName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div class="error-msg" ng-messages="userInfoForm.vipType.$error" ng-show="userInfoForm.vipType.$touched" style="bottom: 6px; right: 1.5rem">
+                            <div ng-message="required">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group m-b-sm">
+                        <div class="md-form-group">
+                            <input class="md-input md-input-blue" ng-model="data.user.activityNo" ng-disabled="data.user.vipSrc != '20'">
+                            <label class="modal-label">活动号</label>
+                        </div>
+                    </div>
+                    <div class="md-form-group m-b-sm">
+                        <input class="md-input md-input-blue" name="vipMp" ng-model="data.user.vipMp" ng-blur="data.checkVipMp()" ng-minlength="11" ng-maxlength="11" ng-pattern="/\d{11}/" required>
+                        <span class="modal-label" ng-bind="data.vipCheckMsg" ng-hide="userInfoForm.vipMp.$invalid" style="position: absolute; bottom: 1.4rem; left: 8rem; font-weight: 600;"></span>
+                        <label class="modal-label">会员手机号</label>
+                        <div class="error-msg" ng-messages="userInfoForm.vipMp.$error" ng-show="userInfoForm.vipMp.$touched">
+                            <div ng-message="required">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                            </div>
+                            <div ng-message="minlength">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>输入不足11位！</span>
+                            </div>
+                            <div ng-message="maxlength">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>输入超过11位！</span>
+                            </div>
+                            <div ng-message="pattern">
+                                <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>请填写数字！</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--div class="md-form-group p-b-2">
+                        <input class="md-input md-input-blue" disabled="true" ng-model="data.user.vipAmt">
+                        <label class="modal-label">会员积分</label>
+                    </div-->
+                    <div class="form-group">
+                        <span>备注</span>
+                        <textarea class="form-control m-t" rows="4" ng-model="data.user.comment" style="padding-bottom: 0;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12 pull-right">
+            <button class="btn btn-fw primary pull-right m-l" ng-click="back()">返回</button>
+            <button class="btn btn-fw blueLt pull-right m-l" ng-disabled="userInfoForm.$invalid" ng-click="data.saveInfo()" nh-mulclick-disable="data.saveInfoForm">保存</button>
+            <button class="btn btn-fw blueLt pull-right" ng-disabled="userInfoForm.$invalid" ng-click="data.saveCreate()">保存并创建订单</button>
+        </div>
+    </div>
+    
+
+</form>

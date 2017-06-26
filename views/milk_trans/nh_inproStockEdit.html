@@ -1,0 +1,87 @@
+<form ng-submit="inportStockAdding ||inportStockForm()">
+<div class="titlebar white box-shadow">
+    <div class="l-h m-l pull-right pull-rightest">
+        <button class="btn btn-sm btn-tbw rounded primary" ui-sref="newhope.proStock.inproStock">返回</button>
+    </div>
+     <div class="l-h m-l pull-right" ng-if="data.canclSave">
+        <button class="btn btn-sm btn-tbw rounded blueLt" ng-class="{'disabled': inportStockAdding}">保存</button>
+    </div>
+    <!--div class="l-h m-l pull-right">
+        <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="goEdit()">{{ editLabel }}</button>
+    </div-->
+</div>
+<div id="modal-alert"></div>
+<!-- ###  基本信息开始-->
+<div class="padding">
+	<!--<div class=" panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	-->
+	<div id="modal-alert"></div>
+	<div class="box">
+		<div bs-collapse>
+			<a bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h4>
+						交货单名细
+					</h4>
+				</div>
+			</a>
+			<div class="panel-collapse p-b">
+				<!--box body begin-->
+				<!--div class="modal-body p-lg">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="col-md-4 showtext">
+								<label class="modal-label">
+									交货单号
+								</label>
+							</div>
+							<div class="col-md-8 ">
+								<span ng-bind="nhmilks.companyName"></span>
+
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-4  showtext">
+								<label class="modal-label">
+									交货日期
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.branchGroup==01 ? '自营奶站' : '经销商奶站'"></span>
+							</div>
+						</div>
+					</div>
+
+				</div-->
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<!---body start-->
+				<div class="box" style="border-radius: 2px;">
+							<table class="table table-striped b-t b-b no-footer" >
+								<thead>
+									<tr role="row">
+										<th style="width:20%">商品编号</th>
+										<th style="width:30%">商品名称</th>
+										<th style="width:10%">交货单数量</th>
+										<th style="width:10%">实际到货数量</th>
+										<th style="width:30%">备注</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in data.content">
+										<td>{{item.matnr.substring(10)}}</td>
+										<td>{{item.matnrTxt}}</td>
+										<td>{{item.qty}}</td>
+										<td><input ng-readonly="!data.canclSave" type="number" class="form-control" ng-model="item.confirmQty"></td>
+										<td><input ng-readonly="!data.canclSave" type="text" class="form-control" ng-model="item.remark" ></td>
+									</tr>
+								</tbody>
+							</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</form>
+
+

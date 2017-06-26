@@ -1,0 +1,202 @@
+
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-r pull-right">
+        <div class="pull-right m-l" nh-auth="cust_addcsm">
+            <a class="nav-link" href="" ui-sref="newhope.addConsumer">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                    新增
+                </span>
+            </a>
+        </div>
+        <div class="pull-right m-l" nh-auth="cust_addcsm_byorg">
+            <a class="nav-link" href="" ui-sref="newhope.addCsmByOrg">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                    新增
+                </span>
+            </a>
+        </div>
+        <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+            <input type="text" id="fuzzySearch" class="input-line w-17" placeholder="请输入搜索关键字" ng-model="data.search.content" ng-keypress="fuzzySearch($event)" style="border-bottom-width: 0; font-size: 1.125rem;">
+            <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+        </div>
+        
+    </div>
+</div>
+
+<div class="padding">
+    <div id="body-alert" class="text-center"></div>
+    <div id="modal-alert"></div>
+    
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="navbar ng-scope">
+            <a data-toggle="collapse" data-target="#filter"
+               class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                <i class="material-icons"></i>
+            </a>
+            <!-- navbar collapse -->
+            <div class="collapse navbar-toggleable-sm" id="filter">
+                <div class="filterbar p-t">
+                    <div class="filter-content">
+                        
+                        <div class="select-box">
+                            <ui-select ng-model="data.search.status" search-enabled="false" append-to-body="true">
+                                <ui-select-match placeholder="订户状态" allow-clear="true">
+                                    <span ng-bind="$select.selected.label"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="status.code as status in data.handle.cStatuses track by status.code" ng-class="{'over-hidden' : data.handle.cStatuses.length < 8}">
+                                    <span ng-bind="status.label"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="select-box" nh-auth="cust_branch_group">
+                            <ui-select ng-model="data.search.stationType" search-enabled="false" append-to-body="true" on-select="data.typeSelected($item)">
+                                <ui-select-match placeholder="奶站类别" allow-clear="true">
+                                    <span ng-bind="$select.selected.label"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="type.code as type in data.handle.stationTypes track by type.code" ng-class="{'over-hidden' : data.handle.stationTypes.length < 8}">
+                                    <span ng-bind="type.label"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="select-box" ng-if="data.choseStation">
+                            <ui-select ng-model="data.search.station" append-to-body="true" search-enabled="true">
+                                <ui-select-match placeholder="请选择" allow-clear="true">
+                                    <span ng-bind="$select.selected.label"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="sta.code as sta in (data.handle.stations | filter: $select.search) track by sta.code" ng-class="{'over-hidden' : data.handle.stations.length < 8}">
+                                    <span ng-bind="sta.label"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        
+                    </div>
+
+                    <div class="filter-act">
+                        <button class="btn btn-fw blueLt" ng-click="doFilter()">筛选</button>
+                    </div>
+                </div>
+            </div>
+            <!-- / navbar collapse -->
+        </div>
+    </div>
+    
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                     <tr role="row">
+                        <th class="th-nh" style="padding-right: 0;">
+                            姓名
+                        </th>
+                        <th class="th-nh">联系电话</th>
+                        <th class="th-nh">地址</th>
+                        <!-- <th class="th-nh">经销商</th> -->
+                        <th class="th-nh">所属奶站</th>
+                        <th class="th-nh">首次订奶日期</th>
+                        <th class="th-nh">最近订奶日期</th>
+                        
+                        <th class="th-nh">订户状态</th>
+                        <th class="th-nh">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                          <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                          <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="csmTB">
+                            <td class="td-id-nh" style="width: 9%;word-break: break-all;padding-right: 0;"><span ng-bind="user.vipName"></span></td>
+                            <td><span ng-bind="user.mp"></span></td>
+                            <td style="width: 15%;word-break: break-all;"><span ng-bind="user.subdistName + user.addressTxt"></span></td>
+                            <!-- <td><span ng-bind="user.dealerName"></span></td> -->
+                            <td><span ng-bind="user.branchName"></span></td>
+                            <td><span ng-bind="dateFormat(user.firstOrderTime)"></span></td>
+                            <td><span ng-bind="dateFormat(user.lastOrderTime)"></span></td>
+                            
+                            <td><span ng-bind="getObjByCode(user.status, data.handle.cStatuses)"></span></td>
+                            <td style="width: 23%;word-break: break-all;">
+                                <div class="btn-groups">
+                                    <!-- <button ui-sref="newhope.consumerDetail({edit: false, vipCustNo: user.vipCustNo, name: user.vipName})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                    <button ui-sref="newhope.consumerDetail({edit: true, vipCustNo: user.vipCustNo, name: user.vipName})" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button> -->
+                                    <button class="btn btn-xs btn-outline rounded b-primary text-primary" ng-click="data.goCsmDetail(user.vipCustNo)">查看</button>
+                                    <button class="btn btn-xs btn-outline rounded b-info text-info" ng-click="data.goCsmEdit(user.vipCustNo)">编辑</button>
+                                    <button  ui-sref="newhope.orderCreate({selectCust: true, vipCustNo: user.vipCustNo, vipCustName: user.vipName, vipCustTel: user.mp, branchNo: user.branchNo, branchName: user.branchName, vipType: user.vipType})" class="btn btn-xs btn-outline rounded b-danger text-danger" nh-auth="cust_ordermilk">订奶</button>
+                                    <button  ui-sref="newhope.currentOrder({csmPhone: user.mp})" class="btn btn-xs btn-outline rounded b-accent text-accent" nh-auth="cust_vieworder">查看订单</button>
+                                    <button class="btn btn-xs btn-outline rounded b-danger text-danger" ng-click="data.refund(user.vipCustNo,user.vipName)">退款</button>
+                                </div>
+                            </td>                         
+                        </tr>
+                    </tbody>
+                </table>  
+                <footer class="text-center">
+                    <dir-pagination-controls
+                        max-size="8"
+                        direction-links="true"
+                        boundary-links="true" 
+                        on-page-change="data.getData(newPageNumber)" 
+                        template-url="nhtpl/pagination.tpl.html"
+                        pagination-id="csmTB">
+                    </dir-pagination-controls>
+                </footer>  
+            </div>
+        </div>
+    </div>
+	<!-- ###  功能条结束-->
+
+	<script type="text/ng-template" id="consumerDetail.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订户详情</h3>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="refund.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订户退款</h3>
+        </div>
+        <div class="modal-body">
+             <div class="row">
+                <div class="col-md-12">
+                    <label class="form-control-label text"> 订户名称 ： {{cust.vipName}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-control-label text"> 当前余额 ： {{cust.acctAmt}}</label>
+                </div>
+            </div>
+              <div class="row" style="margin-top:20px">
+                <div class="col-md-2">
+                    <label for="remark" class="form-control-label text">退款备注  ：</label>
+                </div>
+                <div class="col-md-6">
+                    <textarea   id="remark" class="form-control" ng-model="search.remark"></textarea>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top:20px">
+                <div class="col-md-2">
+                    <label for="refundAmount" class="form-control-label text"> 退款金额 ：</label>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-control-label text">{{cust.acctAmt}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+             <button class="btn blueLt" type="button" ng-click="refund()">退款</button>
+            <button class="btn blueLt" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+</div>

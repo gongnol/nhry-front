@@ -1,0 +1,83 @@
+
+
+
+<div class="padding notitlebar">
+
+
+ <!--
+   <div class="white r box-shadow-z0 m-b filter-box">
+    <div class="navbar ng-scope">
+      
+      <div class="collapse navbar-toggleable-sm" id="filter">
+
+        <div class="filterbar p-t">
+          <div class="filter-content">
+            <div class="date-box">
+              <div class="flex-item">
+                <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                </span>
+                <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+            </div>
+            </div>
+
+          <div class="filter-act">
+          <button class="btn btn-fw blueLt" ng-click="jump_xxwzx()">充值</button>
+            <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  -->
+
+
+
+
+      <div class="box" style="border-radius: 5px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">奶站名称</th>
+                            <th class="th-nh">账户可用余额</th>
+                            <th class="th-nh"> 充&nbsp;值 </th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                              <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                            </tr>
+                            <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                              <td colspan="10" style="text-align:center;">没有数据！</td>
+                            </tr>
+                            <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="product_list">
+                                <td class="td-id-nh">
+                                   <span >{{item.branchName}}</span>
+                                </td>
+                                <td><span >{{item.cash_num}}</span></td>
+
+                   <td>  <button class="btn btn-fw blueLt" ng-click="jump_xxwzx()">充值</button></td>
+                                                      
+                            </tr>
+                        </tbody>
+                </table>  
+                <footer class="text-center">
+                            <dir-pagination-controls
+                                max-size="8"
+                                direction-links="true"
+                                boundary-links="true" 
+                                pagination-id="product_list"
+                                on-page-change="data.getData(newPageNumber)"
+                                template-url="nhtpl/pagination.tpl.html">
+                            </dir-pagination-controls>
+                </footer>  
+            </div>
+        </div>
+</div>

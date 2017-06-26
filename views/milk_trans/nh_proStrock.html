@@ -1,0 +1,36 @@
+<div>
+        <div class="col-md-12 bg">
+            <div class="box-body">
+                <div class="clearfix m-b nav-active-info">
+                    <ul class="nav nav-pills nav-sm" ui-nav="">
+                        <li class="nav-item" ui-sref-active="active">
+
+                            <a ui-sref="newhope.proStock.proStockList" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 库存管理
+                            </a>
+                        </li>
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.proStock.inproStock" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 入库管理
+                            </a>
+                        </li>
+                        <!--li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.proStock.outproStock" class="nav-link" href="">
+                                <i class="fa fa-list"></i> 出库管理
+                            </a>
+                        </li--> 
+                        <li class="nav-item" ui-sref-active="active">
+                            <a ui-sref="newhope.proStock.milkstationSales" class="nav-link" href="">
+                                <i class="fa fa-list"></i>内部销售订单
+                            </a>
+                        </li>               
+                    </ul>
+                </div>
+
+                <!-- 主内容区域-->
+                <div ui-view class="m-b">
+                </div>
+
+            </div>
+        </div>
+</div>

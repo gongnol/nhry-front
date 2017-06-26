@@ -1,0 +1,44 @@
+<!--<i class=" nh_logo"></i>-->
+<div class="navbar">
+    <!-- Open side - Naviation on mobile -->
+    <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up">
+        <i class="material-icons">&#xe5d2;</i>
+    </a>
+    <!-- / -->
+    <!-- navbar right -->
+    <ul class="nav navbar-nav pull-right" style="padding-right">
+        <li class="nav-item dropdown hidden-xs-down">
+            <a class="nav-link" data-toggle="dropdown">{{curUser.displayName}}
+            </a>
+            <div ui-include="'views/layout/nh_loginInfo.html'"></div>
+        </li>
+        <li class="nav-item dropdown pos-stc-xs">
+            <a class="nav-link" href data-toggle="dropdown" tooltip-placement="bottom"  uib-tooltip="站内消息">
+                <i class="material-icons">&#xe7f5;</i>
+                <span class="label label-sm up warn">{{total_count}}</span>
+            </a>
+            <div ui-include="'views/layout/dropdown.notification.html'"></div>
+        </li>
+        <li class="nav-item dropdown pos-stc-xs m-r">
+            <a class="nav-link"  tooltip-placement="bottom" uib-tooltip="登出" ng-click="logout()"><i class="fa fa-sign-out fa-lg text-danger"></i></a>
+        </li>
+        <li class="nav-item hidden-md-up">
+            <a class="nav-link" data-toggle="collapse" data-target="#collapse">
+                <i class="material-icons">&#xe5d4;</i>
+            </a>
+        </li>
+    </ul>
+    <!-- / navbar right -->
+    <!-- navbar collapse -->
+    <div class="collapse navbar-toggleable-sm" id="collapse">
+        <!-- <div ui-include="'views/layout/navbar.form.right.html'"></div> -->
+        <!-- link and dropdown -->
+        <a class="navbar-brand ng-scope">
+            <i class="fa {{$state.current.data.icons}} fa-lg"></i>
+            <span class="hidden-folded inline ng-binding" ng-bind="$state.current.data.title"></span>
+            <!--span class="text-sm">(前端：{{ version.front }} 后端：{{ version.backend }})</span-->
+        </a>
+        <!-- / -->
+    </div>
+    <!-- / navbar collapse -->
+</div>

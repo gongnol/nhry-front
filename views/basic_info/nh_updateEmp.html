@@ -1,0 +1,149 @@
+<div ui-view="" class="app-body ng-scope" id="view">
+
+    <div class="titlebar white lt box-shadow b-b">
+        <div class="row form-control">
+            <div class="col-md-9 col-sm-8 col-xs-12 p-y-sm">
+                <h5 class="m-b-0">修改送奶工信息</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- ###  基本信息开始-->
+    <!-- uiView:  --><div ui-view="" class="ng-scope">
+    <div class="padding ng-scope">
+        <!--<div class=" panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
+        <div class="box">
+            <div bs-collapse="">
+                <a data-toggle="collapse" bs-collapse-toggle="">
+                    <div class="box-header blueLt">
+                        <h4>
+                            基本信息 <p class="pull-right">收起</p>
+                        </h4>
+                    </div>
+                </a>
+                <div class="panel-collapse p-b collapse am-collapse in" bs-collapse-target="">
+                    <!--box body begin-->
+                    <div class="box-body">
+                        <div class="row  m-r-md">
+                            <div class="col-md-3  col-sm-3  showtext">
+                                <div class="row showtext" style="margin-left:6px;">
+                                    <label>姓名:</label>
+                                </div>
+                                <div class="row" style="margin-left:6px;">
+                                    <input  class="form-control" type="text" value="{{emp.name}}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2  col-md-offset-1 col-sm-2 col-sm-offset-1">
+                                <div class="row"> <label>性别：</label></div>
+                                <label class="radio-inline md-check m-t-md  m-t-sm">
+                                    <input type="radio" name="gender" id="genderMan" value=0 ng-model="user.gender" >
+                                    <i class="blue"></i>男
+                                </label>
+
+                                <label class="radio-inline md-check m-t-sm">
+                                    <input type="radio" name="gender" id="genderWoman" value=1 ng-model="user.gender" >
+                                    <i class="blue"></i>女
+                                </label>
+                            </div>
+
+                            <div class="form-group col-md-3  col-sm-3 "><label>分公司:</label>
+                                <select class="select2 form-control " value="">
+                                    <option >川乳</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row  m-r-md">
+                            <div class="col-md-3  col-sm-3  showtext"><label>职位:</label><input type="text" class="form-control" value="{{emp.position}}" ></div>
+                            <div class="col-md-3  col-sm-3 showtext"><label>员工编号:</label><input type="text" class="form-control" value="{{emp.employNo}}"></div>
+                            <div class="col-md-3 col-sm-3 showtext"><label>状态:</label>
+                                <select class="form-control" value="{{emp.status}}" >
+                                    <option value="休假中" >休假中</option>
+                                    <option  value="在职" >在职</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row  m-r-md">
+                            <div class="col-md-3  col-sm-3 showtext"><label>身份证号:</label>
+                                <input type="text" class="form-control" value="{{emp.empID}}">
+                            </div>
+                            <div class="col-md-3  col-sm-3 showtext"><label>微信号:</label>
+                                <input type="text" class="form-control" value="{{emp.webChat}}">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--box body end-->
+                </div>
+            </div>
+        </div>
+        <!--box  end-->
+        <!--box begin-->
+
+        <div class="box">
+            <div bs-collapse="">
+                <a data-toggle="collapse" bs-collapse-toggle="">
+                    <div class="box-header blueLt">
+                        <h4>
+                            负责路线 <p class="pull-right">收起</p>
+                        </h4>
+                    </div>
+                </a>
+                <!--div class="panel-collapse p-b" start -->
+                <div style="" class="panel-collapse p-b collapse am-collapse in" bs-collapse-target="">
+                    <!---body start-->
+                    <div class="box-body">
+                        <div class="row m-r-md">
+                            <div class=" col-md-3 col-sm-3 ">
+                                <label>所属奶站：</label>
+
+                                <select class="form-control"  >
+                                    <option  ng-repeat="station in stations" > {{station.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row m-r-md">
+                            <label>所有路线</label>
+                        </div>
+                        <div class="row  m-r-md">
+
+                            <div class="col-md-6 col-sm-10 " data-ng-repeat="dispatchArea in dispatchAreainfo">
+                                <div class="areaBox p-a-sm m-r-md ">
+                                    <input ng-model="area" type="checkbox"/>
+                                    <div class="textBox inline">
+                                        <p class="areaTitle">{{dispatchArea.city}}{{dispatchArea.street}}{{dispatchArea.streetNo}}</p>
+                                        <p class="small">{{dispatchArea.address}}</p>
+                                    </div>
+                                    <!--<button type="button" class="areaDetail pull-right blueLt ng-scope" data-animation="am-fade-and-slide-top"
+                                            data-content-template="views/basic_info/nh_dispatchAreaDetail.html" bs-modal="modal" ng-click="dispatchAreaDetail(dispatchArea.dispatchNo)">
+                                        详细
+                                    </button>-->
+
+                                    <!-- <a class="areaDetail pull-right blueLt" ng-click="dispatchAreaDetail(dispatchArea.dispatchNo)"> </a>-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--box-body end -->
+                </div>
+                <!--div class="panel-collapse p-b" end -->
+            </div>
+        </div>
+        <!--box end -->
+
+        <div class="row text-right">
+            <button type="submit" class="btn btn-fw blueLt m-r"> 保存</button>
+            <button type="rest" class="btn btn-fw blueLt m-r"> 返回</button>
+        </div>
+
+    </div>
+</div>
+    <!-- ##  基本信息结束-->
+</div>

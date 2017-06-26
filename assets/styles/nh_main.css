@@ -1,0 +1,134 @@
+.nh body{ font-family: "microsoft yaHei"}
+.nh_logo{ background:url("../images/nh_logo.png") no-repeat; display: block; height: 50px;width: 210px;float:left;margin-top: 0.7rem;}
+.nh_logo_sm{ background:url("../images/nh_logo.png") no-repeat;background-size: contain; display: block; height: 35px;width: 147px;float:left;margin-top: 1.1rem;}
+.blueLt{  background-color: #02a5ea; color:rgba(255, 255, 255, 1);}
+.navDropDown{    position: absolute; top: 0.3rem;left: 7rem;}
+/*-----------------------侧边导航栏----------------------------*/
+.app-aside{ -webkit-box-shadow: 0 0 2px 2px #999;box-shadow: 0 0 2px 2px #999; color: #fff}
+.navside{ background-color: #02a5ea;}
+.navside .navbar{ background-color: #4ea834;}
+.navside .nav-text{ font-size: 16px; opacity: .9; }
+.navside .nav-sub .nav-text{ font-size: 14px; }
+.navside .nav li a{ padding: 0.4rem  0.5rem}
+.navside .nav li li a{padding:0rem 0rem 0rem 1rem}
+.navbar-brand{ font-weight: 400;}
+.navbar-brand > span{margin: 0px}
+.navbar-brand  .material-icons{ color: #fff; position: absolute; right:20px; line-height: 4rem;}
+.nav-icon{fill:#0cc2aa;}
+.navicon{ width: 21px; height: 21px; display: inline-block; top: 6px;}
+.navicon01 {background:url("../images/navicon_01.png") no-repeat}
+.navicon02{background:url("../images/navicon_02.png") no-repeat}
+.navicon03{background:url("../images/navicon_03.png") no-repeat}
+.navicon04{background:url("../images/navicon_04.png") no-repeat}
+.navicon05{background:url("../images/navicon_05.png") no-repeat}
+.navicon06{background:url("../images/navicon_06.png") no-repeat}
+/*-----------------------顶部banner----------------------------*/
+.app-header ~ .app-body{padding-top: 4rem;}
+.app-header{ min-width: 320px;}
+.navbar{ height: 4rem}
+.navbar-nav > .nav-link, .navbar-nav > .nav-item > .nav-link, .navbar-item, .navbar-brand{ line-height: 4rem;}
+#collapse h4{
+    display: inline;
+    position: relative;
+    top: 4px;
+    left: 5px;
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 60px;}
+.nhWelcome{ line-height: 4rem;  min-width: 6em; font-size: 14px;color: #666; position: relative; top: 4px;}
+/*-------------------------首页内容-----------------------------*/
+.titlebar{padding: 0.5rem 1rem}
+.titlebar h5{  color: #02a5ea}
+.logintime{line-height:1.5rem; text-align: right; position: absolute; top: 0.8rem; right: 1rem; color: #fff;  width: 12rem;}
+.logintime strong{ padding-right: 20px; font-weight: 400}
+.stabtn{right: 1rem;bottom: 1.8rem;position: absolute;}
+.iconSetting{ background: url("../images/nh_icon_list.png") no-repeat; display: inline-block; width: 28px; height: 28px;}
+.boxWaitFor{ padding: 1.25rem 0.5rem; text-align: center;}
+.boxWaitFor.wl{ cursor: pointer;}
+.boxWaitFor p{font-size:1rem ;font-weight: 600; color: #999;}
+.boxWaitFor strong{ color: #0cc2aa ; font-size: 3rem; font-weight: 400;}
+.boxWaitFor.war strong{color: #fcc100}
+.b-v-line{height: 7rem;border-left: 1px solid #ccc;position: absolute; top:1.2rem;}
+.boxCuStu{ height:6rem;}
+.boxCuStu .clear{padding-top: 0.5rem; padding-left: 1rem}
+.graybtn{ position: absolute; right: 1rem; bottom: 0; color:#999;}
+.boxLink{padding: 0px; min-height: 17rem;}
+.boxLink ul{margin: 0;padding: 0; }
+.boxLink li{list-style:none; text-align: center ; border-bottom: 1px solid #ccc; border-right: 1px solid #ddd; padding: 0.8rem;}
+.boxLink i{ width: 36px; height: 36px; display: block; margin: 0 auto;}
+.boxLink .icon01{background:url("../images/nh_icon_link1.png") no-repeat}
+.boxLink .icon02{background:url("../images/nh_icon_link2.png") no-repeat}
+.boxLink .icon03{background:url("../images/nh_icon_link3.png") no-repeat}
+
+/*-------------------------列表页面-----------------------------*/
+.filterArrow:after{display: block; position: absolute;top: -15px; width: 16px; height: 16px; border: 8px solid transparent; border-bottom-color: #e0e0e0; content: ""; right:4rem;}
+/*-------------------------详细页面-----------------------------*/
+.showtext label{ font-weight: 600;}
+.areaBox { font-size: 1.2rem; border: 1px solid #ccc; position: relative;}
+.areaBox input[type="checkbox"]{position: absolute; left: 1rem;  top:50%; margin-top: -6px;}
+.areaBox .textBox{margin-left: 2rem;}
+.areaBox .textBox .areaTitle{ margin-bottom: 0px; font-weight: 600; color: #666;}
+.areaBox .textBox .small{margin-bottom: 0.2rem}
+.areaBox .areaDetail{line-height: 4.4rem; text-align:center;    display: block; width: 4.4rem; height: 4.4rem; margin: -0.5rem;}
+/*-------------------------弹出框-----------------------------*/
+.modal.center .modal-dialog.sm{}
+.modal.center .modal-dialog.md{}
+.modal.center .modal-dialog.lg{ width: 900px;}
+.modal.center .modal-dialog.xl{width: 90%;}
+.nh .modal-header{padding: 0.7rem 1.2rem; background-color: #02a5ea; color: rgba(255, 255, 255, 1)}
+.modal-dialog .modal-body{text-align: left;}
+.modal-dialog .dark-white{ border: 1px solid #eee;}
+.modal-dialog .showtext label{min-width: 5em;}
+.modal-body .modal-title{padding: 0.6rem; margin-bottom: 0.6rem; border-bottom: 1px solid #e5e5e5}
+h3.modal-title{ font-size: 1.2rem;}
+/*-------------------------筛选框-----------------------------*/
+.ui-select-bootstrap .ui-select-toggle > .caret{border-top: 4px solid #666; border-left: 4px solid transparent; border-right: 4px solid transparent; margin-right: 2px;}
+.ui-select-bootstrap .ui-select-toggle>.caret:before{ display: block; position: absolute; height: 1.6rem; border-right: 1px solid #ccc; width: 1px; content: "";    top: -0.9rem; right: 1rem;}
+.ui-select-bootstrap .ui-select-toggle{ padding-right: 2rem;}
+.filterbar .select-box{min-width: 10rem; display: inline-block; margin-right: 1rem;}
+.filterbar .date-box{ min-width: 5rem; display: inline-block; margin-right: 1rem;  color: #666;}
+.filterbar .date-box label{position: relative;top: 0.5rem;}
+.filterbar .date-box .material-icons{position: absolute; top: 10px; right: 20px; color: #999 }
+.select-date{position: relative}
+.select-date .material-icons{position: absolute; top: 10px; right: 10px; color: #999 }
+.ui-select-search{width: 100% !important;}
+/*-------------------------弹出提醒-----------------------------*/
+#body-alert .alert.top{margin: 80px 20px 20px 180px;}
+#modal-alert .alert.top{left: 21rem; right: 22rem;}
+/*-------------------------订户信息-----------------------------*/
+.info1 .am-collapse{overflow: visible;}
+.defAddr{border: 2px solid !important; margin: 0.5rem; padding-top: 0.5rem; padding-bottom: 0.5rem;}
+.addr{border-top: 1px solid !important;border-bottom: 1px solid !important; padding-top: 0.5rem; padding-bottom: 0.5rem;}
+.addrAct{text-align: center;}
+.addrAct strong{position: relative; top: 1rem;}
+/*-------------------------页面分割线-----------------------------*/
+.nhdivider{margin: 2rem 0 2rem;border-top: 1px solid #e5e5e5;}
+/*-------------------------table-----------------------------*/
+
+.table-striped > tbody > tr:nth-child(odd){background-color: #eee;}
+.nh table.dataTable tbody td, .nh table.dataTable tbody th { padding: 6px 20px; line-height: 2rem;}
+/*-------------------------媒体变动-----------------------------*/
+@media (max-width: 991px){
+    .app-aside .left {
+        position: fixed;
+        width: 250px;
+    }
+}
+@media (min-width: 992px){
+    .app-aside, .app-aside .scroll {
+        width: 10rem;
+    }
+    .folded.nav-expand:hover > *, .folded.nav-expand:focus > *, .folded.nav-expand.active > *
+    { width: 10rem}
+    .folded, .folded .scroll{
+        width: 4rem;
+    }
+    .app-aside:not(.hide) ~ .app-content {
+        margin-left: 10rem;
+    }
+    .folded.nav-expand:hover, .folded.nav-expand:hover .scroll, .folded.nav-expand:focus, .folded.nav-expand:focus .scroll, .folded.nav-expand.active, .folded.nav-expand.active .scroll {
+        width: 10rem !important;}
+}
+/*-------------------------临时放置，后期需要设计师再做调整，用于报表-----------------------------*/
+.chart-wrapper { width: 80%;max-width: 1200px; min-width: 600px;height: 600px;margin: 30px auto;border: 1px solid #ccc;}
+.nh-chart-wrapper {  width: 80%;max-width: 1200px; min-width: 600px;height: 600px;margin: 30px auto;border: 1px solid #ccc;}

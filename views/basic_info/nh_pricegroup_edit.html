@@ -1,0 +1,210 @@
+<!-- ######## 右侧正文开始-->
+<div  ng-controller="pricesGroupEditCtrl">
+    <form ng-submit="priceForm()" novalidate>
+        <div class="titlebar white box-shadow">
+            <div class="l-h m-r pull-right">
+                <button type="button" class="btn btn-sm btn-tbw rounded primary" ng-click="backToPriceList()">返回</button>
+            </div>
+            <div class="l-h m-r pull-right">
+                <button class="btn btn-sm btn-tbw rounded blueLt">保存</button>
+            </div>
+        </div>
+
+        <div class="padding" >
+        <div id="modal-alert"></div>
+            <!-- 基本信息 -->
+            <div class="box">
+                <div bs-collapse>
+
+                    <a bs-collapse-toggle>
+                        <div class="box-header blueLt">
+                            <h4>基本信息</h4>
+                        </div>
+                    </a>
+
+                    <div class="panel-collapse p-b">
+                        <div class="box-body">
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="md-form-group" style="padding-top: 1.75rem;">
+                                        <input class="md-input text md-input-blue" ng-model="priceView.priceGroup" placeholder="请输入价格组名称">
+                                        <label class="modal-label">
+                                            价格组名称
+                                            <p class="small inline m-l">必填</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="scopeUsed">
+                                        优先级
+                                        <p class="small inline m-l">必填</p>
+                                    </label>
+                                    <ui-select class="disabled" ng-disabled="true"  ng-model="priceView.priceType" search-enabled="false">
+                                        <ui-select-match allow-clear="false" placeholder="请选择优先级">
+                                            <span ng-bind="$select.selected.text"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="x.code as x in (priorities.data | filter: $select.search) track by x.code">
+                                            <span ng-bind="x.text"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div ng-if="priceView.priceType==20" class="form-group col-md-4">
+                                    <label for="scopeUsed">
+                                        适用范围
+                                        <p class="small inline m-l">必填</p>
+                                    </label>
+                                    <div class="select-box">
+                                        <ui-select class="disabled" ng-disabled="true" ng-model="priceView.scope" search-enabled="true">
+                                            <ui-select-match  placeholder="请选择使用范围" allow-clear="true">
+                                                <span ng-bind="$select.selected.dealerName"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="x.dealerNo as x in (priceDealers | filter: $select.search) track by x.dealerNo">
+                                                <span ng-bind="x.dealerName"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="startDate">
+                                        起始日期
+                                        <p class="small inline m-l">必填</p>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control r-b-round" ng-model="priceView.startDate"
+                                       data-date-format="yyyy-MM-dd" data-autoclose="true"
+                                       name="date" bs-datepicker disabled></div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="endDate">
+                                        结束日期
+                                        <p class="small inline m-l">必填</p>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control r-b-round" ng-model="priceView.endDate"
+                                       data-date-format="yyyy-MM-dd"
+                                       data-min-date="{{options.nowDate}}"
+                                       data-autoclose="true"
+                                       name="date" bs-datepicker></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关联商品 -->
+            <div class="box">
+                <div bs-collapse>
+                    <a bs-collapse-toggle>
+                        <div class="box-header blueLt">
+                            <h4>
+                                关联商品
+                                <p class="pull-right">收起</p>
+                            </h4>
+                        </div>
+                    </a>
+
+                    <div class="panel-collapse p-b" bs-collapse-target>
+                        <div class="box-body">
+                            <div class="col-md-12">
+                                <div class="white">
+
+                                    <a data-toggle="collapse" data-target="#filter"
+             class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                                        <i class="material-icons"></i>
+                                    </a>
+
+                                    <!-- navbar collapse -->
+                                    <div class="collapse navbar-toggleable-sm" id="filter">
+                                        <div class="filterbar p-t">
+
+                                            <div class=" col-lg-6 col-md-6 col-sm-6">
+                                                <input class="form-control" placeholder="筛选商品" ng-model="searchTerm"></div>
+
+                                        </div>
+                                    </div>
+                                    <!-- / navbar collapse --> </div>
+                            </div>
+                            <div class="dualmultiselect">
+
+                                <div class=" white col-lg-6 col-md-6 col-sm-6">
+                                    <div bs-collapse>
+                                        <div class="panel-collapse p-b" bs-collapse-target>
+                                            <div class="box-body">
+                                                <button type="button" class="hidden-xs-down btn btn-sm rounded blueLt" ng-click="transfer(priceView.id,proList, options.selectedItems, -1)">
+                                                    <i class="fa fa-plus"></i>
+                                                    全部加入
+                                                </button>
+                                                <div class="pool">
+
+                                                    <table class="table table-striped b-t b-b no-footer">
+                                                        <tbody>
+                                                            <tr ng-repeat="item in proList | filter: searchTerm">
+                                                                <td>
+                                                                    <a href="" ng-click="transfer(priceView.id,proList, options.selectedItems, proList.indexOf(item))">
+                                                                        {{item.matnrTxt}}&nbsp;&nbsp;
+                                                                        <i class="fa fa-angle-right"></i>
+                                                                        <i class="fa fa-angle-right"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="white col-lg-6 col-md-6 col-sm-6">
+                                    <div bs-collapse>
+                                        <div class="panel-collapse p-b" bs-collapse-target>
+                                            <div class="box-body">
+                                                <button type="button" class="hidden-xs-down btn btn-sm rounded grey-600 " ng-click="transfer(priceView.id,options.selectedItems, proList, -1)">
+                                                    <i class="fa fa-minus"></i>
+                                                    全部去除
+                                                </button>
+                                                <div class="pool">
+
+                                                    <table class="table table-striped b-t b-b no-footer">
+                                                        <tbody>
+                                                            <tr ng-repeat="item in options.selectedItems | orderBy: options.orderProperty">
+                                                                <td style="width:70%">
+                                                                    <a href="" ng-click="transfer(priceView.id,options.selectedItems, proList, options.selectedItems.indexOf(item))">
+                                                                        <i class="fa fa-angle-left"></i>
+                                                                        <i class="fa fa-angle-left"></i>
+                                                                        &nbsp;&nbsp;{{item.matnrTxt}}
+                                                                    </a>
+                                                                </td>
+                                                                <td style="width:15%;padding-left: 5px;padding-right: 10px;">
+                                                                <input class="md-input md-input-blue" ng-model="item.price2" placeholder="订户价" style="height: auto;top: auto;"></td>
+                                                                <td style="width:15%;padding-left: 5px;padding-right: 10px;">
+                                                                <input class="md-input md-input-blue" ng-model="item.price1" placeholder="自取价" style="height: auto;top: auto;"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<!-- ######## 右侧正文结束-->

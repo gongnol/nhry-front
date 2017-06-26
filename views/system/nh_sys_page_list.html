@@ -1,0 +1,253 @@
+<!-- ######## 右侧开始-->
+<!-- <div class="titlebar white box-shadow">
+    <div class="l-h-2x m-l pull-right pull-rightest">
+        <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search text-lg" aria-hidden="true" style="vertical-align: middle;"></i></span>
+    </div>
+    <div class="l-h pull-right">
+        <input type="text" id="fuzzySearch" class="input-line" ng-class="{'w-17': isSearch}" placeholder="请输入搜索关键字" ng-keypress="presskey($event)" style="font-size: 1.125rem">
+    </div>
+</div> -->
+<div class="padding notitlebar">
+
+    <div id="modal-alert"></div>
+    <div id="body-alert"></div>
+
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="navbar ng-scope">
+            <!-- navbar collapse -->
+            <div class="collapse navbar-toggleable-sm" id="filter">
+                <div class="filterbar p-t">
+                    <div class="filter-content">
+                        <!-- search content -->
+                        
+                        <div class="select-box">
+                            <ui-select ng-model="search.secondSet" search-enabled="false">
+                                <ui-select-match placeholder="二级品类" allow-clear="true">
+                                    <span ng-bind="$select.selected.label"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="x.code as x in data.handle.secondSets track by x.code">
+                                    <span ng-bind="x.label"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="select-box">
+                            <ui-select ng-model="search.status" search-enabled="false">
+                                <ui-select-match allow-clear="true" placeholder="状态">
+                                    <span ng-bind="$select.selected.label"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="x.code as x in data.handle.statuses track by x.code">
+                                    <span ng-bind="x.label"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <!-- / search content -->
+                    </div>
+                    <div class="filter-act">
+                        <button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+                    </div>
+                </div>
+            </div>
+            <!-- / navbar collapse -->
+        </div>
+    </div>
+    <!-- ###  筛选条结束-->
+    <!-- ###  表格开始-->
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">商品编码</th>
+                            <th class="th-nh">商品名称</th>
+                            <th class="th-nh">中类</th>
+                            <th class="th-nh">管理包装</th>
+                            <th class="th-nh">规格</th>
+                            <th class="th-nh">提前订货</th>
+                            <th class="th-nh">状态</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr ng-show="data.content.length <= 0"><td colspan="6" style="text-align:center;">Loading new data!!</td></tr>
+                            <tr dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count">
+                                <td class="td-id-nh">
+                                    {{user.matnr}}
+                                </td>
+                                <td>{{user.displayName}}</td>
+                                <td>{{user.secCate}}</td>
+                                <td>{{user.zbotCode}}</td>
+                                <td>{{user.spec}}</td>
+                                <td>{{user.maraEx.preDays}}</td>
+                                <td><span ng-bind="statusMap(user.status)"></span></td>
+                                <td>
+                                    <div class="btn-groups">
+                                        <button ng-click="data.showProductDetail(user.matnr, $index)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                    </div>
+
+                                </td>                         
+                            </tr>
+                        </tbody>
+                </table>  
+                <footer class="text-center">
+                            <dir-pagination-controls
+                                max-size="8"
+                                direction-links="true"
+                                boundary-links="true" 
+                                on-page-change="data.getData(newPageNumber)"
+                                template-url="nhtpl/pagination.tpl.html">
+                            </dir-pagination-controls>
+                </footer>  
+            </div>
+        </div>
+    </div>
+    <!-- ###  表格结束-->
+
+    <!--productdetail modal 产品详情 -->
+    <script type="text/ng-template" id="productDetailModal.html">
+      <div class="modal-header blueLt">
+            <h3 class="modal-title">产品详情</h3>
+      </div>
+      <div class="modal-body p-lg">
+        <div class="modal-title">
+          <h3>{{product.matnrTxt}}</h3><strong>{{product.matnr}}</strong>
+          <div class="pull-right">上市时间：{{product.createAt}}</div>
+        </div>   
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">产品名称</label>
+            </div>
+            <div class="col-md-12">{{product.matnrTxt}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">产品编号</label>
+            </div>
+            <div class="col-md-12">{{product.matnr}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">管理包装</label>
+            </div>
+            <div class="col-md-8">{{product.zbotCode}}</div>
+          </div>
+        </div>
+        <div class="nhdashline"></div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">一级品类</label>
+            </div>
+            <div class="col-md-8">{{product.firstCat}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">二级品类</label>
+            </div>
+            <div class="col-md-8">{{product.secCate}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">三级品类</label>
+            </div>
+            <div class="col-md-8">{{product.brand}}</div>
+          </div>
+        </div>
+        <div class="nhdashline"></div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">规格</label>
+            </div>
+            <div class="col-md-8">{{product.spec}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">净重</label>
+            </div>
+            <div class="col-md-8">{{product.weight}}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">净重单位</label>
+            </div>
+            <div class="col-md-8">{{product.weightUnit}}</div>
+          </div>
+        </div>
+        <div class="nhdashline"></div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">重点商品</label>
+            </div>
+            <div class="col-md-8">{{product.importantPrdFlag}}</div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="md-form-group col-">
+              <input class="md-input" ng-model="product.maraEx.shortTxt">
+              <label class="modal-label col-">产品简称</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="modal-label col-">是否回瓶</label>
+            <div class="select-box col-">
+              <ui-select ng-model="product.returnFlag" search-enabled="false">
+                  <ui-select-match allow-clear="true">
+                      <span ng-bind="$select.selected.label"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="x.code as x in handle.retBotFlags track by x.code">
+                      <span ng-bind="x.label"></span>
+                  </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="modal-label col-">提前预定天数</label>
+            <div class="col-">
+              <label class="radio-inline md-check m-t-sm">
+                <input type="radio" name="preDays" value=1 ng-model="product.maraEx.preDays"> <i class="primary"></i>1天
+              </label>
+              <label class="radio-inline md-check m-t-sm">
+                <input type="radio" name="preDays" value=2 ng-model="product.maraEx.preDays"> <i class="primary"></i>2天
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <label class="modal-label col-">不可销售范围</label>
+            <div class="select-box col-">
+              <ui-select multiple remove-selected="false" ng-model="handle.selectedNotsellList" search-enabled="true">
+                  <ui-select-match allow-clear="true">
+                      <span ng-bind="$item.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="x in (handle.dealers | filter: $select.search) track by x.dealerNo">
+                      <span ng-bind-html="x.dealerName | highlight: $select.search"></span>
+                  </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="md-form-group col-">
+              <input class="md-input" ng-model="product.maraEx.rate">
+              <label class="modal-label col-">配送费</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-fw danger p-x-md" ng-if="product.status != 'Y'" ng-click="save(true)">发布</button>
+            <button type="button" class="btn btn-fw danger p-x-md" ng-if="product.status == 'Y'" ng-click="unpublish()">下架</button>
+            <button type="button" class="btn btn-fw blueLt p-x-md" ng-click="save(false)">保存</button>
+            <button type="button" class="btn btn-fw primary p-x-md" ng-click="cancelModal()">关闭</button>
+      </div>
+    </script>
+    <!-- modal end -->
+</div>
+<!-- #####  右侧正文结束-->
+

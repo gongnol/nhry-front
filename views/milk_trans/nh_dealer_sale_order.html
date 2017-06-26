@@ -1,0 +1,112 @@
+<div class="padding notitlebar">
+    <div id="modal-alert" class="text-center"></div>
+    <div id="body-alert" class="text-center"></div>
+    <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-t p-r">
+            <div class="filter-content">
+                <div class="date-box ">
+                    <div class="flex-item">
+                      <span class="item-title">要货日期</span>
+                    </div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> 
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" 
+                               name="orderDate" 
+                               ng-model="data.search.orderDate" 
+                               placeholder="选择查询日期" 
+                               data-date-format="yyyy-MM-dd" 
+                               data-date-type="string" 
+                               data-autoclose="true"
+                               bs-datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-act">
+                <button type="button" class="btn btn-fw blueLt" ng-click="data.getData(1)">查询</button>
+            </div>
+        </div>
+    </div>
+    <!-- ###  功能条结束-->
+    <!-- ###  表格开始-->
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer" nh-checkbox>
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">销售订单号</th>
+                            <th class="th-nh">创建日期</th>
+                            <th class="th-nh">要货日期</th>
+                            <th class="th-nh">奶站</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                            <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                            <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="saleorderTB" current-page="data.curPageno">
+                            <td class="td-id-nh"><span ng-bind="item.voucherNo"></span></td>
+                            <td><span ng-bind-html="item.orderDate.nh_formatDate()"></span></td>
+                            <td><span ng-bind-html="item.requiredDate.nh_formatDate()"></span></td>
+                            <td><span ng-bind="item.branchName"></span></td>
+                            <td>
+                                <div class="btn-groups">
+                                    <button ng-click="data.detail(item.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看详情</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <footer class="text-center">
+                  <dir-pagination-controls max-size="8" 
+                                           direction-links="true" 
+                                           pagination-id="saleorderTB" 
+                                           boundary-links="true" 
+                                           on-page-change="data.getData(newPageNumber)" 
+                                           template-url="nhtpl/pagination.tpl.html">
+                  </dir-pagination-controls>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <!-- ###  表格结束-->
+    <script type="text/ng-template" id="SaleOrderDetailModal.html">
+        <div class="modal-header blueLt">
+            <h3 class="modal-title">销售订单详情</h3>
+        </div>
+        <div class="modal-body p-lg">
+            <table class="table table-striped b-t b-b no-footer">
+                <thead>
+                    <tr role="row">
+                        <th class="th-nh">产品编码</th>
+                        <th class="th-nh">产品名称</th>
+                        <th class="th-nh">数量</th>
+                        <th class="th-nh">类型</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td class="td-id-nh"><span ng-bind="item.matnr"></span></td>
+                        <td><span ng-bind="item.matnrTxt"></span></td>
+                        <td><span ng-bind="item.qty"></span></td>
+                        <td>
+                            <span ng-bind="'经销商奶站销售订单'">
+                                              </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="th-nh _600" style="height: auto; padding-left: 16px;">数量合计：{{totalQty}}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-fw primary" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+</div>

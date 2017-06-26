@@ -1,0 +1,48 @@
+<div class="navbar">
+    <!-- Open side - Naviation on mobile -->
+    <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up">
+      <i class="material-icons">&#xe5d2;</i>
+    </a>
+    <!-- / -->
+
+    <!-- Page title - Bind to $state's title -->
+    <div class="navbar-item pull-left h5" ng-bind="$state.current.data.title" id="pageTitle"></div>
+
+    <!-- navbar right -->
+    <ul class="nav navbar-nav pull-right">
+      <li class="nav-item dropdown pos-stc-xs">
+        <a class="nav-link" href data-toggle="dropdown">
+          <i class="material-icons">&#xe7f5;</i>
+          <span class="label label-sm up warn">3</span>
+        </a>
+        <div ui-include="'views/layout/dropdown.notification.html'"></div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link clear" href data-toggle="dropdown">
+          <span class="avatar w-32">
+            <img src="assets/images/a0.jpg" alt="...">
+            <i class="on b-white bottom"></i>
+          </span>
+        </a>
+        <div ui-include="'views/layout/dropdown.user.html'"></div>
+      </li>
+      <li class="nav-item hidden-md-up">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapse">
+          <i class="material-icons">&#xe5d4;</i>
+        </a>
+      </li>
+    </ul>
+    <!-- / navbar right -->
+
+    <!-- navbar collapse -->
+    <div class="collapse navbar-toggleable-sm" id="collapse">
+      <div ui-include="'views/layout/navbar.form.right.html'"></div>
+      <!-- link and dropdown -->
+        <a class="navbar-brand ng-scope">
+            <i class="fa fa-th-large  text-info"></i>
+            <span class="hidden-folded inline ng-binding">页面名称<small>(读取路由中的title信息)</small></span>
+        </a>
+      <!-- / -->
+    </div>
+    <!-- / navbar collapse -->
+</div>

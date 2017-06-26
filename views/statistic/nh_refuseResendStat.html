@@ -1,0 +1,162 @@
+<div class="padding notitlebar">
+    <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-a">
+            <div class="filter-content">
+                <div class="select-box" nh-auth="day_mstdisp_numstat">
+                    <ui-select ng-model="search.dealerNo" search-enabled="false" on-select="data.typeSelected($item)">
+                        <ui-select-match placeholder="经销商" allow-clear="true">
+                            <span ng-bind="$select.selected.dealerName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo">
+                            <span ng-bind="status.dealerName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="select-box" ng-if="data.choseStation">
+                    <ui-select ng-model="search.branchNo" search-enabled="false">
+                        <ui-select-match placeholder="奶站" allow-clear="true">
+                            <span ng-bind="$select.selected.branchName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="status.branchNo as status in data.milkStations track by status.branchNo">
+                            <span ng-bind="status.branchName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="select-box">
+                    <ui-select ng-model="data.search.empNo" search-enabled="true">
+                        <ui-select-match placeholder="送奶员" allow-clear="true">
+                            <span ng-bind="$select.selected.empName"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item.empNo as item in (data.milkmans | filter: $select.search) track by item.empNo">
+                            <span ng-bind="item.empName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="date-box">
+                    <div class="flex-item">
+                        <span class="item-title"></span>
+                    </div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> 
+                        	<i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" 
+                        	   name="dateStart" 
+                        	   ng-model="data.search.fromDate" 
+                        	   placeholder="起始日期" 
+                        	   data-date-format="yyyy-MM-dd" 
+                        	   data-date-type="string" 
+                        	   data-autoclose="true" 
+                        	   data-max-date="{{ data.search.untilDate }}" 
+                        	   bs-datepicker>
+                    </div>
+                    <div class="flex-item"> <i class="fa fa-arrows-h"></i>
+                    </div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round">
+							<i class="fa fa-calendar"></i>
+						</span>
+                        <input type="text" class="form-control r-b-round w-128" 
+                        	   name="dateEnd" 
+                        	   ng-model="data.search.untilDate" 
+                        	   placeholder="结束日期" 
+                        	   data-date-format="yyyy-MM-dd" 
+                        	   data-date-type="string" 
+                        	   data-autoclose="true"
+                        	   data-min-date="{{data.sub1day(data.search.fromDate)}}"
+                        	   bs-datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-act">
+                <button class="btn btn-fw blueLt" ng-click="data.getData(data.curPageno)">筛选</button>
+            </div>
+        </div>
+    </div>
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                            <th class="th-nh">送奶员</th>
+                            <th class="th-nh">奶站名称</th>
+                            <th class="th-nh">经销商</th>
+                            <th class="th-nh">产品名称</th>
+                            <th class="th-nh">产生时间</th>
+                            <th class="th-nh">要货数量</th>
+                            <th class="th-nh">内部销售数量</th>
+                            <th class="th-nh">剩余数量</th>
+                            <th class="th-nh">总数</th>
+                            <th class="th-nh">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                            <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                            <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="nh_refuseResendStat" current-page="data.curPageno">
+                            <td><span ng-bind="item.EMP_NAME"></span></td>
+                            <td><span ng-bind="item.BRANCH_NAME"></span></td>
+                            <td><span ng-bind="item.DEALER_NAME || '自营奶站'"></span></td>
+                            <td><span ng-bind="item.MATNR_TXT"></span></td>
+                            <td><span ng-bind="item.DISP_DATE"></span></td>
+                            <td><span ng-bind="item.CONFIRM_QTY"></span></td>
+                            <td><span ng-bind="item.INSIDE_QTY"></span></td>
+                            <td><span ng-bind="item.REMAIN_QTY"></span></td>
+                            <td><span ng-bind="item.QTY"></span></td>
+                            <td>
+                            	<div class="btn-groups">
+				                    <button ng-click="data.showDetail(item.RESEND_ORDER_NO)" class="btn btn-xs btn-outline rounded b-primary text-primary" ng-if="item.QTY-item.REMAIN_QTY !== 0">详情</button>
+				                </div>
+                            </td>	
+                        </tr>
+                    </tbody>
+                </table>
+                <footer class="text-center">
+                    <dir-pagination-controls max-size="8" 
+                    						 direction-links="true" 	
+                    						 boundary-links="true" 
+                    						 pagination-id="nh_refuseResendStat" on-page-change="data.getData(newPageNumber)" 
+                    						 template-url="nhtpl/pagination.tpl.html">
+                    </dir-pagination-controls>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="rrDetailModal.html">
+	    <div class="modal-header blueLt">
+	        <h3 class="modal-title">拒收复送详情</h3>
+	    </div>
+	    <div class="modal-body p-lg">
+            <table class="table table-striped b-t b-b no-footer">
+                <thead>
+                    <tr role="row">
+                    	<th class="th-nh">产品编号</th>
+                        <th class="th-nh">产品名称</th>
+                        <th class="th-nh">应用数量</th>
+                        <th class="th-nh">应用类型</th>
+                        <th class="th-nh">应用单号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in rrdm.items">
+                        <td><span ng-bind="item.MATNR.slice(-8)"></span></td>
+                        <td><span ng-bind="item.MATNR_TXT"></span></td>
+                        <td><span ng-bind="item.QTY"></span></td>
+                        <td><span ng-bind="item.TYPE"></span></td>
+                        <td><span ng-bind="item.ORDER_NO"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+	    </div>
+	    <div class="modal-footer">
+	        <button type="button" class="btn btn-fw primary p-x-md" ng-click="rrdm.cancelModal()">关闭</button>
+	    </div>
+	</script>
+
+</div>

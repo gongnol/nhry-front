@@ -1,0 +1,233 @@
+<div class="titlebar white box-shadow">
+    <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+        <input type="text" class="input-line" placeholder="按用户姓名、编号搜索" ng-model="data.search.uname"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <span class="blueWt" ng-click="data.doSearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+    </div>
+</div>
+<!-- ######## 右侧送奶工信息列表开始 -->
+  <div id="modal-alert"></div>
+
+  <!-- ###  功能条开始-->
+
+  <div class="padding" >
+    <div class="white r box-shadow-z0 m-b filter-box">
+      <div class="navbar ng-scope">
+        <a data-toggle="collapse" data-target="#filter"
+             class="navbar-item pull-right hidden-md-up m-a-0 m-l"> <i class="material-icons"></i>
+        </a>
+
+        <!-- navbar collapse -->  
+        <div class="collapse navbar-toggleable-sm" id="filter">
+          <div class="filterbar p-t">
+            <div class="filter-content">
+              <div class="select-box" >
+                <ui-select ng-model="data.search.roleId" search-enabled="false" append-to-body="true">
+                  <ui-select-match placeholder="员工角色" allow-clear="true">
+                    <span ng-bind="$select.selected.roleName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="role.id as role in data.handle.empRoles track by role.id" ng-class="{'over-hidden' : data.handle.empRoles.length < 8}">
+                    <span ng-bind="role.roleName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            <div class="filter-act">
+              <button class="btn btn-fw blueLt" ng-click="data.doSearch()">筛选</button>
+              <button ng-click="data.addUser()" class="btn btn-fw blueLt">增加</button>
+            </div>
+             <div >
+                 
+            </div>
+          </div>
+        </div>
+        <!-- / navbar collapse --> </div>
+    </div>
+    <!-- ###  功能条结束-->  
+
+    <!-- ###  表格开始-->  
+    <div class="box" style="border-radius: 2px;">
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-striped b-t b-b no-footer">
+            <thead>
+              <tr role="row">
+                  <th class="th-nh">用户编号</th>
+                  <th class="th-nh">用户名</th>
+                  <th class="th-nh">销售组织</th>
+                  <th class="th-nh">角色</th>
+                  <th class="th-nh">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                <td colspan="10" style="text-align:center;">正在加载数据！</td>
+              </tr>
+              <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                <td colspan="10" style="text-align:center;">没有数据！</td>
+              </tr>
+              <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="userinfo_list">
+                 <td class="td-id-nh">
+                  <span ng-bind="item.loginName"></span>
+                </td>
+                <td><span ng-bind="item.displayName"/></td>
+                <td><span ng-bind="item.saleName"/></td>   
+                <td><span ng-bind="item.roleNames"/></td>
+                <td>
+                    <button ng-click="data.updatePass(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">修改密码</button>
+                </td>
+                
+
+              </tr>
+            </tbody>
+          </table>
+          <footer class="text-center">
+                <dir-pagination-controls max-size="8"
+                                         direction-links="true"
+                                         boundary-links="true"
+                                         pagination-id="userinfo_list"
+                                         on-page-change="data.getData(newPageNumber)"
+                                         template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+
+          </footer>
+        </div>
+      </div>
+    </div>
+    <!-- ###  表格结束--> 
+  </div>
+
+
+
+  <script type="text/ng-template" id="updatePassword.html">
+    <div class="modal-header">
+        <h3 class="modal-title">密码修改</h3>
+    </div>
+    <div class="modal-body">
+        <!--box body begin-->
+        <div class="box-body label-lg">
+             <div class="row form-control">原密码</div>
+             <input class="row form-control" type="password" ng-model="oldPassword" >
+
+            <div class="row form-control">新密码</div>
+            <input class="row form-control" type="password" ng-model="newPassword">
+
+            <div class="row form-control">再次确认密码</div>
+            <input class="row form-control" type="password" ng-model="confirmPassword">
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="updatePass()">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+    </div>
+  </script>
+
+
+
+    <!--新增用户-->
+   <script type="text/ng-template" id="addUser.html">
+    <div class="modal-header">
+        <h3 class="modal-title">用户新增</h3>
+    </div>
+    <div class="modal-body">
+        <!--box body begin-->
+        <div class="box-body label-lg">
+           <div class="row">
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>登录名称</strong>
+              </div>
+              <div class="col-md-8">
+                <input type="text" class="md-input md-input-blue" ng-model="add.login" required>      
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>密码</strong>
+              </div>
+              <div class="col-md-8">
+                 <input type="password" name="password" class="md-input md-input-blue"    ng-model="add.pass" required>        
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>真实姓名</strong>
+               </div>
+               <div class="col-md-8">
+                 <input type="text" name="displayName" class="md-input md-input-blue"    ng-model="add.displayName" required>  
+               </div>
+            </div>
+          </div>
+          <br>
+        <!--   <div class="row">
+            <div class="col-md-4">
+              <div class="col-md-3">所属销售组织</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="salesOrg" search-enabled="false">
+                                      <ui-select-match allow-clear="true">
+                                          <span ng-bind="$select.selected.itemName"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="type.itemCode as type in salesOrgs track by type.itemCode">
+                                          <span ng-bind="type.itemName"></span>
+                                      </ui-select-choices>
+                             </ui-select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="col-md-3">所属经销商</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="dealerNo" search-enabled="false">
+                                      <ui-select-match allow-clear="true">
+                                          <span ng-bind="$select.selected.itemName"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="type.itemCode as type in dealers track by type.itemCode">
+                                          <span ng-bind="type.itemName"></span>
+                                      </ui-select-choices>
+                 </ui-select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>所属奶站名称</strong>
+              </div>
+              <div class="col-md-8">
+                <input type="text" name="branchName" class="md-input md-input-blue" ng-model="users.branchName" required>      
+              </div>
+              
+            </div>
+          </div>
+          <br> -->
+          <div class="row">
+            <div class="col-md-4">
+              <div class="col-md-3">邮箱</div>
+              <div class="col-md-9">
+                 <input type="text" name="mail" class="md-input md-input-blue"    ng-model="add.mail" required>  
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="col-md-3">电话</div>
+              <div class="col-md-9">
+                 <input type="text" name="mobile" class="md-input md-input-blue"    ng-model="add.mobile" required>  
+              </div>
+            </div>
+
+          </div>
+          <br>
+        </div>
+
+
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="addUser()">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+    </div>
+  </script>
+<!-- #####  右侧正文结束 -->

@@ -1,0 +1,219 @@
+
+
+<div class="padding notitlebar">
+
+     <div id="modal-alert" class="text-center"></div>
+     <div id="body-alert"  class="text-center"></div>
+            <!-- ###  功能条开始-->
+    <div class="white r box-shadow-z0 m-b filter-box">
+
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#filter"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+                
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                            <div class="date-box" ng-if="selfBranch" >
+                                  <div class="flex-item" ng-if="selfBranch"><span class="item-title">配送日期</span></div>
+                                  <div class="flex-item">
+                                      <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                      </span>
+                                      <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.createDate"
+                                             placeholder="选择配送日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                             data-max-date="{{ search.untilDate }}" 
+                                             bs-datepicker>
+                                  </div>
+                                </div>
+                               <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-if="selfBranch" ng-click="orderCreating || createBySelfAndDate()" ng-class="{'disabled': orderCreating, 'nh-disable': orderCreating}">
+                                    <span ng-class="{'nh-hide': orderCreating}">生成销售订单</span>
+                              </button>
+                              <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-if="isEmpSend && selfBranch" ng-click="detailSalOrder()" >
+                                    <span >发送销售订单</span>
+                              </button>
+
+                            <!--    <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-if="!selfBranch"  ng-click="createByDealer()">
+                                 经销商奶站生成销售订单
+                                                </button> -->
+                                <div class="col-md-offset-2" ng-if="selfBranch"></div>
+
+                                <div class="date-box ">
+                                  <div class="flex-item" ng-if="selfBranch"><span class="item-title">配送日期查询</span></div>
+                                  <div class="flex-item" ng-if="!selfBranch"><span class="item-title">要货日期</span></div>
+                                  <div class="flex-item">
+                                      <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                                      </span>
+                                      <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.requiredDate"
+                                             placeholder="选择查询日期"
+                                             data-date-format="yyyy-MM-dd"
+                                             data-date-type="date" 
+                                             data-autoclose="true"
+                                             data-max-date="{{ search.untilDate }}" 
+                                             bs-datepicker>
+                                  </div>
+                                </div>
+
+                              <button type="button" class="btn btn-fw blueLt m-r ng-scope" ng-click="query()">
+                                          查询
+                              </button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>    
+
+    <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+       <div class="box" style="border-radius: 2px;">
+          <div class="box-header">
+            <div class="col-md-6 td-id-nh"  ng-if="isEmpSend">
+                销售订单数量：{{sumSal}}
+             </div>
+             <div class="col-md-6 td-id-nh"  ng-if="isEmpSend">
+                交货单数量：{{giSal}}
+             </div>
+          </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer"  nh-checkbox>
+                                <thead>
+                                 <tr role="row">
+                                                                      
+                                    <th class="th-nh">销售订单号</th>
+                                    <th class="th-nh" ng-if="isEmpSend">送达方</th>
+                                    <th class="th-nh">创建日期</th>
+                                    <th class="th-nh" ng-if="selfBranch">配送日期（要货日期）</th>
+                                    <th class="th-nh" ng-if="!selfBranch">要货日期</th>
+                                    <th class="th-nh">奶站</th>
+                                    <th class="th-nh">经销商</th>
+                                    <th class="th-nh">售达方</th>
+                                    <th class="th-nh">促销号</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                      
+                                        <tr ng-repeat="item in nhmilks">
+                                            
+                                            <td class="td-id-nh"><span ng-bind="item.voucherNo"></span></td>
+                                            <td ng-if="isEmpSend"><span ng-bind-html="preorderSource(item.preorderSource)"></span><span ng-bind-html="item.onlineCode"></span></td>
+                                            <td><span ng-bind-html="dateFormat(item.orderDate)"></span></td>
+                                            <td><span ng-bind-html="dateFormat(item.requiredDate)"></span></td>
+                                            <td><span ng-bind="item.branchName"></span></td>
+                                            <td><span ng-bind="item.dealerNo!=null && item.dealerNo!=''?item.dealerName:'自营奶站'"></span></td>
+                                            <td><span ng-bind-html="preorderSource(item.preorderSource)"></span></td>
+                                            <td><span ng-bind="item.promNo"></span></td>
+                                            <td>
+                                               <div class="btn-groups">
+                                                    <button ng-click="detail(item.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">查看详情</button>
+                                                    <button ng-show="item.onlineCode != undefined && item.voucherNo==undefined" ng-click="detailEmp(item.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">修改</button>
+                                                    <button ng-click="delItem(product.matnr)" ng-show="product.flag==2"  class="btn btn-xs btn-outline rounded b-danger text-danger">删除</button>
+                                                </div>
+
+                                            </td>                         
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                            
+                        </div>
+                    </div>
+                </div>
+            <!-- ###  表格结束-->
+
+
+     <!--修改要货行 -->
+            <script type="text/ng-template" id="detailModel.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">销售订单详情</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                       <table class="table table-striped b-t b-b no-footer" >
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">产品编码</th>
+                                    <th class="th-nh">产品名称</th>
+                                    <th class="th-nh">数量</th>
+                                    <th class="th-nh">类型</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in items">
+                                            <td class="td-id-nh" ><span ng-bind="item.matnr"></span></td>
+                                            <td><span ng-bind="item.matnrTxt"></span></td>
+                                            <td><span ng-bind="item.qty"></span></td>
+                                            <td>
+                                              <span ng-bind="item.type=='20'?'自营奶站销售订单':'经销商奶站销售订单'">
+                                              </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                    <div class="th-nh _600" style="height: auto; padding-left: 16px;">数量合计：{{totalQty}}</div>
+                  </div>
+                  <div class="modal-footer">
+                        <strong>{{ succMsg }}</strong>
+                        <button type="button" class="btn primary" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+
+ <!--修改送奶员要货行 -->
+            <script type="text/ng-template" id="detailEmpModel.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">送奶员销售订单详情</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                       <table class="table table-striped b-t b-b no-footer" >
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">产品编码</th>
+                                    <th class="th-nh">产品名称</th>
+                                    <th class="th-nh">数量</th>
+                                    <th class="th-nh">实际数量</th>
+                                    <th class="th-nh">类型</th>
+                                </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in items">
+                                            <td class="td-id-nh" ><span ng-bind="item.matnr"></span></td>
+                                            <td><span ng-bind="item.matnrTxt"></span></td>
+                                            <td><span ng-bind="item.iniQty" ></span></td>
+                                            <td><input type="number" class="form-control" style="width:60px ; margin:-9px" ng-model="item.qty" ng-change="qtyChange()" min=0></td>
+                                            <td>
+                                              <span ng-bind="item.type=='20'?'自营奶站销售订单':'经销商奶站销售订单'">
+                                              </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                            </table>  
+                    <div class="th-nh _600" style="height: auto; padding-left: 16px;">数量合计：{{totalQty}}</div>
+                  </div>
+                  <div class="modal-footer">
+                        <strong>{{ succMsg }}</strong>
+                        <button type="button" class="btn blueLt p-x-md" ng-click="updateSalOrderItems()"> 保存</button>
+                        <button type="button" class="btn primary"  ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+<!--是否发送 -->
+            <script type="text/ng-template" id="detailSalOrder.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">发送销售订单</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                    <div class="td-id-nh">交货确认数量与销售订单数量不一致，是否确认发送</div>
+                       
+                  </div>
+                  <div class="modal-footer">
+                        <button type="button" class="btn blueLt p-x-md" ng-click="batchSendSalOrderByDate()">确认发送</button>
+                       <button type="button" class="btn primary" ng-click="cancelModal()">关闭</button>
+                  </div>
+            </script>
+</div>
+

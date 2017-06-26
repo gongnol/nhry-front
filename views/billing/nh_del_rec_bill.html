@@ -1,0 +1,147 @@
+
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <div class="pull-left m-r" style="border-bottom: 3px solid #42a5f5;margin-left: 20px;">
+            <input type="text" class="input-line" placeholder="订单/收款人/订户姓名/订户电话/订户小区+房号 搜索" ng-model="search.fuzzySearch" ng-keypress="fuzzySearch($event)" style="width: 27rem;border-bottom-width: 0; font-size: 1.125rem;">
+            <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+        </div>
+        <button type="button" class="hidden-xs-down btn btn-sm rounded blueLt" ng-click="doDelRecBills()" nh-mulclick-disable="batchCharging1">
+              根据选择的订单删除收款单
+        </button>
+    </div>
+</div>
+
+<div class="padding">
+        <!-- ###  功能条开始-->
+    <div id="modal-alert"></div>
+    <div id="body-alert" class="text-center"></div>
+      <div class="white r box-shadow-z0 m-b filter-box">
+        <div class="filterbar p-b p-l p-r">
+            <div class="filter-content">
+                <div class="select-box m-t">
+                  <ui-select ng-model="search.emp" search-enabled="true">
+                    <ui-select-match placeholder="送奶员" allow-clear="true">
+                      <span ng-bind="$select.selected.empName"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="emp.empNo as emp in (emps | filter: $select.search) track by emp.empNo">
+                      <span ng-bind="emp.empName"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+
+                <div class="date-box m-t">
+                    <div class="flex-item"><span class="item-title">订单截止日期</span></div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.orderStartDate"
+                               placeholder="起始日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="date" 
+                               data-autoclose="true"
+                               data-max-date="{{ search.orderEndDate }}" 
+                               bs-datepicker>
+                    </div>
+                    <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.orderEndDate"
+                               placeholder="结束日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="date" 
+                               data-autoclose="true" 
+                               data-min-date="{{ search.orderStartDate }}" 
+                               bs-datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-act m-t">
+                <button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+            </div>
+        </div>   
+      </div>    
+      <div class="box" style="border-radius: 2px;">
+        <div class="row">
+          <div class="com-md-12 col-sm-12">
+            <table id="csmbill-list" class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="checkboxArrs" style="table-layout: fixed;">
+              <thead>
+                <tr role="row">
+                        <th style="padding-right: 0;width: 4%;">
+                            <label class="md-check">
+                               <input type="checkbox" ng-model="allChFlag"> <i class="blue"></i>
+                            </label>
+                        </th>
+                        <th class="th-nh" style="padding-left: 0;padding-right: 0;width: 16%;">订单编号</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;width: 8%;">截止日期</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;">收款人</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;">收款方式</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;">订单金额</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;">收款状态</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;">订户姓名</th>
+                        <th class="th-nh" style="padding-left: 8px;padding-right: 8px;width: 8%;">订户电话</th>
+                        <th class="th-nh" style="padding-right: 8px;width: 10%;">订户地址</th>
+                </tr>
+              </thead>
+              <tbody>
+                   <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                      <td colspan="11" style="text-align:center;">正在加载数据！</td>
+                    </tr>
+                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                      <td colspan="11" style="text-align:center;">没有数据！</td>
+                    </tr>
+                     <tr current-page="data.curPageno" pagination-id="csmbill_list" dir-paginate="order in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count">
+                     <td style="padding-right: 0;">
+                       <label class="md-check"  ng-if="order.paymentStat == '10'">
+                         <input type="checkbox" checked-data="{{order.orderNo}},{{order.initAmt}}"> <i class="blue"></i>
+                       </label>
+                     </td>
+
+                      <td class="td-id-nh" style="font-size: 1rem;padding-left: 0;padding-right: 0;word-wrap: break-word;"><span ng-bind="order.orderNo"></span></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="dateFormat(order.endDate)"></span></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.empName"/></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.paymentmethod == '10'?'后付款':'先付款'"/></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.initAmt"/></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.paymentStat == '10' ? '未收款' :'已收款'"/></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.milkmemberName"/></td>
+                      <td style="padding-left: 8px;padding-right: 8px;"><span ng-bind="order.customerTel"/></td>
+                      <td style="padding-right: 8px;"><span ng-bind="order.adressNo"/></td>
+                  </tr>
+              </tbody>
+            </table>
+            <div class="p-t m-l m-b" style="float: left;margin-right: -100%;">
+              <span>每页显示&nbsp;</span>
+              <button type="button" class="btn btn-sm white"
+                      ng-model="data.itemsPerPage"
+                      data-caret-html="&nbsp;<span class='nh-caret'></span>"
+                      bs-options="size for size in data.pageSizes"
+                      bs-select>
+              </button>
+              <span>&nbsp;条</span>
+            </div>
+            <footer class="text-center">
+              <dir-pagination-controls
+                  max-size="8"
+                  direction-links="true"
+                  boundary-links="true"
+                  pagination-id="csmbill_list" 
+                  on-page-change="data.getData(newPageNumber)" 
+                  template-url="nhtpl/pagination.tpl.html">
+              </dir-pagination-controls>
+            </footer> 
+          </div> 
+        </div>
+          
+      </div>
+</div>
+
+<!-- ###  收款弹出框开始-->
+  <!-- ###  收款弹出框结束-->
+
+   <!-- ###  付款提醒弹出框开始-->
+
+  <!-- ###  付款提醒弹出框结束-->
+  
+  <!-- ###  收款单弹出框开始-->
+
+  <!-- ###  付款提醒弹出框开始-->

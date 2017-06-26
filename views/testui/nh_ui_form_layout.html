@@ -1,0 +1,422 @@
+<div style="" class="ng-scope" ui-view="">
+    <div class="padding ng-scope">
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>OK!</strong> 您的信息已经保存成功！.
+        </div>
+        <div class="white r box-shadow-z0 m-b navbar-md">
+            <div class="navbar ng-scope">
+                <a data-toggle="collapse" data-target="#navbar-4"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+                    <i class="material-icons"></i>
+                </a>
+
+
+                <!-- brand -->
+
+                <!-- / brand -->
+
+                <!-- nabar right -->
+                <ul class="nav navbar-nav pull-right">
+
+                    <li class="nav-item dropdown">
+                        <a href="" class="nav-link" data-toggle="dropdown">
+                            <i class="material-icons"></i>
+                            <span class="label up p-a-0 accent"></span>
+                        </a>
+                        <div class="dropdown-menu w-xl text-color pull-right p-a-0 animated flipInX ng-scope">
+                            <div class="row no-gutter text-blue-hover">
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Alarm</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Favorite</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-b">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">History</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Call</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 b-r">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Chat</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a class="p-a block text-center">
+                                        <i class="material-icons md-24 text-muted m-v-sm"></i>
+                                        <span class="block">Inbox</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <!-- / navbar right -->
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="navbar-4">
+
+
+
+                    <!-- / link and dropdown -->
+                    <!-- search form -->
+                    <form class="navbar-form form-inline navbar-item m-l v-m ng-pristine ng-valid ng-scope"
+                          role="search">
+
+                        <div class="form-group l-h m-a-0">
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+              <span class="hidden-xs-down btn btn-sm rounded blue text-u-c _600">
+                  <i class="fa fa-plus"></i>
+                新增
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+
+              <span class="hidden-xs-down btn btn-sm rounded green text-u-c _600">
+                  <i class="fa fa-save"></i>
+                保存
+              </span>
+                                </a>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <a class="nav-link" href="" ui-sref="newhope.uiformlayout">
+
+              <span class="hidden-xs-down btn btn-sm rounded pink text-u-c _600">
+                  <i class="fa fa-trash"></i>
+                删除
+              </span>
+                                </a>
+                            </div>
+
+
+
+
+                            <div class="input-group input-group-sm">
+
+                                <button class="btn btn-sm blue">重复检查<b class="arrow right b-blue pull-in"></b></button>
+                            </div>
+
+                            <div class="form-group l-h m-a-0">
+                                <div class="input-group input-group-sm">
+                                    <input class="form-control" placeholder="订户手机号" type="text">
+      <span class="input-group-btn">
+        <button type="submit" class="btn white b-a no-shadow"><i class="fa fa-search"></i></button>
+      </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                    <!-- / search form -->
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>
+
+        <div class="row m-b">
+            <div class="col-sm-4">
+                <div class="box">
+                    <div class="box-header blue box-header-nh">
+                        <h3><i class="fa fa-navicon"></i> 基本信息</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <form class="ng-pristine ng-valid" role="form">
+                            <div class="form-group">
+                                <label>订户姓名 <em class="text-muted">(最多40个字符)</em></label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+                            <div class="form-group" style="margin-top: 20px">
+                                <label class="md-check">
+                                    <input name="radio" checked="" type="radio">
+                                    <i class="blue"></i>
+                                    男
+                                </label>
+
+                                <label class="md-check">
+                                    <input name="radio" type="radio">
+                                    <i class="pink"></i>
+                                    女
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>征订日期 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-info"><i class="fa fa-calendar"></i></span>
+                                    <input style="" class="form-control ng-pristine ng-valid ng-touched"
+                                           ng-model="selectedDateAsNumber" data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" data-autoclose="true" data-min-date="02/10/86"
+                                           data-max-date="today" data-icon-left="fa fa-chevron-left"
+                                           data-icon-right="fa fa-chevron-right" name="date2" bs-datepicker=""
+                                           type="text" placeholder="起始日期">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>订奶员</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>奶站</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">锦华区</option>
+                                    <option value="Option 2">高新区</option>
+                                    <option value="Option 3">金牛区</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>订奶公司</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">川乳</option>
+                                    <option value="Option 2">琴牌</option>
+                                    <option value="Option 3">天香</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box">
+                    <div class="box-header blue box-header-nh">
+                        <h3><i class="fa fa-tag"></i> 地址信息</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <form class="ng-pristine ng-valid" role="form">
+
+                            <div class="form-group">
+                                <label class="md-check">
+                                    <input name="radio" checked="" type="radio">
+                                    <i class="blue"></i>
+                                    中国
+                                </label>
+
+                                <label class="md-check">
+                                    <input name="radio" type="radio">
+                                    <i class="pink"></i>
+                                    海外
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>城市</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>区县</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>街道/区县</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>路牌</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>小区</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box">
+                    <div class="box-header blue box-header-nh">
+                        <h3>其他信息</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <form class="ng-pristine ng-valid" role="form">
+
+                            <div class="form-group">
+                                <label>身份证号</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>生日 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-info"><i class="fa fa-calendar"></i></span>
+                                    <input style="" class="form-control ng-pristine ng-valid ng-touched"
+                                           ng-model="selectedDateAsNumber" data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" data-autoclose="true" data-min-date="02/10/86"
+                                           data-max-date="today" data-icon-left="fa fa-chevron-left"
+                                           data-icon-right="fa fa-chevron-right" name="date2" bs-datepicker=""
+                                           type="text" placeholder="起始日期">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">电子邮件</label>
+                                <input class="form-control" id="exampleInputEmail1" placeholder="Enter email" type="email">
+                            </div>
+                            <div class="form-group">
+                                <label>征订人</label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>订户来源</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>订户类型</label>
+                                <select class="form-control c-select">
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-b">
+            <div class="col-sm-12">
+                <div class="box">
+                    <div class="box-header blue box-header-nh">
+                        <h3>备注信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <textarea style="height: 105px;" class="form-control" rows="5"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="white r box-shadow-z0 m-b p-md">
+            <div class="box">
+                <div class="box-header blue" style="border-top-left-radius: 2px; border-top-right-radius: 2px;">
+                    <h3>基本信息</h3>
+                </div>
+                <div class="box-body p-v-md">
+                    <div class="row row-sm">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>订户姓名 <em class="text-muted">(allow 'a-zA-Z0-9', 4-10 length)</em></label>
+                                <input style=""
+                                       class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-touched"
+                                       ng-model="user.name" ng-pattern="/^[a-zA-Z0-9]{4,10}$/" required=""
+                                       type="text">
+                            </div>
+
+                        </div>
+                        <div class="col-xs-4">
+                            <label>订奶公司</label>
+                            <select class="form-control c-select">
+                                <option value="Option 1">Option 1</option>
+                                <option value="Option 2">Option 2</option>
+                                <option value="Option 3">Option 3</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label>征订日期 </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-info"><i class="fa fa-calendar"></i></span>
+                                    <input style="" class="form-control ng-pristine ng-valid ng-touched"
+                                           ng-model="selectedDateAsNumber" data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" data-autoclose="true" data-min-date="02/10/86"
+                                           data-max-date="today" data-icon-left="fa fa-chevron-left"
+                                           data-icon-right="fa fa-chevron-right" name="date2" bs-datepicker=""
+                                           type="text" placeholder="起始日期">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-sm">
+                        <div class="col-xs-4">
+                            <div class="form-group" style="margin-top: 20px">
+                                <label class="md-check">
+                                    <input name="radio" checked="" type="radio">
+                                    <i class="blue"></i>
+                                    男
+                                </label>
+
+                                <label class="md-check">
+                                    <input name="radio" type="radio">
+                                    <i class="pink"></i>
+                                    女
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <label>订奶公司</label>
+                            <select class="form-control c-select">
+                                <option value="Option 1">Option 1</option>
+                                <option value="Option 2">Option 2</option>
+                                <option value="Option 3">Option 3</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <input class="form-control" placeholder=".col-xs-5" type="text">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

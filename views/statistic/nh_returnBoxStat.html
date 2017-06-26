@@ -1,0 +1,115 @@
+<div id="modal-alert"></div>
+<div class="padding notitlebar">
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+
+		              <div class="select-box" nh-auth="return_box_stat">
+		                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true" on-select="data.typeSelected($item)">
+		                  <ui-select-match placeholder="经销商" allow-clear="true">
+		                    <span ng-bind="$select.selected.dealerName"></span>
+		                  </ui-select-match>
+		                  <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo">
+		                    <span ng-bind="status.dealerName"></span>
+		                  </ui-select-choices>
+		                </ui-select>
+		              </div> 
+                      <div class="select-box">
+                        <ui-select ng-model="search.emp" search-enabled="true">
+                            <ui-select-match placeholder="送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="emp.empNo as emp in (data.emps | filter: $select.search) track by emp.empNo">
+                            <span ng-bind="emp.empName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="item-title"></span>
+							</div>
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="起始日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true"
+                                           data-max-date="{{ search.untilDate }}" 
+                                           bs-datepicker></div>
+							<div class="flex-item"> <i class="fa fa-arrows-h"></i>
+							</div>
+							<div class="flex-item">
+								<span class="material-icons l-b-round">
+									<i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="search.dateEnd" ng-model="search.untilDate"
+                                           placeholder="结束日期"
+                                           data-date-format="yyyy-MM-dd"
+                                           data-date-type="number" 
+                                           data-autoclose="true" 
+                                           data-min-date="{{ search.fromDate }}" 
+                                           bs-datepicker></div>
+						</div>
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+            <button class="btn btn-fw blueLt" ng-click="exportBox()">导出</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站</th>
+                                    <th class="th-nh">送奶员</th>
+                                    <th class="th-nh">奶瓶规格</th>
+                                    <th class="th-nh">应回数量</th>
+                                    <th class="th-nh">实回数量</th>
+                                    <th class="th-nh">差异</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                        <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                    </tr>
+                                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                        <td colspan="10" style="text-align:center;">没有数据！</td>
+                                    </tr>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="nh_returnBoxStat">
+                                        <td>{{item.BRANCH_NAME}}</td>
+                                        <td>{{item.EMP_NAME}}</td>
+                                        <td>{{item.SPEC_NAME}}</td>   
+                                        <td>
+                                            {{item.RECEIVE_NUM}}
+                                        </td>
+                                        <td>{{item.REAL_NUM}}</td>
+                                        <td>{{item.dif}}</td>                         
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="nh_returnBoxStat"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+</div>

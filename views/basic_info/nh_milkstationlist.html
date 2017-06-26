@@ -1,0 +1,158 @@
+
+
+
+
+<div class="padding notitlebar">
+    <div id="modal-alert"></div>
+    <div class="white r box-shadow-z0 m-b filter-box" nh-auth="milkstation_filter">
+            <div class="navbar ng-scope">
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+
+					<div class="filterbar p-t">
+                        <div class="filter-content">
+                            <!--div class="select-box" >
+
+                    <ui-select   ng-model="search.salesOrg" search-enabled="true" >
+                        <ui-select-match placeholder="销售组织" allow-clear="true">
+                            <span ng-bind="$select.selected.itemName || $select.selected"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="market.itemCode as market in (data.marketOrgs  | filter: $select.search) track by market.itemCode">
+                            <span ng-bind="market.itemName"></span>
+                        </ui-select-choices>
+                    </ui-select>                                
+                            </div-->
+                            <div class="select-box" nh-auth="milkstation_dealer_filter">
+                                <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                                  <ui-select-match placeholder="奶站性质" allow-clear="true">
+                                    <span ng-bind="$select.selected.label"></span>
+                                  </ui-select-match>
+                                  <ui-select-choices repeat="status.code as status in data.branchGroup track by status.code">
+                                    <span ng-bind="status.label"></span>
+                                  </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-4">
+        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入奶站名称关键字" ng-model="search.branchN"  style="font-size: 1.125rem">
+        </div>
+                        </div>
+
+                        <div class="filter-act">
+                            <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+                            <button class="btn btn-fw blueLt" nh-auth="milkstation_add" ng-click="addBranch()">新增</button>
+                        </div>
+					</div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+    </div>
+
+        <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站名称</th>
+                                    <th class="th-nh">奶站性质</th>
+                                    <th class="th-nh">经销商</th>
+                                    <th class="th-nh">联系电话</th>
+                                    <th class="th-nh">上线状态</th>
+                                    <th class="th-nh">上线时间</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                      <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                    </tr>
+                                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                      <td colspan="10" style="text-align:center;">没有数据！</td>
+                                    </tr>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="milkstationlist">
+                                        <td class="td-id-nh">
+                                        <span ng-bind="item.branchName"></span>
+                                        </td>
+                                        <td><span ng-bind="item.branchGroup==01 ? '自营奶站' : '经销商奶站'""/></td>
+                                        <td><span ng-bind="item.dealerName"/></td>   
+                                        <td><span ng-bind="item.tel"/></td>
+                                        <td><span ng-bind="item.isValid==10 ? '上线' : '未上线'""/></td>
+                                        <td><span ng-bind="item.onlineDate.nh_formatDate()"/></td>
+                                        <td>
+                                            <div class="btn-groups">
+                                                <button ui-sref="newhope.milkstationinfo({edit: false, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                <button ui-sref="newhope.milkstationinfo({edit: true, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-info text-info" nh-auth="milkstation_edit">编辑</button>
+                                                <button ng-click="dispatchArea(item.branchNo)" class="btn btn-xs btn-outline rounded b-danger text-danger" nh-auth="milkstation_allocArea">配送区域</button>
+                                                <button ng-click="onlineEdit(item.branchNo)" class="btn btn-xs btn-outline rounded b-accent text-accent" ng-if="item.isValid!=10"  nh-auth="milkstation_onlineEdit">上线</button>
+                                                <button ng-click="BranchRemarkSet()" class="btn btn-xs btn-outline rounded b-accent text-accent" nh-auth="milkstation_setBranchRemark">设置奶站备注</button>
+                                            </div>
+
+                                        </td>                         
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="milkstationlist"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+	<!-- ###  功能条结束-->
+    <script type="text/ng-template" id="onlineEdit.html">
+    <div class="modal-header">
+        <h3 class="modal-title">奶站上线</h3>
+    </div>
+    <div class="modal-body">
+     
+        <!--box body begin-->
+        <div class="box-body label-lg">
+          
+          <div class="row">
+            <div class="col-md-2 text-right" style="line-height: 2.5rem;">上线日期</div>
+            <div class="col-md-3 filter-content">
+                <div class="date-box" style="margin-right: 0; font-size: 1rem;">
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+                        <input type="text" class="form-control r-b-round w-md" 
+                               name="crDate"
+                               ng-model="olm.onlineDate"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="string" 
+                               data-autoclose="true"
+                               bs-datepicker>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="olm.saveOnlineState()" nh-auth="emp_basic_salary">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="olm.cancelModal()">关闭</button>
+    </div>
+  </script>
+    <!--设置奶站备注弹出框开始-->
+    <script type="text/ng-template" id="branchRemarkSet.html">
+        <div class="modal-header">
+            <h3 class="modal-title">设置奶站备注</h3>
+        </div>
+        <div class="modal-body">
+            <input type="text" placeholder="奶站备注"  ng-model="branchRemark" class="form-control ng-pristine ng-valid ng-touched" style="">
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" nh-mulclick-disable="batchCharging6" ng-click="doBranchRemarkSet()">提交</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+    <!--设置奶站备注弹出框结束-->
+</div>

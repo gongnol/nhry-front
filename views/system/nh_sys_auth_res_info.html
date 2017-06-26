@@ -1,0 +1,91 @@
+<div class="fade-in message-pd-nh light m-a">
+    <form ng-submit="processForm()">
+        <button type="submit"
+                class="md-btn md-raised m-b-sm w-xs info pull-right">保存
+        </button>
+        <h4><i class="fa fa-cube"></i> 编辑资源
+
+        </h4>
+        <div class="m-t-md">
+
+            <!-- NAME -->
+            <div class="streamline b-l m-l">
+
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">资源上级</div>
+                        <input type="text" disabled class="md-input text-info" ng-model="resInfo.parentName" required>
+                    </div>
+                </div>
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">资源名称</div>
+                        <input type="text" class="md-input text-info" ng-model="resInfo.resName" required>
+                    </div>
+                </div>
+                <!--
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh  m-b">资源类型</div>
+                        <label class="md-check m-r">
+                            <input checked="" name="b" type="radio">
+                            <i class="teal"></i>
+                            菜单
+                        </label>
+                        <label class="md-check m-r">
+                            <input checked="" name="b" type="radio">
+                            <i class="teal"></i>
+                            控件
+                        </label>
+                        <label class="md-check">
+                            <input checked="" name="b" type="radio">
+                            <i class="teal"></i>
+                            接口
+                        </label>
+                    </div>
+                </div>
+                -->
+                <div class="sl-item b-info">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted m-b">资源类型</div>
+                        <button type="button" class="btn teal"
+                                placeholder="请选择资源类型"
+                                ng-model="selectedIcon" data-html="1"
+                                data-animation="am-flip-x"
+                                bs-options="icon.value as icon.label for icon in icons"
+                                bs-select>
+                            Action <span class="caret"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">资源URL</div>
+                        <input type="text" class="md-input text-info" ng-model="resInfo.resUrl" required>
+                    </div>
+                </div>
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">扩展资源1</div>
+                        <input type="text" class="md-input text-info" ng-model="resInfo.attr1">
+                    </div>
+                </div>
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">扩展资源2</div>
+                        <input type="text" class="md-input text-info" ng-model="resInfo.attr2">
+                    </div>
+                </div>
+                <div class="sl-item b-success">
+                    <div class="sl-content">
+                        <div class="sl-date text-muted sl-date-nh">扩展资源3</div>
+                        <input type="text" class="md-input text-info" ng-model="resInfo.attr3">
+                    </div>
+                </div>
+            </div>
+            <!-- SUBMIT BUTTON -->
+
+        </div>
+    </form>
+</div>

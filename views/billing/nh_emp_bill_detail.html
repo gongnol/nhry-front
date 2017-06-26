@@ -1,0 +1,27 @@
+  <div class="modal-header">
+      <h3 class="modal-title">送奶员结算</h3>
+  </div>
+  <div class="modal-body">
+   		<div class="row">
+			<div class="col-md-2 col-sm-3 showtext">{{bill.empName}}	</div><div class="col-md-2 col-sm-3">{{bill.setYearMonth}}</div>
+   		</div>
+      <br>
+   		<div class="row">
+   			<div class="col-md-4 col-sm-6 showtext"><label>所属奶站：{{bill.branchName}}</label></div>
+   			<div class="col-md-4 col-sm-6 showtext"><label>员工编号:{{bill.empNo}}</label></div>
+   		</div>
+       <br>
+   		<div class="row">
+   			<div class="col-md-4 col-sm-6 showtext"><label>结算方式：{{bill.salaryMet == '10' ? '按配送数量结算':'按配送产品结算'}}</label></div>
+   			<div class="col-md-4 col-sm-6 showtext"><label>本月派送:{{bill.dispNum == null ?0:bill.dispNum}}</label></div>
+   		</div>
+       <br>
+   		<div class="row">
+   			<div class="col-md-4 col-sm-6 showtext"><label>基本工资：{{bill.baseSalary}}</label></div>
+        <div class="col-md-4 col-sm-6 showtext"><label>总工资：{{bill.totalSal}}</label></div>
+   		</div>
+       <br>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-warning" type="button" ng-click="cancelModal()">关闭</button>
+  </div>

@@ -1,0 +1,40 @@
+<div class="modal-header blueLt">
+		<h3 class="modal-title">内部销售订单</h3>
+	</div>
+	<div class="modal-body text-center p-lg">
+		<div class="row m-t">
+			<div class="col-md-12">
+				<table class="table table-striped b-t b-b no-footer">
+					<thead>
+						<tr role="row">
+							<th class="th-nh text-center">商品编码</th>
+							<th class="th-nh text-center">商品名称</th>
+							<th class="th-nh text-center">内部销售数量</th>
+							<th class="th-nh text-center">未送达原因</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="item in data.content|itemsPerPage:itemsPerPage" total-items="total_count"  pagination-id="nh_innerSalesView">
+							<td>{{item.matnr.substring(10)}}</td>
+							<td>{{item.matnrTxt}}</td>
+							<td>{{item.qty}}</td>
+							<td  ng-bind="data.getStatusLabel(item.reason,data.handle.statuses)"></td>
+						</tr>
+					</tbody>
+				</table>
+				<footer class="text-center">
+					<dir-pagination-controls
+                                                max-size="8"
+                                                direction-links="true"
+                                                boundary-links="true"
+                                                pagination-id="nh_innerSalesView"
+                                                on-page-change="getData(newPageNumber)" 
+                                                template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+				</footer>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-fw primary p-x-md" ng-click="data.cancelModal()">关闭</button>
+	</div>

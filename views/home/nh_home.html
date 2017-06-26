@@ -1,0 +1,418 @@
+<!-- 
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-l pull-right pull-rightest">
+        <div class="pull-right m-l" nh-auth="cust_addcsm">
+        <span class="h6 block m-a-0">{{curUser.displayName}} {{curUser.branchName}} {{curUser.orgName}}</span>
+        </div>
+    </div>
+</div> -->
+<div class="padding notitlebar" ng-if="branch">
+    <!-- ## 欢迎使用新希望乳业送奶到户系统 用户信息和待办开始-->
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="box">
+                <div class="box-header b-b">
+                    <h3>订户信息</h3>
+                </div>
+                <div class="box-tool">
+                    <ul class="nav">
+                        <li class="nav-item inline">
+                            <a class="nav-link"> <i class="material-icons md-18"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+                            <div class="boxWaitFor wl" ng-click="goCustomerInfo('')" > <strong>{{CsmList_count}}</strong>
+                                <p>订户总数</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <div class="hidden-sm-down b-v-line"></div>
+                            <div class="boxWaitFor wl"  ng-click="goCustomerInfo('10')" > <strong>{{statusparams_count}}</strong>
+                                <p>在订</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <div class="hidden-sm-down b-v-line"></div>
+                            <div class="boxWaitFor wl war" ng-click="goCustomerInfo('30')" >
+                                <strong>{{stopparams_count}}</strong>
+                                <p>停订</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <div class="hidden-sm-down b-v-line"></div>
+                            <div class="boxWaitFor wl war" ng-click="goCustomerInfo('40')" >
+                                <strong>{{unsubscribeparams_count}}</strong>
+                                <p>退订</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##  用户信息和待办结束-->
+
+    <!-- ##  当前数据开始-->
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+        <a ui-sref="newhope.requiredOrder">
+            <div class="box p-a boxCuStu">
+                <div class="pull-left m-r">
+                    <span class="w-56 rounded info"><i class="material-icons md-24">&#xe01b;</i>
+                    </span>
+                </div>
+                <div class="clear">
+                    <h4 class="m-a-0 text-lg _300">
+                        
+                            <span class="text-info m-r-sm">{{ordersparams_count}}</span>
+                            <span class="text-sm"></span>
+                        
+                    </h4>
+                    <small class="text-info">待确认订单</small>
+                    <!--<a class= "graybtn" href="">
+                    <p>查看更多</p>
+                </a>
+                -->
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-xs-12 col-md-3">
+     <a ui-sref="newhope.needResumeOrder">
+        <div class="box p-a boxCuStu">
+            <div class="pull-left m-r flash">
+                <span class="w-56 rounded danger">
+                   <i class="material-icons md-24">&#xe191;</i>
+                </span>
+
+            </div>
+            <div class="clear">
+                 <h4 class="m-a-0 text-lg _300">
+                  
+                   <span class="text-danger m-r-sm">{{stopNum}}</span>
+                        <span class="text-sm"></span>
+                    
+                </h4>
+                <small class="m-r-sm text-danger">待续定订单</small>
+                <!--<a class= "graybtn" href="">
+                <p>查看更多</p>
+            </a>
+            -->
+        </div>
+    </div>
+    </a>
+</div>
+ <div class="col-xs-12 col-md-3">
+        <a ui-sref="newhope.consumerBill">
+            <div class="box p-a boxCuStu">
+                <div class="pull-left m-r">
+                    <span class="w-56 rounded warn"><i class="fa fa-fax"></i>
+                    </span>
+                </div>
+                <div class="clear">
+                    <h4 class="m-a-0 text-lg _300">
+                        
+                            <span class="text-warn m-r-sm">{{OrdersNoBill_count}}</span>
+                            <span class="text-sm"></span>
+                        
+                    </h4>
+                    <small class="text-warn">(预付款)待收款订单</small>
+                    <!--<a class= "graybtn" href="">
+                    <p>查看更多</p>
+                </a>
+                -->
+            </div>
+        </div>
+        </a>
+    </div>
+     <div class="col-xs-12 col-md-3">
+        <a ui-sref="newhope.milkBox">
+            <div class="box p-a boxCuStu">
+                <div class="pull-left m-r">
+                    <span class="w-56 rounded accent"><i class="fa fa-circle-o"></i>
+                    </span>
+                </div>
+                <div class="clear">
+                    <h4 class="m-a-0 text-lg _300">
+                        
+                            <span class="text-accent m-r-sm">{{Milkboxs_count}}</span>
+                            <span class="text-sm"></span>
+                        
+                    </h4>
+                    <small class="text-accent">待装箱数量</small>
+                    <!--<a class= "graybtn" href="">
+                    <p>查看更多</p>
+                </a>
+                -->
+            </div>
+        </div>
+        </a>
+    </div>
+</div>
+<!-- ##  当前数据结束-->
+<!-- ##  图表和常用链接开始-->
+<div class="row">
+<!-- <div class="col-xs-12 col-md-8">
+    <div class="box">
+        <div class="box-header b-b">
+            <h3>订单转化率</h3>
+        </div>
+
+        <div class="nh-chart-wrapper">
+
+            <div hello1></div>
+
+        </div>
+    </div>
+</div> -->
+<!--===-->
+<div class="col-xs-12 col-md-12">
+    <div class="box">
+        <div class="box-header b-b">
+            <h3>快捷链接</h3>
+        </div>
+        <div class="box-tool">
+            <ul class="nav">
+                <li class="nav-item inline">
+                    <a class="nav-link">
+                        <i class="material-icons md-18"></i>
+                    </a>
+                </li>
+                <!--li class="nav-item inline dropdown">
+                <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <i class="material-icons md-18"></i>
+                </a>
+                <div class="dropdown-menu pull-right">
+                    <a class="dropdown-item" href="">更多</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item">设置</a>
+                </div>
+            </li-->
+        </ul>
+    </div>
+    <div class="box-body boxLink">
+
+        <ul class="row">
+            <a href="" ui-sref="newhope.transplan">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon01"></i>
+                    当日路单
+                </li>
+            </a>
+            <a href="" ui-sref="newhope.supply">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon01"></i>
+                    当日要货
+                </li>
+            </a>
+            <a href="" ui-sref="newhope.proStock.proStockList">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon01"></i>
+                    库存管理
+                </li>
+            </a>
+            <a href=""  ui-sref="newhope.currentOrder">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon04"></i>
+                    批量操作
+                </li>
+            </a>
+            <a href="" ui-sref="newhope.consumerBill">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon04"></i>
+                    批量收款
+                </li>
+            </a>
+            <a href="">
+                <li class="col-md-2 col-xs-6">
+                    <i class="icon03"></i>
+                    帮助文档
+                </li>
+            </a>
+        </ul>
+
+    </div>
+</div>
+</div>
+</div>
+<!-- ##  图表和常用链接结束-->
+</div>
+<!-- #####  右侧正文结束-->
+<div class="padding notitlebar" ng-if="!branch">
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+        <a ui-sref="newhope.consumerlist">
+            <div class="box p-a boxCuStu">
+                <div class="pull-left m-r">
+                    <span class="w-56 rounded primary"><i class="fa fa-user"></i>
+                    </span>
+                </div>
+                <div class="clear">
+                    <h4 class="m-a-0 text-lg _300">
+                        
+                            <span class="text-primary m-r-sm">{{CsmList_count}}</span>
+                            <span class="text-sm"></span>
+                        
+                    </h4>
+                    <small class="text-primary">订户总数</small>
+                    <!--<a class= "graybtn" href="">
+                    <p>查看更多</p>
+                </a>
+                -->
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-xs-12 col-md-3">
+     <a ui-sref="newhope.consumerlist">
+        <div class="box p-a boxCuStu">
+            <div class="pull-left m-r ">
+                <span class="w-56 rounded accent">
+                   <i class="fa fa-slideshare"></i>
+                </span>
+
+            </div>
+            <div class="clear">
+                 <h4 class="m-a-0 text-lg _300">
+                  
+                   <span class="text-accent m-r-sm">{{statusparams_count}}</span>
+                        <span class="text-sm"></span>
+                    
+                </h4>
+                <small class="m-r-sm text-accent">在订总数</small>
+                <!--<a class= "graybtn" href="">
+                <p>查看更多</p>
+            </a>
+            -->
+        </div>
+    </div>
+    </a>
+</div>
+        <div class="col-xs-12 col-md-3">
+        <a ui-sref="newhope.manHandle">
+            <div class="box p-a boxCuStu">
+                <div class="pull-left m-r">
+                    <span class="w-56 rounded warning"><i class="fa fa-dot-circle-o"></i>
+                    </span>
+                </div>
+                <div class="clear">
+                    <h4 class="m-a-0 text-lg _300">
+                        
+                            <span class="text-warning m-r-sm">{{returnNum}}</span>
+                            <span class="text-sm"></span>
+                        
+                    </h4>
+                    <small class="text-warning">人工分单数</small>
+                    <!--<a class= "graybtn" href="">
+                    <p>查看更多</p>
+                </a>
+                -->
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-xs-12 col-md-3">
+     
+        <div class="box p-a boxCuStu">
+            <div class="pull-left m-r">
+                <span class="w-56 rounded info">
+                   <i class="fa fa-truck"></i>
+                </span>
+
+            </div>
+            <div class="clear">
+                 <h4 class="m-a-0 text-lg _300">
+                  
+                   <span class="text-info m-r-sm">{{dayQty}}</span>
+                        <span class="text-sm"></span>
+                    
+                </h4>
+                <small class="m-r-sm text-info">今日份数</small>
+                <!--<a class= "graybtn" href="">
+                <p>查看更多</p>
+            </a>
+            -->
+        </div>
+    </div>
+    
+</div>
+</div>
+    <div class="row">
+<div class="col-xs-12 col-md-8">
+    <div class="box">
+        <div class="box-header b-b">
+            <h3>送奶日报表</h3>
+        </div>
+
+        <div class="nh-chart-wrapper">
+
+            <div brday></div>
+
+        </div>
+    </div>
+</div>
+<!--===-->
+<div class="col-xs-12 col-md-4">
+    <div class="box">
+        <div class="box-header b-b">
+            <h3>快捷链接</h3>
+        </div>
+        <div class="box-tool">
+            <ul class="nav">
+                <li class="nav-item inline">
+                    <a class="nav-link">
+                        <i class="material-icons md-18"></i>
+                    </a>
+                </li>
+                <!--li class="nav-item inline dropdown">
+                <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <i class="material-icons md-18"></i>
+                </a>
+                <div class="dropdown-menu pull-right">
+                    <a class="dropdown-item" href="">更多</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item">设置</a>
+                </div>
+            </li-->
+        </ul>
+    </div>
+    <div class="box-body boxLink">
+
+        <ul class="row">
+            <a href="" ui-sref="newhope.productInfo">
+                <li class="col-md-4 col-xs-6">
+                    <i class="icon01"></i>
+                    产品信息
+                </li>
+            </a>
+            
+            <a href="" ui-sref="newhope.milkstationlist">
+                <li class="col-md-4 col-xs-6">
+                    <i class="icon01"></i>
+                    奶站信息
+                </li>
+            </a>
+            <a href="" ui-sref="newhope.empinfo">
+                <li class="col-md-4 col-xs-6">
+                    <i class="icon01"></i>
+                    员工信息
+                </li>
+            </a>
+            <a href=""  ui-sref="newhope.priceInfo">
+                <li class="col-md-4 col-xs-6">
+                    <i class="icon04"></i>
+                    价格组信息
+                </li>
+            </a>
+        </ul>
+
+    </div>
+</div>
+</div>
+</div>
+</div>

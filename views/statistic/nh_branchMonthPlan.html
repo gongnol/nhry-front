@@ -1,0 +1,103 @@
+<div class="padding notitlebar">
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="navbar ng-scope">
+			<!-- navbar collapse -->
+			<div class="collapse navbar-toggleable-sm" id="filter">
+
+				<div class="filterbar p-t">
+					<div class="filter-content">
+						<div class="date-box">
+							<div class="flex-item">
+								<span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+								</span>
+								<input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.fromDate"
+                                           placeholder="日期"
+                                           data-date-format="yyyy"
+                                           data-date-type="number"
+                                           data-autoclose="true"
+                                           start-view=2
+                                           max-view=2
+                                           min-view=2
+                                           bs-datepicker></div>
+						</div>
+              <!--div class="select-box" nh-auth="stat_requiremilk_dealer">
+                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true" >
+                  <ui-select-match placeholder="经销商" allow-clear="true">
+                    <span ng-bind="$select.selected.dealerName"></span>
+                  </ui-select-match>
+                  <ui-select-choices repeat="status.dealerNo as status in data.dealers track by status.dealerNo">
+                    <span ng-bind="status.dealerName"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div-->       
+					</div>
+
+					<div class="filter-act">
+						<button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+            			<button class="btn btn-fw blueLt" ng-click="data.uploadFileDetail()">月计划导入</button>
+            			<button class="btn btn-fw blueLt" ng-click="exportTem()">模版导出</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <div class="box" style="border-radius: 2px;">
+      <div class="box-header">
+      	<small>所有月计划单位均为（万元）</small>
+      </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">奶站名称</th>
+                                    <th class="th-nh">年份</th>
+                                    <th class="th-nh">一月</th>
+                                    <th class="th-nh">二月</th>
+                                    <th class="th-nh">三月</th>
+                                    <th class="th-nh">四月</th>
+                                    <th class="th-nh">五月</th>
+                                    <th class="th-nh">六月</th>
+                                    <th class="th-nh">七月</th>
+                                    <th class="th-nh">八月</th>
+                                    <th class="th-nh">九月</th>
+                                    <th class="th-nh">十月</th>
+                                    <th class="th-nh">十一月</th>
+                                    <th class="th-nh">十二月</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!--tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="nh_branchMonthPlan" -->
+                                    <tr ng-repeat="item in data.content">
+                                        <td>{{item.branchName}}</td>
+                                        <td>{{item.taskYear}}</td>   
+                                        <td>{{item.taskJan}}</td>
+                                        <td>{{item.taskFeb}}</td>
+                                        <td>{{item.taskMar}}</td>
+                                        <td>{{item.taskApr}}</td>
+                                        <td>{{item.taskMay}}</td>  
+                                        <td>{{item.taskJun}}</td> 
+                                        <td>{{item.taskJul}}</td>
+                                        <td>{{item.taskAug}}</td>   
+                                        <td>{{item.taskSep}}</td>
+                                        <td>{{item.taskOct}}</td> 
+                                        <td>{{item.taskNov}}</td> 
+                                        <td>{{item.taskDev}}</td>                     
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <!--footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true"
+                                            pagination-id="nh_branchMonthPlan" 
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer-->  
+                        </div>
+                    </div>
+                </div>
+</div>

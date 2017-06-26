@@ -1,0 +1,125 @@
+<div class="padding notitlebar">
+    <div class="box" style="border-radius: 2px;">
+      <div class="box-header blueLt">
+        <h3>路单明细报表导出</h3>
+      </div>
+      <div class="row p-a" >
+        <div class="col-sm-12">
+          <div class="col-sm-2">
+            <div class="select-box col-">
+              <ui-select multiple remove-selected="false" ng-model="search.selectedEmplList" search-enabled="true">
+                <ui-select-match allow-clear="true" placeholder="送奶员">
+                  <span ng-bind="$item.empName"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="x in (data.emps | filter: $select.search) track by x.empNo">
+                  <span ng-bind-html="x.empName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="select-box col-">
+              <ui-select multiple remove-selected="false" ng-model="search.selectedNotsellList" search-enabled="true">
+                <ui-select-match allow-clear="true" placeholder="可送产品">
+                  <span ng-bind="$item.maraEx.shortTxt"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="x in (data.maraEx | filter: $select.search) track by x.matnr">
+                  <span ng-bind-html="x.maraEx.shortTxt | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          <div class="form-group col-sm-2">
+                 <div class="select-box">
+                   <ui-select ng-model="search.reachTimeType" search-enabled="false" append-to-body="true">
+                     <ui-select-match placeholder="配送选择" allow-clear="true">
+                       <span ng-bind="$select.selected.label"></span>
+                     </ui-select-match>
+                     <ui-select-choices repeat="x.code as x in (data.dayrouteStatuses | filter: $select.search) track by x.code">
+                       <span ng-bind="x.label"></span>
+                     </ui-select-choices>
+                   </ui-select>
+                 </div>
+          </div>
+          <div class="form-group col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+              </span>
+              <input type="text" class="form-control r-b-round" ng-model="search.startDate"
+                                       data-date-format="yyyy-MM-dd" data-autoclose="true"
+                                       name="date" bs-datepicker placeholder="开始时间"></div>
+          </div>
+          <div class="form-group col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+              </span>
+              <input type="text" class="form-control r-b-round" ng-model="search.endDate"
+                                       data-date-format="yyyy-MM-dd"
+                                       data-min-date="{{options.nowDate}}"
+                                       data-autoclose="true"
+                                       name="date" bs-datepicker placeholder="结束时间"></div>
+          </div>
+          <div class="form-group col-sm-1">
+              <button class="btn btn-fw blueLt" ng-click="reportRouteTabel()">导出</button>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="box" style="border-radius: 2px;">
+      <div class="box-header blueLt">
+        <h3>日计划明细报表导出</h3>
+      </div>
+      <div class="row p-a" >
+        <div class="col-sm-12">
+          <div class="col-sm-2">
+            <div class="select-box col-">
+              <ui-select multiple remove-selected="false" ng-model="search.dayselectedEmplList" search-enabled="true">
+                <ui-select-match allow-clear="true" placeholder="送奶员">
+                  <span ng-bind="$item.empName"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="x in (data.emps | filter: $select.search) track by x.empNo">
+                  <span ng-bind-html="x.empName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="select-box col-">
+              <ui-select multiple remove-selected="false" ng-model="search.dayselectedNotsellList" search-enabled="true">
+                <ui-select-match allow-clear="true" placeholder="可送产品">
+                  <span ng-bind="$item.maraEx.shortTxt"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="x in (data.maraEx | filter: $select.search) track by x.matnr">
+                  <span ng-bind-html="x.maraEx.shortTxt | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+              </span>
+              <input type="text" class="form-control r-b-round" ng-model="search.daystartDate"
+                                       data-date-format="yyyy-MM-dd" data-autoclose="true"
+                                       name="date" bs-datepicker placeholder="开始时间"></div>
+          </div>
+          <div class="form-group col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon blueLt l-b-round"> <i class="fa fa-calendar"></i>
+              </span>
+              <input type="text" class="form-control r-b-round" ng-model="search.dayendDate"
+                                       data-date-format="yyyy-MM-dd"
+                                       data-min-date="{{options.nowDate}}"
+                                       data-autoclose="true"
+                                       name="date" bs-datepicker placeholder="结束时间"></div>
+          </div>
+          <div class="form-group col-sm-2"></div>
+          <div class="form-group col-sm-1">
+              <button class="btn btn-fw blueLt" ng-click="reportdayTabel()">导出</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,315 @@
+
+  
+  <ul class="nav" ui-nav>
+    <!--<li class="nav-header hidden-folded">  
+    -->
+    <!--<small class="text-muted">Main</small>
+  -->
+  <!--</li>  
+  -->
+  <li ui-sref-active="active">
+    <a href="index.html" ui-sref="newhope.home">
+      <!--ui-sref="app.dashboard"-->  
+      <span class="nav-icon"> <i class="navicon navicon01">
+          </i>
+      </span>
+      <span class="nav-text">首页</span>
+    </a>
+  </li>
+
+  <li>
+    <a>
+      <span class="nav-caret"> <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon">
+        <i class="navicon navicon02"></i>
+      </span>
+      <span class="nav-text">基础信息</span>
+    </a>
+    <ul class="nav-sub">
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.consumerlist">
+          <span class="nav-text">订户信息</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.productInfo">
+          <span class="nav-text">产品信息</span>
+        </a>
+      </li>
+      
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.milkstationlist">
+          <span class="nav-text">奶站信息</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.empinfo">
+          <span class="nav-text">员工信息</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.dispatchArealist" >
+          <span class="nav-text">配送区域信息</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.priceInfo">
+          <span class="nav-text">价格组信息</span>
+        </a>
+      </li>
+       <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.dictionarylist">
+          <span class="nav-text">字典信息</span>
+        </a>
+      </li>
+       <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.userInfo">
+          <span class="nav-text">用户信息</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#">
+          <span class="nav-text">站内通知</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <a>
+      <span class="nav-caret">
+        <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon">
+        <i class="navicon navicon03">
+
+        </i>
+      </span>
+      <span class="nav-text">订单管理</span>
+    </a>
+    <ul class="nav-sub">
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.orderCreate">
+          <span class="nav-text">创建订单</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.currentOrder">
+          <span class="nav-text">订单列表</span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.requiredOrder">
+          <span class="nav-text">待确认订单</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.manHandle">
+          <span class="nav-text">人工分单</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.milkBox">
+          <span class="nav-text">奶箱列表</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <a>
+      <span class="nav-caret"> <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon"> <i class="navicon navicon04"></i>
+      </span>
+      <span class="nav-text">送奶管理</span>
+    </a>
+    <ul class="nav-sub">
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.supply">
+          <span class="nav-text">要货计划</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.demand">
+          <span class="nav-text">订奶计划</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.transplan">
+          <span class="nav-text">路单管理</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.transpath">
+          <span class="nav-text">路线管理</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.returnbox">
+          <span class="nav-text">回瓶管理</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <a>
+      <span class="nav-caret">
+        <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon">
+        <i class="navicon navicon05"></i>
+      </span>
+      <span class="nav-text">结算管理</span>
+    </a>
+    <ul class="nav-sub">
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.milkstationBill">
+          <span class="nav-text">奶站结算</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.empBill">
+          <span class="nav-text">送奶工结算</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#" ui-sref="newhope.consumerBill">
+          <span class="nav-text">订户结算</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <a>
+      <span class="nav-caret">
+        <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon">
+        <i class="navicon navicon06">
+
+        </i>
+      </span>
+      <span class="nav-text">统计查询</span>
+    </a>
+    <ul class="nav-sub">
+      <li ui-sref-active="active">
+          <a href="#" ui-sref="newhope.milkBoxStat"><span class="nav-text">奶箱统计</span></a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#">
+          <span class="nav-text">奶站统计</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#">
+          <span class="nav-text">送奶工统计</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#">
+          <span class="nav-text">产品统计</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href="#">
+          <span class="nav-text">订户统计</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+    <li>
+      <a>
+      <span class="nav-caret">
+        <i class="fa fa-caret-down"></i>
+      </span>
+      <span class="nav-icon">
+        <i class="fa fa-th-large"></i>
+      </span>
+        <span class="nav-text">测试页面</span>
+      </a>
+      <ul class="nav-sub">
+        <li ui-sref-active="active">
+          <a href="#" ui-sref="newhope.uicontentlayout"><span class="nav-text">主内容区布局</span></a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="nav" ui-nav>
+
+    <li class="nav-header hidden-folded">
+      <small class="text-muted">功能导航</small>
+    </li>
+
+    
+    <li ui-sref-active="active">
+      <a href="index2.html" ui-sref="app.dashboard">
+        <span class="nav-icon">
+          <i class="fa fa-home"></i>
+        </span>
+        <span class="nav-text">首页</span>
+      </a>
+    </li>
+
+    <li>
+      <a>
+        <span class="nav-caret">
+          <i class="fa fa-caret-down"></i>
+        </span>
+        <span class="nav-icon">
+          <i class="fa fa-th-large"></i>
+        </span>
+        <span class="nav-text">基础信息</span>
+      </a>
+      <ul class="nav-sub">
+        <li ui-sref-active="active">
+          <a href="inbox.html" ui-sref="app.inbox.list"><span class="nav-text">订户信息</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="contact.html" ui-sref="app.contact"><span class="nav-text">产品信息</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="calendar.html" ui-sref="app.calendar"><span class="nav-text">奶站信息</span></a>
+        </li>
+        <li ui-sref-active="active" class="hide" ng-class="{'show': 1}">
+          <a ui-sref="app.note.list"><span class="nav-text">送奶工信息</span></a>
+        </li>
+        <li ui-sref-active="active" class="hide" ng-class="{'show': 1}">
+          <a ui-sref="app.todo"><span class="nav-text">Todo</span></a>
+        </li>
+      </ul>
+    </li>
+
+    <li ng-class="{active:$state.includes('app.layout')}">
+      <a>
+        <span class="nav-caret">
+          <i class="fa fa-caret-down"></i>
+        </span>
+        <span class="nav-icon">
+          <i class="fa fa-dot-circle-o"></i>
+        </span>
+        <span class="nav-text">页面模板</span>
+      </a>
+      <ul class="nav-sub">
+        <li ui-sref-active="active">
+          <a href="footers.html" ui-sref="newhope.uihomelayout"><span class="nav-text">首页布局</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="headers.html" ui-sref="newhope.uicontentlayout"><span class="nav-text">列表布局</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="asides.html" ui-sref="newhope.uiformlayout"><span class="nav-text">表单布局</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a href="asides.html" ui-sref="newhope.uimodallayout"><span class="nav-text">摸态框布局</span></a>
+        </li>
+
+      </ul>
+    </li>
+  </ul>

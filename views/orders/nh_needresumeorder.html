@@ -1,0 +1,601 @@
+<div class="titlebar white box-shadow">
+    <!-- <div class="l-h m-l pull-right pull-rightest">
+        <a class="nav-link" href="" ng-click="allReturn()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退回
+            </span>
+        </a>
+    </div> -->
+    <div class="l-h m-l pull-left" style="margin-top: 5px;">
+        <!-- <a class="nav-link" href="">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退订
+            </span>
+            <strong>默认显示5天内要完结的订单</strong>
+        </a> -->
+        <strong>默认显示7天内要完结的订单</strong>
+    </div>
+    <!-- <div class="l-h m-l pull-right">
+        <a class="nav-link" href="" ng-click="allStop()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量停订
+            </span>
+        </a>
+    </div> -->
+    <div class="l-h m-r pull-right">
+        <a class="nav-link m-r" href="" ng-click="clearBatchSearch()" ng-if="batchMps && batchMps.length > 0">
+            <span class="hidden-xs-down btn btn-sm rounded danger">
+                清空批量筛选条件
+            </span>
+        </a>
+        <a class="nav-link m-r" href="" ng-click="batchSearchByMp()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量筛选
+            </span>
+        </a>
+        <a class="nav-link" href="" ng-click="allContinue()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量续订
+            </span>
+        </a>
+    </div>
+</div>
+
+<!-- ######## 右侧开始-->
+<div class="padding">
+
+  <div id="modal-alert"></div>
+  <div id="body-alert"></div>
+  
+  <div class="white r box-shadow-z0 m-b filter-box">
+    <div class="box ng-scope">
+        <a data-toggle="collapse" data-target="#filter"
+           class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="filter">
+            <div class="filterbar">
+                <div class="filter-content">
+                    <!-- <div class="select-box">
+                        <ui-select ng-model="search.product" search-enabled="true" >
+                           <ui-select-match placeholder="选择产品">
+                               <span ng-bind="$select.selected.matnrTxt"></span>
+                           </ui-select-match>
+                           <ui-select-choices 
+                             repeat="pro.matnr as pro in (Rproducts |filter: $select.search) track by pro.matnr"
+                             refresh="getProductTxt($select.search)"
+                               refresh-delay="500"
+                               minimum-input-length="2">
+                               <span ng-bind="pro.matnrTxt"></span>
+                           </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-box">
+                        <ui-select ng-model="search.empNo" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                <span ng-bind="x.empName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-box">
+                        <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="选择状态" allow-clear="true">
+                                <span ng-bind="$select.selected.text"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.code as x in (statuses | filter: $select.search) track by x.code">
+                                <span ng-bind="x.text"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div> -->
+                    <div class="select-box p-t p-b p-l">
+                        <ui-select ng-model="search.empNo" search-enabled="true">
+                            <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                <span ng-bind="x.empName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-box p-t p-b">
+                        <ui-select ng-model="search.paymentStat" search-enabled="false">
+                            <ui-select-match placeholder="选择付款状态" allow-clear="true">
+                                <span ng-bind="$select.selected.text"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.code as x in payStatuses track by x.code">
+                                <span ng-bind="x.text"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="date-box">
+                        <div class="flex-item"><span class="item-title">订单截止日期(区间有效)</span></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="search.orderDateStart"
+                                   placeholder="起始日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true" 
+                                   bs-datepicker>
+                        </div>
+                        <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                        <div class="flex-item">
+                            <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                            </span>
+                            <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="search.orderDateEnd"
+                                   placeholder="结束日期"
+                                   data-date-format="yyyy-MM-dd"
+                                   data-date-type="string" 
+                                   data-autoclose="true"
+                                   bs-datepicker>
+                        </div>
+                    </div>
+                                 
+                </div>
+
+                <div class="filter-act p-a">
+                    <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                </div>
+                 <div class="filter-act p-a">
+                    <button class="btn btn-fw blueLt" ng-click="exportTable()">导出</button>
+                </div>
+            </div>
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+  </div>
+
+  <!-- ###  表格开始-->
+  <div class="box" style="border-radius: 2px;">
+    <div class="m-t" ng-if="batchMps && batchMps.length > 0">按联系电话筛选结果如下</div>
+    <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="checkboxArrs">
+            <thead>
+              <tr role="row">
+                <th style="padding-right: 0;">
+                    <label class="md-check">
+                        <input type="checkbox" ng-model="allChFlag">
+                        <i class="blue"></i>
+                    </label>
+                </th>
+                <th class="th-nh" style="padding-left: 0;">
+                    订单编号
+                </th>
+                <th class="th-nh">
+                    截止日期
+                </th>
+                <th class="th-nh">订户姓名</th>
+                <th class="th-nh">联系电话</th>
+                <th class="th-nh">订户地址</th>
+                <th class="th-nh">订单标识</th>
+                <th class="th-nh">付款方式</th>
+                <th class="th-nh">订单总额</th>
+                <th class="th-nh">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                  <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                </tr>
+                <tr ng-if="tbLoding == 0 && content.length <= 0">
+                  <td colspan="10" style="text-align:center;">没有数据！</td>
+                </tr>
+                <tr current-page="curPageno" pagination-id="order_currentList" dir-paginate="order in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                    <td style="padding-right: 0;">
+                        <label class="md-check">
+                            <input type="checkbox" checked-data="{{order.orderNo}}">
+                            <i class="blue"></i>
+                        </label>
+                    </td>
+                    <td class="td-id-nh" style="font-size: 1rem; padding-left: 0;"><span ng-bind="order.orderNo"></span></td>
+                    <td class="td-id-nh" style="font-size: 1rem;"><span ng-bind-html="dateFormat(order.endDate)"></span></td>
+                    <td><span ng-bind="order.milkmemberName"></span></td>
+                    <td><span ng-bind="order.customerTel"></span></td>
+                    <td style="width: 13%;"><span ng-bind="order.adressNo"></span></td>
+                    <td><span ng-bind-html="signFormat(order.sign)"></span></td>
+                    <td><span ng-bind="order.paymentmethod == '10'?'后付款':'先付款'"></span></td>
+                    <td><span ng-bind="order.initAmt"></span></td>
+                    <td style="width: 15%;">
+                        <div class="btn-groups" ng-if="order.sign == '10' && order.preorderStat != '30' ">
+                            <button ng-click="toOrderDetail(order.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                            <!-- <button ng-click="toOrderEdit(order.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button> -->
+                            <button ng-click="resumeOrder(order.orderNo,order.paymentmethod)" class="btn btn-xs btn-outline rounded b-danger text-danger">续订</button>
+                            <button ng-click="noResumeOrder(order.orderNo,order.paymentmethod)" class="btn btn-xs btn-outline rounded b-danger text-danger">不参与续订</button>
+                            <!-- <button ng-click="returnOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">停订</button>
+                            <button ng-click="cancelOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">退订</button> -->
+                            <button  ui-sref="newhope.demand({orderNo: order.orderNo})" class="btn btn-xs btn-outline rounded b-accent text-accent">订奶计划</button>
+                            <!-- <button ng-click="returnOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">退回订单</button> -->
+                        </div>
+                        <div class="btn-groups" ng-if="order.sign == '20' ">
+                            <button ng-click="toOrderDetail(order.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                            <!-- <button ng-click="toOrderEdit(order.orderNo)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button> -->
+                            <button ng-click="resumeOrderFromStop(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">复订</button>
+                            <!-- <button ng-click="returnOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">停订</button> -->
+                            <button ng-click="cancelOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">退订</button>
+                            <button  ui-sref="newhope.demand({orderNo: order.orderNo})" class="btn btn-xs btn-outline rounded b-accent text-accent">订奶计划</button>
+                            <!-- <button ng-click="returnOrder(order.orderNo)" class="btn btn-xs btn-outline rounded b-danger text-danger">退回订单</button> -->
+                        </div>
+                        <div class="btn-groups" ng-if="order.sign == '30'">
+                            <button ng-click="toOrderDetail(order.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看已退订的订单</button>
+                        </div>
+
+                    </td>                         
+                </tr>
+            </tbody>
+          </table> 
+          <div class="p-t m-l m-b" style="float: left;margin-right: -100%;">
+            <span>每页显示&nbsp;</span>
+            <button type="button" class="btn btn-sm white"
+                    ng-model="itemsPerPage"
+                    data-caret-html="&nbsp;<span class='nh-caret'></span>"
+                    bs-options="size for size in pageSizes"
+                    bs-select>
+            </button>
+            <span>&nbsp;条</span>
+          </div>
+          <footer class="text-center">
+            <dir-pagination-controls pagination-id="order_currentList"
+                max-size="8"
+                direction-links="true"
+                boundary-links="true" 
+                on-page-change="getData(newPageNumber)"
+                template-url="nhtpl/pagination.tpl.html">
+            </dir-pagination-controls>
+          </footer>  
+        </div>
+    </div>
+  </div>
+      <!-- ###  表格结束-->
+
+  <!-- 取消订单 -->
+  <script type="text/ng-template" id="cancelOrderModal.html">
+      <div class="modal-header">
+          <h3 class="modal-title">取消订单</h3>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <label class="col-md-3"><strong>是否取消订单?</strong></label>
+            <label class="col-md-8">订单编号:{{ handle.orderNo }}</label>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <strong>退订原因</strong>
+            </div>
+            <div class="form-group col-md-5">
+              <div class="select-box">
+                    <ui-select ng-model="handle.reason" search-enabled="false">
+                        <ui-select-match allow-clear="true" placeholder="请选择退订原因">
+                            <span ng-bind="$select.selected.text"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="x.code as x in (backReasons.data | filter: $select.search) track by x.code">
+                            <span ng-bind="x.text"></span>
+                        </ui-select-choices>
+                    </ui-select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <strong>备注</strong>
+            </div>
+            <div class="form-group col-md-8">
+              <textarea class="form-control" placeholder="请输入退订原因" ng-model="handle.memoTxt" rows="3"></textarea>
+            </div>  
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button class="btn blueLt" type="button" ng-click="save()">保存</button>
+          <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+      </div>
+  </script>
+  <!--  modal area-->
+
+  <!-- 订单停订.modal -->
+  <script type="text/ng-template" id="stopOrderModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单停订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <label class="col-md-12"><strong>订单编号:&nbsp&nbsp&nbsp{{ handle.orderNo }}</strong></label>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <strong>停订从</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateStart"
+                  data-min-date="{{defaultValue.date}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="starttilDate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <strong>停订到(非必填,此天开始送)</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateEnd"
+                  data-min-date="{{handle.orderDateStart}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="endtilDate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+             
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="save()">停订</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+  </script>
+  <!-- / .modal --> 
+
+  <!-- 订单批量停订.modal -->
+  <script type="text/ng-template" id="returnAllOrders.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单批量停订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-md-3">
+                <strong>停订从</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateStart"
+                  data-min-date="{{defaultValue.date}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="starttilDate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-3">
+                <strong>停订到(非必填,此天开始送)</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateEnd"
+                  data-min-date="{{handle.orderDateStart}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="endtilDate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+             
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="save()">停订</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+  </script>
+  <!-- / .modal -->
+
+  <!-- 订单批量续订.modal -->
+  <script type="text/ng-template" id="allContinueOrders.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单批量续订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row" ng-if="!handle.content">
+              <div class="form-group col-md-5">
+                <strong>订单续订截止日期</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateEnd"
+                  data-min-date="{{defaultValue.date}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="contilDate"
+                  bs-on-hide="calculate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+             <div class="row">
+              <div class="form-group col-md-5">
+                   备注
+              </div>
+              <div class="form-group col-md-7">
+                 <textarea  ng-model="handle.memoTxt" class="form-control"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-5">
+                 订单是否复制原订单
+              </div>
+              <div class="form-group col-md-1">
+                 <input type="checkbox" class="form-control" ng-model="handle.content">
+              </div>
+            </div>
+            
+       	  <div class="row">
+              <div class="form-group col-md-5">
+           		      是否改为后付款
+              </div>
+              <div class="form-group col-md-1">
+                 <input type="checkbox" class="form-control" ng-model="handle.paymentmethod">
+              	 <span style="position: fixed;margin: -32px;margin-left: 46px; color: red;" >预付款续订单改为后付费请勾选</span>  
+              </div>
+            </div>
+            
+            
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="saving || save()" ng-class="{'disabled': saving, 'nh-disable': saving}"><span ng-class="{'nh-hide': saving}">确定续订</span></button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">取消操作</button>
+        </div>
+  </script>
+
+
+
+  <!-- 订单续订.modal -->
+  <script type="text/ng-template" id="resumeOrderModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单续订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <label class="col-md-12"><strong>订单编号:&nbsp&nbsp&nbsp{{ handle.orderNo }}</strong></label>
+            </div>
+            <div ng-if="defaultValue.payMethod == '10' ">后付款订单</div>
+            <div ng-if="defaultValue.payMethod == '20' ">预付款订单</div>
+            <div class="row" ng-if="!handle.content">
+              
+              <div class="form-group col-md-3">
+                <strong>续订开始日期</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateStart"
+                  data-min-date="{{defaultValue.date}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="contilDate"
+                  bs-on-hide="calculate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="number" min="1" class="form-control" placeholder="续订多少天？" ng-change="calculate()" ng-model="handle.goDays">
+              </div>
+            </div>
+            <div class="row" ng-if="!handle.content">
+              <div class="form-group col-md-6">
+                截止日期为:{{handle.orderDateEnd}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                 是否复制原订单
+              </div>
+              <div class="form-group col-md-2">
+                 <input type="checkbox" class="form-control" ng-model="handle.content">
+              </div>
+            </div>
+            
+        <div class="row"  ng-hide="showOrhide" >
+              <div class="form-group col-md-3">
+                	    是否改为后付款
+              </div>
+              <div class="form-group col-md-2">
+                <input type="checkbox" class="form-control" ng-model="handle.paymentmethod"/>
+              	 <span style="position: fixed;margin: -32px;margin-left: 62px; color: red;" >预付款续订单改为后付费请勾选</span>  
+              </div>
+        </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="saving || save()" ng-class="{'disabled': saving, 'nh-disable': saving}"><span ng-class="{'nh-hide': saving}">续订</span></button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+  <!-- / .modal -->
+
+<!-- 订单不参与续订model -->
+<script type="text/ng-template" id="noResumeOrderModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单不再参与续订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              您确定该订单不再参与续订吗?
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="saving || save()" ng-class="{'disabled': saving, 'nh-disable': saving}"><span ng-class="{'nh-hide': saving}"></span>确定</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+</script>
+  <!-- 订单不参与续订model END -->
+
+  <!-- 订单复订.modal -->
+  <script type="text/ng-template" id="resumeOrderFromStopModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">订单复订</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <label class="col-md-12"><strong>订单编号:&nbsp&nbsp&nbsp{{ handle.orderNo }}</strong></label>
+            </div>
+            <div class="row">
+              
+              <div class="form-group col-md-3">
+                <strong>从何时开始复订</strong>
+              </div>
+              <div class="form-group col-md-4 dropdown">
+                <input type="text" class="form-control" placeholder="请选择日期"
+                  ng-model="handle.orderDateStart"
+                  data-min-date="{{defaultValue.date}}"
+                  data-date-format="yyyy-MM-dd"
+                  data-date-type="string"
+                  data-autoclose="true"
+                  name="contilDate"
+                  bs-datepicker>
+                <i class="material-icons md-24" style="position: absolute; right: 24px;top: 10px;">&#xe8df;</i>
+              </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button class="btn blueLt" type="button" ng-click="save()">复订</button>
+            <button class="btn primary" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </script>
+  <!-- / .modal -->
+  <script type="text/ng-template" id="batchSearchByMpModal.html">
+        <div class="modal-header blueLt">
+              <h3 class="modal-title">筛选条件</h3>
+        </div>
+        <div class="modal-body p-lg">
+          <div class="row">
+            <div class="col-md-5">
+              <div style="font-size: 1.2rem">输入联系电话（确保一行一个电话号码）</div>
+              <textarea class="form-control m-t" rows="10" 
+                        ng-model="bsm.mpList" 
+                        style="resize: none; border-width: 3px;"></textarea>
+            </div>
+            <div class="col-md-6 col-md-offset-1" ng-if="bsm.mpArr && bsm.mpArr.length !== 0">
+              <div style="font-size: 1.2rem">将查询以下电话的订单，请确认（共{{bsm.mpArr.length}}条）</div>
+              <div class="m-t" style="height: 250px; overflow-y: auto;">
+                <div ng-repeat="item in bsm.mpArr" ng-bind="item"></div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-fw blueLt p-x-md" ng-click="bsm.save()">查询</button>
+          <button type="button" class="btn btn-fw primary p-x-md" ng-click="bsm.cancelModal()">关闭</button>
+        </div>
+  </script>
+</div>
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

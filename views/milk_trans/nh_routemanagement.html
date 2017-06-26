@@ -1,0 +1,67 @@
+
+        <!-- / -->
+<!-- ######## 右侧开始-->
+        <div ui-view class="app-body" id="view">
+
+            <!-- #####  右侧正文开始-->
+            <div class="titlebar white lt box-shadow b-b">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8 col-xs-12 p-y-sm">
+                        <h5 class="m-b-0">路线管理</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- ###  功能条开始-->
+
+                    <div class="titlebar white lt box-shadow">
+                        <button class="btn btn-fw blueLt m-r" ng-click="addRoute()">新增路线</button>
+                        <button class="btn btn-fw grey-600  m-r" ng-click="removeAllSelectedRoute()">删除路线</button>
+                        
+                    </div>
+                    
+                    <div class="filterbar grey-300 p-a pos-rlt">
+                        <button class="btn btn-fw primary pull-md-right hidefilter" ng-click="reloadTable()">筛选</button>
+                        
+                        <div class="date-box">
+                                <label class="col-md-2 text-right">创建日期</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control"
+                                           ng-model="search.fromDate"
+                                           data-max-date=""
+                                           name="dateStart"
+                                           bs-datepicker>
+                                    <i class="material-icons md-24">&#xe8df;</i>
+                                </div>
+
+                                <label class="col-md-1">至</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control"
+                                           ng-model="search.untilDate"
+                                           data-min-date=""
+                                           name="dateEnd"
+                                           bs-datepicker>
+                                    <i class="material-icons md-24">&#xe8df;</i>
+                                </div>
+                          </div>
+                        
+
+                    </div>                                 
+
+            <!-- ###  功能条结束-->
+            <!-- ###  表格开始-->
+            <div class="box">
+              <div class="table-responsive">
+                      <table datatable dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstanceCallback" class="table table-striped b-t b-b" nh-checkbox></table>
+              </div>
+            </div>
+            <!-- ###  表格结束-->
+
+            <!--  -->
+        </div>
+
+
+
+            <!-- #####  右侧正文结束-->
+
+<!-- ######## 右侧结束-->
+<!-- ############ 页面内容结束-->

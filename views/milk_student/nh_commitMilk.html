@@ -1,0 +1,397 @@
+
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-r pull-right">
+      <div class="date-box" style="margin-right: 0;">
+        <div class="pull-right m-l" >
+        	<!--<div class="pull-left filter-content" style="margin: 0 5px 0 5px;">
+	          <div class="date-box" style="margin-right: 0;">
+	            <div class="flex-item">
+	              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+	              <input type="text" class="form-control r-b-round w-md" name="crDate"       ng-model="createEntity"
+	                     data-date-format="yyyy-MM-dd"
+	                     data-date-type="string" 
+	                     data-autoclose="true" 
+	                     placeholder="请选择生成日期"
+	                     bs-datepicker>
+	              </div>
+	            </div>
+	        </div>-->
+	        <div class="pull-left filter-content" style="margin: 0 5px 0 5px;">
+	        	<div class="date-box">
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="startDateStr"
+                               placeholder="起始日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="string" 
+                               data-autoclose="true"
+                               data-max-date="{{endDateStr}}" 
+                               bs-datepicker>
+                    </div>
+                    <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                    <div class="flex-item">
+                        <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="endDateStr"
+                               placeholder="结束日期"
+                               data-date-format="yyyy-MM-dd"
+                               data-date-type="string" 
+                               data-autoclose="true" 
+                               data-min-date="{{startDateStr}}" 
+                               bs-datepicker>
+                    </div>
+                </div>
+	        </div>
+            <a class="nav-link"  href="" ng-click="">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                      	批量导出学校的分奶表
+                </span>
+            </a>
+            <span>&nbsp;</span>
+            <a class="nav-link"  href="" ng-click="batchBuildRquireMilk()">
+                <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                      	批量生成要货单据
+                </span>
+            </a>
+        </div>
+        <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+            <input type="text" id="fuzzySearch" class="input-line w-17" placeholder="请输入搜索关键字" ng-model="data.search.content" ng-keypress="fuzzySearch($event)" style="border-bottom-width: 0; font-size: 1.125rem;">
+            <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+        </div>
+	   </div>
+   </div>
+</div>
+<div class="padding">
+    <div id="body-alert" class="text-center"></div>
+    <div id="modal-alert"></div>
+	
+	
+	<!--条件开始 -->
+	<div class="white r box-shadow-z0 m-b filter-box">
+		<div class="filterbar p-b p-l p-r">
+			<div class="filter-content">
+
+				<div class="select-box p-t">
+					<ui-select ng-model="search.visible" search-enabled="false" append-to-body="true">
+						<ui-select-match placeholder="选择状态" allow-clear="true">
+							<span ng-bind="$select.selected.label"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="item.code as item in visibles ">
+							<span ng-bind="item.label"></span>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+				
+				
+			</div>
+			<div class="filter-act m-t">
+				<button class="btn btn-fw blueLt" ng-click="doSearch()">筛选</button>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--条件结束 -->
+
+    <div class="box" style="border-radius: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped b-t b-b no-footer">
+                    <thead>
+                        <tr role="row">
+                        	<th style="padding-right: 0;width: 4%;">
+                              <label class="md-check">
+                                 <input type="checkbox" ng-model="allChFlag"> <i class="blue"></i>
+                              </label>
+                           </th>
+                            <th class="th-nh" style="padding-right: 0;">学校代码</th>
+                            <th class="th-nh" style="padding-left: 3%;">学校名称</th>
+                            <th class="th-nh">是否可用</th>
+                            <th class="th-nh" style="padding-left: 11%;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                            <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                        </tr>
+                        <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                            <td colspan="10" style="text-align:center;">没有数据！</td>
+                        </tr>
+                        <tr ng-repeat="item in schoolList">
+                        	<td style="padding-right: 0;">
+                               <label class="md-check" >
+                                 <input type="checkbox" checked-data="{{item.schoolCode}}">
+                                 <i class="blue"></i>
+                               </label>
+                             </td>
+                            <td class="td-id-nh" style="width: 10%;word-break: break-all;padding-right: 0;"><span>{{item.schoolCode}}</span></td>
+                            <td class="td-id-nh" style="width: 30%;word-break: break-all;"><span>{{item.schoolName}}</span></td>
+                            <td class="td-id-nh" style="width: 10%;word-break: break-all;padding-left: 2%;"><span >{{item.statusStr}}</span></td>
+                            <td class="td-id-nh" style="width: 50%;word-break: break-all;">
+                                <div class="btn-groups">
+                                    <button class="btn btn-xs btn-outline rounded b-danger text-danger" ng-click="commitStudentMilk()">学生奶报货</button>
+                                    <button class="btn btn-xs btn-outline rounded b-accent text-accent" ng-click="commitTeacherMilk()">老师奶报货</button>
+                                    <button class="btn btn-xs btn-outline rounded b-info text-info" ng-click="setLoss()">配置损耗</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--学生奶报货-->
+<script type="text/ng-template" id="commitStudentMilk.html">
+    <form name="commitStudentMilk" role='form'novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">学生奶报货</h3>
+        </div>
+        <div class="modal-body">
+        	<div align="left">
+        		<div>
+					<h4>学校名称:小星星幼儿园001</h4>        			
+        		</div>
+        		<div class="filter-content">
+        			<div class="select-box p-t" style="padding-bottom: 20px;width: 240px;">
+						<ui-select ng-model="milkTypeSelect" search-enabled="false" append-to-body="false">
+							<ui-select-match placeholder="选择牛奶品种" allow-clear="true">
+								<span ng-bind="$select.selected.label"></span>
+							</ui-select-match>
+							<ui-select-choices repeat="item.code as item in milkTypeList ">
+								<span ng-bind="item.label"></span>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+        		</div>
+    			<div class="pull-left filter-content">
+    			  <label><h4>选择时间:</h4></label>
+		          <div class="date-box" style="margin-right: 0;">
+		            <div class="flex-item">
+		              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+		              <input type="text" class="form-control r-b-round w-md" ng-model="createEntity"
+		                     data-date-format="yyyy-MM-dd"
+		                     data-date-type="string" 
+		                     data-autoclose="true" 
+		                     placeholder="请选择日期"
+		                     bs-datepicker>
+		              </div>
+		            </div>
+		        </div>
+        	</div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr role="row">
+                        	<th class="th-nh">序号</th>
+                            <th class="th-nh">班级名称</th>
+                            <th class="th-nh">数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in classes">
+                        	<td class="td-id-nh"><span><input class="form-control" disabled="disabled" style="width: 50px;text-align: center;" type="text" value="{{$index+1}}"></span></td>
+                            <td class="td-id-nh"><span><input class="form-control" disabled="disabled" style="width:230px;" type="text" value="{{item.className}}"></span></td>
+                            <td class="td-id-nh"><span><input class="form-control" style="width:130px;" placeholder="实际人数" type="number" min="1" value="{{item.classNum}}"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()" >提交报货</button>
+            <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>
+
+<!--老师奶报货-->
+<script type="text/ng-template" id="commitTeacherMilk.html">
+    <form name="commitTeacherMilk" role='form' novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">老师奶报货</h3>
+        </div>
+        <div align="left" style="margin: 30px 0 60px 10px;">
+    		<div>
+    			<h4>学校名称:小星星幼儿园001</h4>
+    		</div>
+    		<div class="pull-left filter-content" style="margin-top: 10px;">
+			  <label><h4>选择时间:</h4></label>
+	          <div class="date-box" style="margin-right: 0;">
+	            <div class="flex-item">
+	              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+	              <input type="text" class="form-control r-b-round w-md" ng-model="createEntity"
+	                     data-date-format="yyyy-MM-dd"
+	                     data-date-type="string" 
+	                     data-autoclose="true" 
+	                     placeholder="请选择日期"
+	                     bs-datepicker>
+	              </div>
+	            </div>
+	        </div>
+    	</div>
+    	
+        <div class="modal-body">
+            <div style="overflow-y: scroll;max-height: 500px;min-height: 200px;">
+                <table class="table">
+                	<thead>
+                        <tr role="row">
+                            <th class="th-nh">牛奶品种</th>
+                            <th class="th-nh">数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in list">
+                            <td class="td-id-nh">
+								<div class="select-box p-t" style="margin-top: -16px;width: 240px;">
+									<ui-select ng-model="item.milkCode" search-enabled="false" append-to-body="false">
+										<ui-select-match placeholder="选择牛奶品种" allow-clear="false">
+											<span ng-bind="$select.selected.label"></span>
+										</ui-select-match>
+										<ui-select-choices repeat="item.code as item in milkTypeList">
+											<span ng-bind="item.label"></span>
+										</ui-select-choices>
+									</ui-select>
+								</div>
+							</td>
+							<td class="td-id-nh"><span><input class="form-control" style="width:230px;" ng-model="item.num" type="number" min="0" step="1" ></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a style="margin: 0 0 10px 30px;" class="nav-link" href="" ng-click="toAdd()"><span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus" style="margin-right: 5px;"></i>新增行</span></a>
+        <div class="modal-footer">
+            <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()" >提交</button>
+            <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>
+
+<!--损耗配置-->
+<script type="text/ng-template" id="setLoss.html">
+    <form name="setLoss" role='form'novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">损耗配置</h3>
+        </div>
+        <div align="left" style="margin: 30px 0 60px 10px;">
+    		<div>
+    			<h4>学校名称:小星星幼儿园001</h4>
+    		</div>
+    		<div class="pull-left filter-content">
+			  <label><h4>选择时间:</h4></label>
+	          <div class="date-box" style="margin-right: 0;">
+	            <div class="flex-item">
+	              <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+	              <input type="text" class="form-control r-b-round w-md" ng-model="createEntity"
+	                     data-date-format="yyyy-MM-dd"
+	                     data-date-type="string" 
+	                     data-autoclose="true" 
+	                     placeholder="请选择日期"
+	                     bs-datepicker>
+	              </div>
+	            </div>
+	        </div>
+    	</div>
+        <div class="modal-body">
+            <div style="overflow-y: scroll;max-height: 500px;min-height: 200px;">
+                <table class="table">
+                	<thead>
+                        <tr role="row">
+                            <th class="th-nh">牛奶品种</th>
+                            <th class="th-nh">损耗数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in list">
+                            <td class="td-id-nh">
+								<span><input disabled="disabled" class="form-control" style="width:230px;" type="text" value="{{item.milkName}}" ></span>
+							</td>
+							<td class="td-id-nh"><span><input class="form-control" style="width:230px;" ng-model="item.num" type="number" min="0" step="1" ></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--<a style="margin: 0 0 10px 30px;" class="nav-link" href="" ng-click="toAdd()"><span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>新增行</span></a>-->
+        <div class="modal-footer">
+            <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()" >确认提交</button>
+            <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/ng-template" id="batchBuildRquireMilk.html">
+	<form name="batchBuildRquireMilk" role='form' novalidate>
+        <div class="modal-header">
+            <h3 class="modal-title">批量报货</h3>
+        </div>
+    	<div class="pull-left filter-content" style="margin: 15px 5px 15px 5px;">
+        	<div class="date-box">
+                <div class="flex-item">
+                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                    </span>
+                    <input type="text" class="form-control r-b-round w-128" name="dateStart" ng-model="startDateStr"
+                           placeholder="取数日期"
+                           data-date-format="yyyy-MM-dd"
+                           data-date-type="string" 
+                           data-autoclose="true"
+                           data-max-date="{{endDateStr}}" 
+                           bs-datepicker>
+                </div>
+                <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                <div class="flex-item">
+                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i>
+                    </span>
+                    <input type="text" class="form-control r-b-round w-128" name="dateEnd" ng-model="endDateStr"
+                           placeholder="目标日期"
+                           data-date-format="yyyy-MM-dd"
+                           data-date-type="string" 
+                           data-autoclose="true" 
+                           data-min-date="{{startDateStr}}" 
+                           bs-datepicker>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-body" style="margin: 80px 0 0 0;">
+        	<div>
+	        	<p>
+	        		目标日期不送代码列表
+	        	</p>
+	        	<textarea cols="100" rows="3"></textarea>
+	        	<p>
+	       			注意: 代码用","隔开;所谓指定套餐,对于花式类学校使用,按照公司生产计划,目标日期可生产的牛奶品种.	
+	        	</p>
+	        	<div>
+	        		<div class="select-box p-t" style="margin-top: -16px;width: 340px;">
+						<ui-select ng-model="item.milkCode" search-enabled="false" append-to-body="false">
+							<ui-select-match placeholder="选择套餐" allow-clear="false">
+								<span ng-bind="$select.selected.label"></span>
+							</ui-select-match>
+							<ui-select-choices repeat="item.code as item in milkTypeList">
+								<span ng-bind="item.label"></span>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+	        	</div>
+	        	
+	        	<div style="margin: 10px 0 0 0;">
+	        		<button ng-disabled="buildDisable" ng-click="build(this)" type="button" class="btn btn-primary">点击生成</button>
+	        	</div>
+	        	
+	        	<div style="margin: 10px 0 0 0;">
+					<label>生成报告:</label><br/>
+					<textarea id="baogao" cols="100" rows="12" disabled="disabled"></textarea>
+	        	</div>
+	        </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+        </div>
+    </form>
+</script>

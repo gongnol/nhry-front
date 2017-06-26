@@ -1,0 +1,31 @@
+<!-- 侧边导航栏 -->
+ <div id="aside" class="app-aside modal fade sm nav-dropdown"  ng-class="{'folded': app.setting.folded}">
+        <!-- fluid app aside -->
+        <div class="left navside blue-A400" layout="column" style="color:#ffffff">
+            <div class="navbar no-radius green-500">
+                <div ui-include="'views/layout/nh_navbar_top.html'"></div>
+            </div>
+            <div flex class="hide-scroll">
+                <nav class="scroll nav-light">
+                    <div ui-include="'views/layout/nh_nav.html'"></div>
+                </nav>
+            </div>
+            <!--<div flex-no-shrink class="b-t">-->
+                <!--<div ui-include="'../views/blocks/aside.top.0.html'"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+<!-- ######## 右侧开始-->
+  <div id="content" class="app-content box-shadow-z2 box-radius-1x" role="main">
+        <div class="app-header white box-shadow">
+            <div ui-include="'views/layout/nh_header.html'"></div>
+        </div>
+        <div class="app-footer" ng-class="{'hide': $state.current.data.hideFooter}">
+            <div ui-include="'views/layout/nh_footer.html'"></div>
+        </div>
+        <div class="app-body" id="view" ui-view></div>
+    </div>
+
+<!-- ######## 右侧结束-->
+

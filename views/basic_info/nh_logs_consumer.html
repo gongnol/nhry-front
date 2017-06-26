@@ -1,0 +1,79 @@
+<div class="white r box-shadow-z0 m-b filter-box nav-arrow">
+    <div class="filterbar p-t p-r">
+        <div class="filter-content">
+            <div class="col-md-4">
+                <input class="form-control" type="text" placeholder="按订户姓名、电话、操作人搜索" ng-model="data.search.fuzzySearch">
+            </div>
+            <div class="date-box">
+                <div class="flex-item"><span class="item-title">操作日期</span></div>
+                <div class="flex-item">
+                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+                    <input type="text" class="form-control r-b-round w-128" 
+                           name="dateStart" 
+                           ng-model="data.search.logStart" 
+                           placeholder="起始日期" 
+                           data-date-format="yyyy-MM-dd" 
+                           data-date-type="string" 
+                           data-autoclose="true" 
+                           data-max-date="{{ data.search.logEnd }}" 
+                           bs-datepicker>
+                </div>
+                <div class="flex-item"><i class="fa fa-arrows-h"></i></div>
+                <div class="flex-item">
+                    <span class="material-icons l-b-round"> <i class="fa fa-calendar"></i></span>
+                    <input type="text" class="form-control r-b-round w-128" 
+                           name="dateEnd" 
+                           ng-model="data.search.logEnd" 
+                           placeholder="结束日期" 
+                           data-date-format="yyyy-MM-dd" 
+                           data-date-type="string" 
+                           data-autoclose="true" 
+                           data-min-date="{{ data.search.logStart }}" 
+                           bs-datepicker>
+                </div>
+            </div>
+        </div>
+        <div class="filter-act">
+            <button class="btn btn-fw blueLt" ng-click="data.doFilter()">筛选</button>
+        </div>
+    </div>
+</div>
+<div class="box" style="border-radius: 2px;">
+    <table class="table table-striped b-t b-b no-footer">
+        <thead>
+            <tr role="row">
+                <th class="th-nh">订户名称</th>
+                <th class="th-nh">订户电话</th>
+                <th class="th-nh">操作类型</th>
+                <th class="th-nh">原值</th>
+                <th class="th-nh">新值</th>
+                <th class="th-nh">操作人</th>
+                <th class="th-nh">操作时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+              <td colspan="7" style="text-align:center;">正在加载数据！</td>
+            </tr>
+            <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+              <td colspan="7" style="text-align:center;">没有数据！</td>
+            </tr>
+            <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" pagination-id="loglist" current-page="data.curPageno">
+                <td ng-bind="item.VIP_NAME"></td>
+                <td ng-bind="item.MP"></td>
+                <td ng-bind="item.LOG_NAME"></td>
+                <td ng-bind="item.ORIGINAL_VALUE || '--'" style="width: 20%;"></td>
+                <td ng-bind="item.NEW_VALUE" style="width: 20%;"></td>
+                <td ng-bind="item.CREATE_BY_TXT"></td>
+                <td ng-bind="item.CREATE_AT.nh_formatDate(true)"></td>
+            </tr>
+        </tbody>
+    </table>
+    <footer class="text-center">
+        <dir-pagination-controls max-size="8" direction-links="true" 
+                                 pagination-id="loglist" 
+                                 boundary-links="true" 
+                                 on-page-change="data.getData(newPageNumber)" template-url="nhtpl/pagination.tpl.html">
+        </dir-pagination-controls>
+    </footer>
+</div>

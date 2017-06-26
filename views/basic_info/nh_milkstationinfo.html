@@ -1,0 +1,635 @@
+
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
+    </div>
+    <!--div class="l-h m-l pull-right">
+        <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="goEdit()">{{ editLabel }}</button>
+    </div-->
+</div>
+<!-- ###  基本信息开始-->
+<div class="padding">
+	<!--<div class=" panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	-->
+	<div id="modal-alert"></div>
+	<div class="box info1">
+		<div bs-collapse>
+			<a ng-click="toggle1 = !toggle1" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						基本信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle1}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<!--box body begin-->
+				<div class="box-body">
+					<div class="box-header">
+
+						<span class="h4" ng-bind="nhmilks.branchName"></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span class="h4" ng-bind="nhmilks.branchNo"></span>
+
+					</div>
+					<br>
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>公司</B>
+								</label>
+							</div>
+							<div class="col-md-8 ">
+								<span ng-bind="nhmilks.companyName"></span>
+
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="col-md-4  showtext">
+								<label>
+									<B>奶站性质</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.branchGroup==01 ? '自营奶站' : '经销商奶站'"></span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="col-md-4  showtext">
+								<label>
+									<B>所属经销商</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.dealerName"></span>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="row" >
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>联系电话</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.tel"></span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>电子邮件</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.email"></span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>奶站仓库</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.lgort"></span>
+							</div>
+						</div>
+
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>关联工厂</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.werks"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>奶站地址</B>
+								</label>
+							</div>
+							<div class="col-md-9">
+								<span ng-bind="nhmilks.address"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4" ng-if="!editForm">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>成本中心编码</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilksEx.kostl"></span>
+							</div>
+						</div>
+
+					</div>
+					<br>
+					<div class="row" ng-if="!editForm">
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>收款人</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.payee"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>开户行</B>
+								</label>
+							</div>
+							<div class="col-md-9">
+								<span ng-bind="nhmilks.openBank"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>银行账户</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilks.bankAccount"></span>
+							</div>
+						</div>
+
+					</div>
+					<div class="row" ng-if="editForm">
+					<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>收款人</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.payee">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>开户行</B>
+								</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.openBank">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>银行账户</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+							<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.bankAccount">
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row" ng-if="editForm">
+							<div class="l-h m-r pull-right">
+								<button class="btn btn-sm primary" ng-click="uptBankBranch()">奶站账户更新</button>
+							</div>
+						</div>
+					<br>
+					<div class="row">
+						<div class="col-md-5">
+							<div class="col-md-4 showtext">
+							<label>
+								<B>内部销售订单售达方</B>
+							</label>
+							</div>
+							<div class="col-md-8">
+							 <label class="radio-inline md-check m-r" style="vertical-align: top;">
+								<input type="radio" name="paym" value="20" ng-model="nhmilks.targetPerson" nh-auth-disabled>
+			                    <i class="primary" ></i>奶站站长
+			                </label>
+			                 <label class="radio-inline md-check m-r" style="vertical-align: top;">
+			                	<input type="radio" name="paym" value="10" ng-model="nhmilks.targetPerson" nh-auth-disabled>
+			                    <i class="primary" ></i>送奶员
+			                     </label>
+			                     <button ng-if="editForm" class="btn btn-sm primary" ng-click="upttargetReason()">更新</button> 
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row"  ng-if="!editForm">
+						<div class="col-md-12">
+							<div class="col-md-1 showtext m-r-md">
+								<label>
+									<B>价格组</B>
+								</label>
+							</div>
+							<div class="col-md-2"  ng-repeat="p in selectedPrice">
+								<button class="btn btn-xs btn-outline rounded b-primary text-primary"  ng-click="showPriceDetail(p.id)"><span ng-bind="p.priceGroup"></span>-<span ng-bind="p.priceTypeName"></span></button>
+							</div>
+						</div>
+
+					</div>
+					<br>
+
+				</div>
+				<!--box-body start -->
+				<div class="box-body"  ng-if="editForm">
+					<div class="row">
+						<div class="col-md-3 col-sm-3">
+							<ui-select ng-model="price.selectPrice" search-enabled="true">
+								<ui-select-match allow-clear="true" placeholder="价格组">
+									<span ng-bind="$select.selected.priceGroup"></span>
+								</ui-select-match>
+								<ui-select-choices 
+									    	repeat="price.id as price in (prices| filter: $select.search) track by price.id">
+									<span ng-bind="price.priceGroup"></span>
+									-<span ng-bind="price.priceTypeName"></span>
+								</ui-select-choices>
+							</ui-select>
+						</div>
+						<div class="col-md-1" >
+							<button class="btn btn-sm primary" ng-click="addPriceGroup(price.selectPrice)">添加</button>
+						</div>
+						<div class="col-md-5">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>成本中心编码</B>
+								</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control" ng-model="nhmilksEx.kostl">
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-sm primary" ng-click="uptMSkostl()">更新</button>
+							</div>
+						</div>
+					</div>
+					
+					
+					<br>
+					<hr>
+					<div class="row">
+						<div class="col-md-2" ng-repeat="p in selectedPrice">
+							<button type="button" class="btn btn-sm info" ng-click="showPriceDetail(p.id)">{{p.priceGroup}}-{{p.priceTypeName}}</button>	
+				            <button class="btn btn-sm info @grey-300" ng-click="removePriceGroup(p.id)"> <i class="fa fa-remove"></i>
+				            </button>
+						</div>
+					</div>
+				</div>
+
+				<!--box-body end -->
+				<!--box body end-->
+			</div>
+		</div>
+	</div>
+	<!--box  end-->
+	<!--box begin-->
+	<div class="box ">
+		<div bs-collapse>
+			<a ng-click="toggle2 = !toggle2" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						配送区域
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle2}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<!--div class="panel-collapse p-b" start -->
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<!---body start-->
+				<div class="box" style="border-radius: 2px;">
+							<table class="table table-striped b-t b-b no-footer">
+								<thead>
+									<tr role="row">
+									 <!-- <th>
+                                    <label class="md-check">
+                                        <input type="checkbox" ng-model="data.allChecked"> <i class="blue"></i>
+                                    </label>
+                                    </th> -->
+										<th class="th-nh">小区</th>
+										<th class="th-nh">城市</th>
+										<th class="th-nh">区县</th>
+										<th class="th-nh">所属物业</th>
+										<th class="th-nh">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-show="data.content.length <= 0">
+										<td colspan="7" style="text-align:center;">暂无内容</td>
+									</tr>
+									<tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.milkinfoPageno" pagination-id="milkinfo">
+								        <!-- <td>
+                                            <label class="md-check">
+                                                <input type="checkbox" id="{{item.id}}"><i class="blue"></i>
+                                            </label>
+                                        </td> -->
+										<td class="td-id-nh">
+											<span ng-bind="item.residentialAreaTxt"></span>
+										</td>
+										<td>
+											<span ng-bind="item.cityName"></span>
+										</td>
+										<td>
+											<span ng-bind="item.countyName"></span>
+										</td>
+										<td>
+											<span ng-bind="item.propertyTxt"></span>
+										</td>
+										<td>
+											<div class="btn-groups">
+												<button ng-click="areaDetail(item.id)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+											</div>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+				          <footer class="text-center">
+				                <dir-pagination-controls max-size="8"
+				                                         direction-links="true"
+				                                         boundary-links="true"
+				                                         pagination-id="milkinfo"
+				                                         on-page-change="data.getData(newPageNumber)"
+				                                         template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+
+				          </footer>
+				</div>
+
+				<div class="box-body"  ng-if="editForm" >
+					<div class="row text-right">
+						<button ng-click="del()" class="btn btn-fw grey-600  m-r" >删除配送区域</button>
+						<button class="btn btn-fw blueLt m-r" ng-click="dispatchArea()">添加配送区域</button>
+					</div>
+				</div>
+				<!--box-body end -->
+			</div>
+			<!--div class="panel-collapse p-b" end -->
+		</div>
+	</div>
+	<!--box end -->
+	<!--box begin-->
+
+	<div class="box ">
+		<div bs-collapse>
+			<a ng-click="toggle3 = !toggle3" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						员工信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle3}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<!--div class="panel-collapse p-b" start -->
+		    <!-- ###  表格开始-->  
+		    <div class="box" style="border-radius: 2px;"  bs-collapse-target>
+		      <div class="row">
+		        <div class="col-sm-12">
+		          <table class="table table-striped b-t b-b no-footer">
+		            <thead>
+		              <tr role="row">
+		                <th class="th-nh">姓名</th>
+		                <th class="th-nh">员工编号</th>
+		                <th class="th-nh">所属奶站</th>
+		                <th class="th-nh">联系电话</th>
+		                <th class="th-nh">状态</th>
+		                <th class="th-nh">角色</th>
+		                <th class="th-nh">操作</th>
+		              </tr>
+		            </thead>
+		            <tbody>
+		              <tr dir-paginate="user in data.branchContent|itemsPerPage:data.itemsPerPage" total-items="data.branchtotal_count" current-page="data.empPageno" pagination-id="emp">
+		                <td class="td-id-nh" ng-bind="user.empName"></td>
+		                <td ng-bind="user.empNo"></td>
+		                <td ng-bind="user.branchNo"></td>
+		                <td ng-bind="user.tel"></td>
+		                <td ng-bind="getStatusLabel(user.status)"></td>
+		                <td ng-bind="user.roleId"></td>
+		                <td>
+		                  <div class="btn-groups">
+		                    <button ng-click="showempDetail(user.empNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+		                  </div>
+
+		                </td>
+		              </tr>
+		            </tbody>
+		          </table>
+		          <footer class="text-center">
+		                <dir-pagination-controls max-size="8"
+		                                         direction-links="true"
+		                                         boundary-links="true"
+		                                         pagination-id="emp"
+		                                         on-page-change="data.getbranchData(newPageNumber)"
+		                                         template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+
+		          </footer>
+		        </div>
+		      </div>
+		    </div>
+    <!-- ###  表格结束--> 
+			<!--div class="panel-collapse p-b" end -->
+		</div>
+	</div>
+	<!--box end -->
+	</div>
+
+	<script type="text/ng-template" id="dispatchAreaDetail.html">
+	        <div class="modal-header">
+	            <h3 class="modal-title">配送区域详情</h3>
+	        </div>
+	        <div class="modal-body">
+	        	<div class="box" >
+			    	<div bs-collapse>
+				        <a bs-collapse>
+				            <div class="box-header blueLt">
+				                <h4>基本信息</h4>
+				            </div>
+				        </a>
+				        <div class="panel-collapse p-b" bs-collapse>
+				            <!--box body begin-->
+				            <div class="box-body">
+				                <div class="row m-r-md">
+				                    <div class="col-md-3  col-sm-3 showtext "><label>分公司：</label>{{Areainfo.subcompany}}</div>
+				                    <div class="col-md-3  col-sm-3 showtext"> <label>小区规模(人数)：</label>                   </div>
+				                    <div class=" col-md-3  col-sm-3 showtext"><label>关联奶站：</label>{{Areainfo.milkStationName}}</div>
+				                </div>
+				                <div class="row  m-r-md">
+				                    <div class="col-md-3 col-sm-3 showtext"><label>所属物业：</label>{{Areainfo.Property}}</div>
+				                    <div class="col-md-3  col-sm-3 showtext" > <label>联系电话：</label>{{Areainfo.tel}}</div>
+				                </div>
+			             	</div>
+				            <!--box body end--> </div>
+			    	</div>
+				</div>
+
+
+				<div class="box">
+				    <div bs-collapse>
+				        <a bs-collapse>
+				            <div class="box-header blueLt">
+				                <h4>地址信息</h4>
+				            </div>
+				        </a>
+				        <div class="panel-collapse p-b" bs-collapse>
+				            <!--box body begin-->
+				            <div class="box-body">
+				                <div class="row  m-r-md">
+				                    <div class="col-md-3  col-sm-3 showtext"> <label>国家：</label>{{Areainfo.country}} </div>
+				                    <div class="col-md-3  col-sm-3 showtext"><label>省份：</label> {{Areainfo.province}}</div>
+				                    <div class="col-md-3  col-sm-3 showtext"> <label>城市：</label>{{Areainfo.city}}</div>
+				                    <div class="col-md-3  col-sm-3 showtext"><label>区县：</label>{{Areainfo.district}}</div>
+				                </div>
+				                <div class="row  m-r-md">
+				                    <div class="col-md-6 col-sm-6 showtext"> <label>街道/乡镇：</label>{{Areainfo.street}}{{Areainfo.streetNo}}</div>
+				                    <div class="col-md-3  col-sm-3 showtext "> <label>路牌：</label>{{Areainfo.guidepost}} </div>
+				                    <div class="col-md-3  col-sm-3 showtext"><label>小区：</label>{{Areainfo.hourse}}</div>
+				                </div>
+
+				            </div>
+				            <!--box body end--> </div>
+				    </div>
+				</div>
+	        <div class="modal-footer">
+	            <button class="btn btn-warning" type="button" ng-click="cancelModal()">关闭</button>
+	        </div>
+	    </script>
+  <script type="text/ng-template" id="empDetail.html">
+    <div class="modal-header">
+        <h3 class="modal-title">员工详情</h3>
+    </div>
+    <div class="modal-body">
+      <div class="box">
+        <!--box body begin-->
+        <div class="box-body label-lg">
+
+          <div class="row">
+            <div class="col-md-2 text-right modal-label">姓名</div>
+            <div class="col-md-4" ng-bind-html="edm.empName"></div>
+            <div class="col-md-2 text-right modal-label">性别</div>
+            <div class="col-md-4" ng-bind-html="edm.gender"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">所属奶站</div>
+            <div class="col-md-4" ng-bind-html="edm.branchName"></div>
+            <div class="col-md-2 text-right modal-label">入职时间</div>
+            <div class="col-md-4" ng-bind-html="edm.joinDate"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">员工类型</div>
+            <div class="col-md-4" ng-bind-html="edm.roleName"></div>
+            <div class="col-md-2 text-right modal-label">员工编号</div>
+            <div class="col-md-4" ng-bind-html="edm.empNo"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">员工状态</div>
+            <div class="col-md-4" ng-bind-html="edm.status"></div>
+            <div class="col-md-2 text-right modal-label">联系电话</div>
+            <div class="col-md-4" ng-bind-html="edm.mp"></div>
+          </div>
+          <div class="row m-t">
+            <div class="col-md-2 text-right modal-label">身份证号</div>
+            <div class="col-md-4" ng-bind-html="edm.idNo"></div>
+            <div class="col-md-2 text-right modal-label">微信号</div>
+            <div class="col-md-4" ng-bind-html="edm.webchat"></div>
+          </div>
+        </div>
+      <!--box body end--> 
+      </div>
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn blueLt" type="button" ng-click="edm.cancelModal()">关闭</button>
+    </div>
+  </script>
+
+<!-- ##  基本信息结束-->
+<!-- ######## 右侧结束-->
+
+ <!--价格组查看 -->
+            <script type="text/ng-template" id="priceDetail.html">
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">价格组详情</h3>
+                  </div>
+                  <div class="modal-body p-lg">
+                          <div class="row">
+                              <div class="col-md-2 text-right modal-label">价格组名称</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceGroup"></div>
+                              
+                          </div>
+                          <div class="row m-t">
+                              <div class="col-md-2 text-right modal-label">优先级</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceTypeName"></div>
+                              <div ng-if="pdm.scope">
+                              	<div class="col-md-2 text-right modal-label">适用范围</div>
+                              	<div class="col-md-4" ng-bind-html="pdm.scope"></div>
+                              </div>
+                          </div>
+                          <div class="row m-t">
+                          	  <div class="col-md-2 text-right modal-label">起始日期</div>
+                              <div class="col-md-4" ng-bind-html="pdm.startDate"></div>
+                              <div class="col-md-2 text-right modal-label">结束日期</div>
+                              <div class="col-md-4" ng-bind-html="pdm.endDate"></div>
+                          </div>  
+                          <div class="nhdashline"></div>   
+                          <div class="row m-t">
+                            <div class="col-md-2 text-right modal-label">关联商品</div>
+                          </div>
+                          <div class="row m-t">                             
+                              <div class="col-md-12">
+                                <table class="table table-striped b-t b-b no-footer">
+                                    <thead>
+                                     <tr role="row">
+                                        <th>产品编码</th>
+                                        <th>产品名称</th>
+                                        <th>订户价</th>
+                                        <th>自取价</th>
+                                    </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr dir-paginate="user in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                                                <td>
+                                                    {{user.matnr.substring(10)}}
+                                                </td>
+                                                <td>{{user.matnrTxt}}</td>
+                                                <td>{{user.price2}}</td>
+                                                <td>{{user.price1}}</td>                        
+                                            </tr>
+                                        </tbody>
+                                </table>  
+                                <footer class="text-center">
+                                            <dir-pagination-controls
+                                                max-size="8"
+                                                direction-links="true"
+                                                boundary-links="true" 
+                                                on-page-change="getData(newPageNumber)" 
+                                                template-url="nhtpl/pagination.tpl.html">
+                                            </dir-pagination-controls>
+                                </footer>                                  
+                              </div>
+                          </div>
+
+                  </div>
+                <div class="modal-footer">
+                  <button class="btn blueLt" type="button" ng-click="cancelModal()">关闭</button>
+                </div>
+            </script>
+            <!-- modal end -->

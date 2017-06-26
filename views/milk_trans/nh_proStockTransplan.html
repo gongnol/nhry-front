@@ -1,0 +1,60 @@
+                  <div class="modal-header blueLt">
+                        <h3 class="modal-title">出库单</h3>
+                  </div>
+                  <div class="modal-body text-center p-lg">
+                          <div class="row">
+                              <div class="col-md-2 text-right modal-label">商品编码</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceGroup"></div>
+                              <div class="col-md-2 text-right modal-label">商品名称</div>
+                              <div class="col-md-4" ng-bind-html="pdm.scope"></div>
+                          </div>
+                          <div class="row m-t">
+                              <div class="col-md-2 text-right modal-label">中类</div>
+                              <div class="col-md-4" ng-bind-html="pdm.priceType"></div>
+                              <div class="col-md-2 text-right modal-label">包装类型</div>
+                              <div class="col-md-4" ng-bind-html="pdm.startDate"></div>
+                          </div>
+                          <div class="row m-t">
+                              <div class="col-md-2 text-right modal-label">规格</div>
+                              <div class="col-md-4" ng-bind-html="pdm.endDate"></div>
+                              <div class="col-md-2 text-right modal-label">出库数量</div>
+                              <div class="col-md-4" ng-bind-html="pdm.startDate"></div>
+                          </div>  
+                          <div class="nhdashline"></div>   
+                          <div class="row m-t">                             
+                              <div class="col-md-12">
+                                <table class="table table-striped b-t b-b no-footer">
+                                    <thead>
+                                     <tr role="row">
+                                        <th>送奶员</th>
+                                        <th>送奶日期</th>
+                                        <th>实送数量</th>
+                                    </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr dir-paginate="user in content|itemsPerPage:itemsPerPage" total-items="total_count" pagination-id="prostocktransplist">
+                                                <td>
+                                                    {{user.matnr}}
+                                                </td>
+                                                <td>{{user.matnrTxt}}</td>
+                                                <td>{{user.price1}}</td>
+                                            </tr>
+                                        </tbody>
+                                </table>  
+                                <footer class="text-center">
+                                            <dir-pagination-controls
+                                                max-size="8"
+                                                direction-links="true"
+                                                pagination-id="prostocktransplist"
+                                                boundary-links="true" 
+                                                on-page-change="getData(newPageNumber)" 
+                                                template-url="nhtpl/pagination.tpl.html">
+                                            </dir-pagination-controls>
+                                </footer>                                  
+                              </div>
+                          </div>
+
+                  </div>
+                <div class="modal-footer">
+                  <button class="btn blueLt" type="button" ng-click="cancelModal()">关闭</button>
+                </div>
