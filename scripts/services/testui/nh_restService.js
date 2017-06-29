@@ -78,7 +78,7 @@
                     if (window.location.pathname === '/front/' || window.location.host === 'localhost') {
                         $state.go('login');
                     } else {
-                        $state.go('initpage');
+                       $state.go('login');
                     }
 					return;
 				}
