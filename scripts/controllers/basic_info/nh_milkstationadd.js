@@ -13,6 +13,7 @@
 		 var vm = $scope;
 		 vm.info = {};
 		 vm.nhmilk = {};
+		 vm.groupSelected = true;
 
 		 vm.branchGroup =[
                 {"code": "01","label": "自营奶站"},
@@ -23,7 +24,7 @@
 			vm.companys =  json.data;
 		})
 
-
+		//工厂
 		rest.codeMap('1005').then(function (json) {
 			vm.allwerks =  json.data;
 		})
@@ -34,12 +35,22 @@
 		})
 
 
-
+		//是否上线
 		rest.codeMap('2012').then(function (json) {
 			vm.isValids =  json.data;
 		})
 
+		
 
+
+		vm.selectGroup = function(group){
+			if(group!== undefined){
+					vm.groupSelected = false;
+					rest.getDealerOnAuthAndGroup(group).then(function(json){
+								vm.dealers = json.data
+							})
+				}
+		}
 
 		vm.returnBack = function (){
 			$state.go('newhope.milkstationlist');

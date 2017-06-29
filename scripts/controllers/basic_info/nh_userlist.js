@@ -23,6 +23,13 @@
            
         };
 
+
+
+          rest.getCurUser().then(function(json){
+                vm.currentUser = json.data;
+          })
+            
+
         rest.getRoleList().then(function (json) {
             vm.handle.empRoles = json.data;
          })
@@ -54,6 +61,12 @@
 
          vm.getData(vm.pageno); 
 
+
+         vm.fuzzySearch = function (e) {
+            if (!e || e.keyCode == 13) {
+               vm.doSearch();
+            }
+        }
         //筛选
         vm.doSearch = function () {
             for (var item in vm.search) {
@@ -66,12 +79,15 @@
         }
        
         vm.addUser = function (){
-            
+
            var modalInst = $uibModal.open({
                 templateUrl: 'addUser.html',
                 controller: 'AddUserModalCtrl',
                 size: 'xxls',
                 resolve: {
+                    currentUser : function(){
+                        return vm.currentUser;
+                    }
                 }
             });
             modalInst.result.then(function() {
@@ -144,42 +160,56 @@
         }
     }
 
-     AddUserModalCtrl.$inject = ['$window','$scope','$alert', '$uibModalInstance',  'restService'];
-    function AddUserModalCtrl($window,$scope,$alert, $uibModalInstance, restService) {
+     AddUserModalCtrl.$inject = ['$window','$scope','$alert','currentUser','$uibModalInstance',  'restService'];
+    function AddUserModalCtrl($window,$scope,$alert,currentUser, $uibModalInstance, restService) {
         var vm = $scope;
-         vm.add = {};
-         vm.currentUser ={};
-          restService.getCurUser().then(function(json){
-                if (json.type == 'success') {
-                        vm.currentUser = json.data;
-                }
-            }, function (reject) {
-               
-            })
+         vm.add = {"loginName":""};
+         vm.currentUser = currentUser;
+         vm.dealers = [];
+         vm.branchs = [];
+          vm.add.dealerNo = vm.currentUser.dealerId;
+       
+        restService.getDealerOnAuth().then(function(json){
+             if (json.type == 'success') {
+                    vm.dealers = json.data;
+            }
+        })
+        if(vm.add.dealerNo!=null){
+            restService.getBranchByDealer(vm.add.dealerNo).then(function(json){
+                  vm.branchs = json.data;
+             })
+        
+        }
+        
 
+       vm.getBranchsByDealerNo = function (data){
+             restService.getBranchByDealer(data).then(function(json){
+                  vm.branchs = json.data;
+             })
+        }
 
       vm.addUser = function(){
             var params={
-               loginName:vm.add.login,
+               loginName:vm.add.loginName,
                password:vm.add.pass,
                displayName:vm.add.displayName,
                salesOrg:vm.add.salesOrg,
                mail:vm.add.mail,
                salesOrg:vm.currentUser.salesOrg,
-               dealerNo:vm.currentUser.deaerNo,
-               branchNo:vm.currentUser.branchNo,
+               dealerId:vm.add.dealerNo,
+               branchNo:vm.add.branchNo,
                customizedHrregion:vm.currentUser.customizedHrregion,
                mobile:vm.add.mobile
             }
             alert(JSON.stringify(params));
-            restService.addUser(params).then(function(json){
+            restService.addSysUser(params).then(function(json){
                 if (json.type == 'success') {
-                    var alert = $alert({
-                        content: '保存成功!',
-                        container: '#modal-alert'
-                    })
-                    alert.$promise.then(function () {
-                        alert.show();
+                        var alert = $alert({
+                            content: '保存成功!',
+                            container: '#modal-alert'
+                        })
+                        alert.$promise.then(function () {
+                            alert.show();
                     }).then(function () {
                         closeModal();
                     })

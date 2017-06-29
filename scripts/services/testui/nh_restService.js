@@ -78,7 +78,7 @@
                     if (window.location.pathname === '/front/' || window.location.host === 'localhost') {
                         $state.go('login');
                     } else {
-                       $state.go('login');
+                        $state.go('login');
                     }
 					return;
 				}
@@ -275,12 +275,33 @@
              * [dealer 经销商信息]
              *
              */
+
+              //添加经销商
+            addDealer: function (params) {
+                return dealer.all('addDealer').post(params);
+            },
+              //获取经销商详情
+            getDealerInfo: function (params) {
+                  return dealer.one('getDealerInfo', params).get();
+            },
+             changeDealerStatus: function (params) {
+                  return dealer.all('updateDealerStatus').post(params);
+            },
             getDealerBySalesOrg: function () {
                 return dealer.one('getDealerBySalesOrg').get();
             },
             //根据权限内经销商
             getDealerOnAuth: function () {
                 return dealer.one('getDealerOnAuth').get();
+            },
+            getDealerOnAuthAndGroup: function (params) {
+                return  dealer.one('getDealerOnAuthAndGroup', params).get();
+            },
+             //根据权限内经销商
+            dealerList: function (params) {
+                var reqParams = {};
+                angular.extend(reqParams, tbDefParams, params);
+                return dealer.all('list').post(reqParams);
             },
 
             /**
@@ -1258,6 +1279,12 @@
             addUser: function (params) {
                 return user.all('add').post(params);
             },
+
+             //新增用户
+            addSysUser: function (params) {
+                return user.all('addUser').post(params);
+            },
+
             //获取某角色下所有用户列表,带分页
             findUserByRole: function (params) {
                 return user.all('findPageByRoleId').post(params);

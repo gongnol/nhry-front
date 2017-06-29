@@ -35,7 +35,8 @@
 
 		 //双向选择列表
 		$scope.transfer = function(prom,flag1,from, flag2,to, index) {
-			if(prom!=undefined){
+			vm.isLoding = true;
+			if(prom!=undefined){	
 				if (index >= 0) {
 					//单个
 					if(flag2){
@@ -48,21 +49,19 @@
 						//判断该促销是否已经在该奶站下 已经有订单
 						rest.promotionHasOrder(params).then(function(json){
 				        	if(json.type=="success"){
-
 				        		to.push(from[index]);
-									from.splice(index, 1);	
+								from.splice(index, 1);	
 
 				        	}
 				        }, function (reject) {
 	                    	var alert = $alert({
-								content: reject.msg,
+								content: "去除失败,"+reject.data.msg,
 								container: '#modal-alert'
 							})
 							alert.$promise.then(function() {
 								alert.show();
 							})
 		        			
-		        			return ;
 		                }); 
 
 					}else{
@@ -71,36 +70,48 @@
 					}
 					
 				} else {
-					var branchNos = [];
-					for (var i = 0; i < from.length; i++) {
-						branchNos.push(from[i].branchNo);
+					//全部动作
+					//从右往左移除
+					if(flag2){
+								var branchNos = [];
+							for (var i = 0; i < from.length; i++) {
+								branchNos.push(from[i].branchNo);
+							}
+							var params = {
+									branchNos:branchNos,
+									promNo:prom
+							}
+							//判断该促销是否已经在该奶站下 已经有订单
+							rest.promotionHasOrder(params).then(function(json){
+					        	if(json.type=="success"){
+					        		for (var i = 0; i < from.length; i++) {
+											to.push(from[i]);
+										}	
+										from.length = 0;
+				        		}
+					        }, function (reject) {
+			                    var alert = $alert({
+									content: "去除失败,"+reject.data.msg,
+									container: '#modal-alert'
+								})
+								alert.$promise.then(function() {
+									alert.show();
+								})
+			        			return ;
+			                }); 
+					}else{
+						//从左往右添加
+						for (var i = 0; i < from.length; i++) {
+							to.push(from[i]);
+						}	
+						from.length = 0;
 					}
-					var params = {
-							branchNos:branchNos,
-							promNo:prom
-					}
-					//判断该促销是否已经在该奶站下 已经有订单
-					rest.promotionHasOrder(params).then(function(json){
-			        	if(json.type=="success"){
-			        		for (var i = 0; i < from.length; i++) {
-									to.push(from[i]);
-								}	
-								from.length = 0;
-		        		}
-			        }, function (reject) {
-	                     var alert = $alert({
-							content: reject.msg,
-							container: '#modal-alert'
-						})
-						alert.$promise.then(function() {
-							alert.show();
-						})
-	        			
-	        			return ;
-	                }); 
+					
+					
 
 
 				}
+				vm.isLoding = false;
 			}else{
 				confirm("请选择奶站后在进行分配区域操作");
 			}
@@ -169,7 +180,7 @@
 
    		  //保存分配给奶站后的区域
         $scope.saveBranchs = function(promNo){
-        	alert(promNo!=undefined);
+        	vm.isLoding = true;
         	if(promNo!=undefined){
 	        	var msId = [];
 	        	for (var i = 0; i < $scope.options.selectedItems.length; i++) {
@@ -191,8 +202,17 @@
 						})
 					}
 
+				},function(reject){
+					var alert = $alert({
+							content: '保存失败!'+reject.data.msg,
+							container: '#modal-alert'
+						})
+						alert.$promise.then(function() {
+							alert.show();
+						})
 				}); 
-	        	////console.log(branchsNo);//被选中的奶站branchsNo编号  		
+	        	////console.log(branchsNo);//被选中的奶站branchsNo编号  
+	        	vm.isLoding = false;		
         	}
         	
 		}

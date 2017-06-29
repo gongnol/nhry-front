@@ -1,7 +1,7 @@
 <div class="titlebar white box-shadow">
     <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
-        <input type="text" class="input-line" placeholder="按用户姓名、编号搜索" ng-model="data.search.uname"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
-        <span class="blueWt" ng-click="data.doSearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+        <input type="text" class="input-line" placeholder="按用户姓名、编号搜索" ng-model="data.search.uname"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="data.fuzzySearch($event)">
+        <span class="blueWt" ng-click="data.fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
     </div>
 </div>
 <!-- ######## 右侧送奶工信息列表开始 -->
@@ -22,7 +22,7 @@
             <div class="filter-content">
               <div class="select-box" >
                 <ui-select ng-model="data.search.roleId" search-enabled="false" append-to-body="true">
-                  <ui-select-match placeholder="员工角色" allow-clear="true">
+                  <ui-select-match placeholder="用户角色" allow-clear="true">
                     <span ng-bind="$select.selected.roleName"></span>
                   </ui-select-match>
                   <ui-select-choices repeat="role.id as role in data.handle.empRoles track by role.id" ng-class="{'over-hidden' : data.handle.empRoles.length < 8}">
@@ -138,7 +138,7 @@
                 <strong>登录名称</strong>
               </div>
               <div class="col-md-8">
-                <input type="text" class="md-input md-input-blue" ng-model="add.login" required>      
+                <input type="text" class="md-input md-input-blue" ng-model="add.loginName" required>      
               </div>
             </div>
 
@@ -160,8 +160,8 @@
             </div>
           </div>
           <br>
-        <!--   <div class="row">
-            <div class="col-md-4">
+          <div class="row">
+            <!-- <div class="col-md-4">
               <div class="col-md-3">所属销售组织</div>
               <div class="col-md-9">
                  <ui-select ng-model="salesOrg" search-enabled="false">
@@ -174,31 +174,36 @@
                              </ui-select>
               </div>
             </div>
-
-            <div class="col-md-4">
+          -->
+            <div class="col-md-6">
               <div class="col-md-3">所属经销商</div>
               <div class="col-md-9">
-                 <ui-select ng-model="dealerNo" search-enabled="false">
-                                      <ui-select-match allow-clear="true">
-                                          <span ng-bind="$select.selected.itemName"></span>
+                 <ui-select ng-model="add.dealerNo" search-enabled="true"  on-select="getBranchsByDealerNo(add.dealerNo)">
+                                      <ui-select-match allow-clear="true" >
+                                          <span ng-bind="$select.selected.dealerName || $select.selected"></span>
                                       </ui-select-match>
-                                      <ui-select-choices repeat="type.itemCode as type in dealers track by type.itemCode">
-                                          <span ng-bind="type.itemName"></span>
+                                      <ui-select-choices repeat="dealer.dealerNo as dealer in (dealers | filter: $select.search) track by dealer.dealerNo">
+                                          <span ng-bind="dealer.dealerNo+' '+dealer.dealerName"></span>
                                       </ui-select-choices>
                  </ui-select>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="col-md-4">
-                <strong>所属奶站名称</strong>
+
+             <div class="col-md-6">
+              <div class="col-md-3">所属奶站</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="add.branchNo" search-enabled="true">
+                                      <ui-select-match allow-clear="true"  >
+                                          <span ng-bind="$select.selected.branchName"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="branch.branchNo as branch in branchs track by branch.branchNo">
+                                          <span ng-bind="branch.branchName"></span>
+                                      </ui-select-choices>
+                 </ui-select>
               </div>
-              <div class="col-md-8">
-                <input type="text" name="branchName" class="md-input md-input-blue" ng-model="users.branchName" required>      
-              </div>
-              
             </div>
           </div>
-          <br> -->
+          <br>
           <div class="row">
             <div class="col-md-4">
               <div class="col-md-3">邮箱</div>

@@ -1,0 +1,209 @@
+
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
+    </div>
+</div>
+<!-- ###  基本信息开始-->
+<div class="padding">
+	<div id="modal-alert"></div>
+	<div class="box info1">
+		<div bs-collapse>
+			<a ng-click="toggle1 = !toggle1" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						基本信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle1}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<div class="box-body">
+				<form name="userInfoForm" role='form' nh-keydown novalidate>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<strong>经销商名称</strong>
+							</div>
+							<div class="col-md-8">
+									{{dealer.dealerName}}
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<strong>经销商编号</strong>
+							</div>
+							<div class="col-md-8">
+								{{dealer.dealerNo}}
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3"><strong>所属公司</strong></div>
+							<div class="col-md-9">
+								{{dealer.companyName}}
+							</div>
+ 						
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>销售组织</strong></div>
+								<div class="col-md-9">
+									{{dealer.salesOrgName}}
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>省份</strong></div>
+								<div class="col-md-9">
+									{{dealer.provinceName}}
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>市区</strong></div>
+								<div class="col-md-9">
+									{{dealer.cityName}}
+								</div>
+							</div>
+					 </div>
+					 <br>
+
+					 <div class="row">
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>县城</strong></div>
+								<div class="col-md-9">
+									{{dealer.countyName}}
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>地址</strong></div>
+								<div class="col-md-9">
+									{{dealer.address}}
+								</div>
+							</div>
+								<div class="col-md-4">
+								<div class="col-md-3"><strong>联系人</strong></div>
+								<div class="col-md-9">
+									{{dealer.contact}}
+								</div>
+							</div>
+					 </div>
+					 <br>
+					<div class="row">
+							<div class="col-md-4">
+								<div class="col-md-3"><strong>联系方式</strong></div>
+								<div class="col-md-9">
+									{{dealer.tel}}
+								</div>
+							</div>
+
+								<div class="col-md-4">
+								<div class="col-md-3"><strong>经销商状态</strong></div>
+								<div class="col-md-9">
+									{{dealer.delFlagName}}
+								</div>
+							</div>
+					 </div>
+				</form>
+			</div>
+	<!-- ######## panel-collapse结束-->
+		</div>
+	</div>
+</div>
+	
+
+
+
+	<!--box begin-->
+	<div class="box ">
+		<div bs-collapse>
+			<a ng-click="toggle2 = !toggle2" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						奶站列表
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle2}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<!--div class="panel-collapse p-b" start -->
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<!---body start-->
+				<div class="box" style="border-radius: 2px;">
+							<table class="table table-striped b-t b-b no-footer">
+								<thead>
+									<tr role="row">
+										<th class="th-nh">奶站编号</th>
+										<th class="th-nh">奶站名称</th>
+										<th class="th-nh">所属经销商</th>
+										<th class="th-nh">联系电话</th>
+										<th class="th-nh">上线状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-show="data.content.length <= 0">
+										<td colspan="7" style="text-align:center;">暂无内容</td>
+									</tr>
+									<tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.milkinfoPageno" pagination-id="milkinfo">
+								        <!-- <td>
+                                            <label class="md-check">
+                                                <input type="checkbox" id="{{item.id}}"><i class="blue"></i>
+                                            </label>
+                                        </td> -->
+										<td class="td-id-nh">
+											<span ng-bind="item.branchNo"></span>
+										</td>
+										<td>
+											<span ng-bind="item.branchName"></span>
+										</td>
+										<td>
+											<span ng-bind="item.dealerName"></span>
+										</td>
+										<td>
+											<span ng-bind="item.tel"></span>
+										</td>
+											<td>
+											<span ng-bind="item.isValid==10 ? '上线' : '未上线'""></span>
+										</td>
+										<td>
+											<div class="btn-groups">
+												<button ng-click="newhope.milkstationinfo({edit: false, branchNo: item.branchNo}"
+												class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+
+											</div>
+
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+				          <footer class="text-center">
+				                <dir-pagination-controls max-size="8"
+				                                         direction-links="true"
+				                                         boundary-links="true"
+				                                         pagination-id="milkinfo"
+				                                         on-page-change="data.getData(newPageNumber)"
+				                                         template-url="nhtpl/pagination.tpl.html"></dir-pagination-controls>
+
+				          </footer>
+				</div>
+
+				<div class="box-body"  ng-if="editForm" >
+					<div class="row text-right">
+						
+					</div>
+				</div>
+				<!--box-body end -->
+			</div>
+			<!--div class="panel-collapse p-b" end -->
+		</div>
+	</div>
+
+
+</div>
+<!-- ######## 右侧结束-->

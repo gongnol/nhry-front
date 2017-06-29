@@ -89,7 +89,6 @@
                 }
             });
             modalInst.result.then(function(data) {
-                alert("返回结果为:"+data);
                  var url = $state.href('newhope.promotionAdd', {promSubType: data});
                  window.open(url,'_blank');
             })
@@ -110,7 +109,7 @@
                             })
                             vm.getData(vm.curPageno);
 
-                    }
+                        }
                     }, function (reject) {
                         var errorAlert = $alert({
                             title: reject.data.type,

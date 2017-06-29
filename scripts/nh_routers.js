@@ -410,6 +410,37 @@
                 resolve: load(['scripts/controllers/basic_info/nh_dispatchArealist.js',
                     'scripts/directives/nh_checkbox.js', 'scripts/directives/nh_address.js'])
             })
+
+             .state('newhope.dealerlist', { // 基础信息/经销商信息
+                url: '/dealers',
+                data: {title: '经销商信息', icons: 'fa-th-large'},
+                controller: 'DealerListCtrl',
+                controllerAs: 'data',
+                templateUrl: 'views/basic_info/dealerlist.html',
+                resolve: load(['scripts/controllers/basic_info/dealerlist.js',
+                    'scripts/directives/nh_address.js'])
+            })
+            .state('newhope.addDealer', { // 基础信息/新增经销商
+                url: '/addDealer',
+                data: {title: '新增经销商', icons: 'fa-th-large'},
+                controller: 'AddDealerCtrl',
+                templateUrl: 'views/basic_info/addDealer.html',
+                resolve: load(['scripts/controllers/basic_info/addDealer.js',
+                    'scripts/directives/nh_address.js'])
+            })
+             .state('newhope.dealerInfo', { // 基础信息/经销商详情
+                url: '/dealerInfo/{dealerNo}',
+                data: {title: '经销商详情', icons: 'fa-th-large'},
+                params: {
+                    'dealerNo': ''
+                },
+                controller: 'DealerInfoCtrl',
+                controllerAs:'data',
+                templateUrl: 'views/basic_info/dealerInfo.html',
+                resolve: load(['scripts/controllers/basic_info/dealerInfo.js',
+                    'scripts/directives/nh_address.js'])
+            })
+
             .state('newhope.milkstationlist', { // 基础信息/奶站信息
                 url: '/milkstation',
                 data: {title: '奶站信息', icons: 'fa-th-large'},

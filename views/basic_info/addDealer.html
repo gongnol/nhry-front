@@ -1,0 +1,106 @@
+
+<div class="titlebar white box-shadow">
+    <div class="l-h m-r pull-right">
+        <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
+    </div>
+</div>
+<!-- ###  基本信息开始-->
+<div class="padding">
+	<div id="modal-alert"></div>
+	<div class="box info1">
+		<div bs-collapse>
+			<a ng-click="toggle1 = !toggle1" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						基本信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle1}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+				<div class="box-body">
+				<form name="userInfoForm" role='form' nh-keydown novalidate>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<strong>经销商名称</strong>
+							</div>
+							<div class="col-md-8">
+								<input type="text" name="dealerName" class="md-input md-input-blue" ng-model="dealer.dealerName" required>      
+							</div>
+							<div class="error-msg" ng-messages="userInfoForm.dealerName.$error" ng-show="userInfoForm.dealerName.$touched">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<strong>经销商编号</strong>
+							</div>
+							<div class="col-md-8">
+								 <input type="text" name="dealerNo" class="md-input md-input-blue" disabled  placeholder="自动生成" ng-model="dealer.dealerNo" required>        
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3">所属公司</div>
+							<div class="col-md-9">
+								 <ui-select ng-model="dealer.companyCode" search-enabled="false">
+	                                    <ui-select-match allow-clear="true">
+	                                        <span ng-bind="$select.selected.itemName"></span>
+	                                    </ui-select-match>
+	                                    <ui-select-choices repeat="type.itemCode as type in companys track by type.itemCode">
+	                                        <span ng-bind="type.itemName"></span>
+	                                    </ui-select-choices>
+	                        	 </ui-select>
+							</div>
+ 						
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+							<div class="col-md-4">
+								<div class="col-md-3">联系人</div>
+								<div class="col-md-9">
+									<input type="text" name="contact" class="md-input md-input-blue" ng-model="dealer.contact">  
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="col-md-3">联系方式</div>
+								<div class="col-md-9">
+									<input type="text" name="tel" class="md-input md-input-blue" ng-model="dealer.tel" required>  
+								</div>
+							</div>
+
+							<div class="col-md-4 ">
+									<div style="float:left;" class="col-md-3">  省市区县 </div> 
+	         						<div style="float:left;" class="col-md-9 " nh-address-select addr-selected="atmselectAdd"></div>
+							</div>
+					 </div>
+
+
+					 <br>
+						<div class="row">
+							
+							<div class="col-md-4">
+								<div class="col-md-3">具体地址</div>
+								<div class="col-md-9">
+									<input type="text" name="address" class="md-input md-input-blue" ng-model="dealer.address"> 
+								</div>
+							</div>
+						</div>
+					<br>
+				</form>
+			</div>
+	<!-- ######## panel-collapse结束-->
+			<div class="l-h m-r pull-right">
+					<button class="btn btn-sm primary" ng-click="addDealer()">新增</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ######## 右侧结束-->

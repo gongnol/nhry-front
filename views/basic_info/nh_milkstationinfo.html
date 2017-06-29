@@ -69,7 +69,43 @@
 					</div>
 					<br>
 
-					<div class="row" >
+
+					<div class="row" ng-if="editForm">
+					<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>联系电话</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.tel">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>电子邮件</B>
+								</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.email">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>奶站仓库</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+							<span ng-bind="nhmilks.lgort"></span>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row"  ng-if="!editForm">
 						<div class="col-md-4">
 							<div class="col-md-4 showtext">
 								<label>

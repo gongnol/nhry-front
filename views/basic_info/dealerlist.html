@@ -1,0 +1,125 @@
+
+<div class="titlebar white box-shadow">
+
+    <div class="l-h m-r pull-right">
+        <div class="pull-right m-l" nh-auth="addDealer">
+            <a class="nav-link"  ui-sref="newhope.addDealer" >
+                <span class="hidden-xs-down btn btn-sm rounded blueLt"> <i class="fa fa-plus"></i>
+                    新增经销商
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="padding">
+    <div id="modal-alert"></div>
+    <div class="white r box-shadow-z0 m-b filter-box" >
+            <div class="navbar ng-scope">
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="filter">
+                    <div class="filterbar p-t">
+                        <div class="filter-content">
+                            <div class="select-box">
+                                <ui-select ng-model="search.dealerNo" search-enabled="false" append-to-body="true">
+                                  <ui-select-match placeholder="经销商" allow-clear="true">
+                                    <span ng-bind="$select.selected.dealerName || $select.selected"></span>
+                                  </ui-select-match>
+                                  <ui-select-choices repeat="dealer.dealerNo as dealer in data.dealers track by dealer.dealerNo">
+                                    <span ng-bind="dealer.dealerName"></span>
+                                  </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-4">
+                            <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入经销商名称,电话,地址等关键字" ng-model="search.search"  style="font-size: 1.125rem">
+                            </div>
+                        </div>
+
+                        <div class="filter-act">
+                            <button class="btn btn-fw blueLt" ng-click="filter()">筛选</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+    </div>
+
+        <div class="box" style="border-radius: 2px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped b-t b-b no-footer">
+                                <thead>
+                                 <tr role="row">
+                                    <th class="th-nh">经销商编号</th>
+                                    <th class="th-nh">经销商名称</th>
+                                    <th class="th-nh">销售组织</th>
+                                    <th class="th-nh">联系电话</th>
+                                    <th class="th-nh">地址</th>
+                                    <th class="th-nh">状态</th>
+                                    <th class="th-nh">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="data.tbLoding == -1 || data.tbLoding == 1">
+                                      <td colspan="10" style="text-align:center;">正在加载数据！</td>
+                                    </tr>
+                                    <tr ng-if="data.tbLoding == 0 && data.content.length <= 0">
+                                      <td colspan="10" style="text-align:center;">没有数据！</td>
+                                    </tr>
+                                    <tr dir-paginate="item in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="dealerlist">
+                                        <td class="td-id-nh">
+                                        <span ng-bind="item.dealerNo"></span>
+                                        </td>
+                                        <td><span ng-bind="item.dealerName"/></td>
+                                        <td><span ng-bind="item.salesOrgName"/></td>   
+                                        <td><span ng-bind="item.tel"/></td>
+                                        <td width="10%"><span ng-bind="item.address"/></td>
+                                        <td><span ng-bind="item.delFlagName"/></td>
+                                        <td>
+                                             <div class="btn-groups">
+                                                <button ui-sref="newhope.dealerInfo({dealerNo:item.dealerNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+
+
+                                                <button ng-click="changeStatus(item.dealerNo,item.delFlag)"
+                                                class="btn btn-xs btn-outline rounded b-primary text-primary">更换状态</button>
+                                            </div>
+                                        </td>                         
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <footer class="text-center">
+                                        <dir-pagination-controls
+                                            max-size="8"
+                                            direction-links="true"
+                                            boundary-links="true" 
+                                            pagination-id="dealerlist"
+                                            on-page-change="data.getData(newPageNumber)" 
+                                            template-url="nhtpl/pagination.tpl.html">
+                                        </dir-pagination-controls>
+                            </footer>  
+                        </div>
+                    </div>
+                </div>
+   
+</div>
+
+
+    <!-- ###  功能条结束-->
+    <script type="text/ng-template" id="confirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title">确认更新</h3>
+    </div>
+    <div class="modal-body">
+        <div class="box-body label-lg">
+          
+          <div class="row">
+                <strong>{{confirmTxt}}
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="confirm()">确定</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+    </div>
+  </script>

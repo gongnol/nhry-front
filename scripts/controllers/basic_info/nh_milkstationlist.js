@@ -45,9 +45,9 @@
         }
     }
 
-    MSListCtrl.$inject = ['$scope', '$state', '$alert', '$uibModal', 'restService'];
+    MSListCtrl.$inject = ['$scope', '$alert', '$rootScope', '$state', '$uibModal', 'restService', '$stateParams'];
 
-    function MSListCtrl($scope, $state, $alert, $uibModal, rest) {
+    function MSListCtrl($scope, $alert, $rootScope, $state, $uibModal, rest, $stateParams) {
 
         var vm = this;
         vm.tbLoding = -1;
@@ -113,7 +113,8 @@
 
        
         $scope.addBranch = function() {
-          $state.go('newhope.milkstationadd');
+            alert("---");
+          $state.go("newhope.milkstationadd");
         }
 
 
