@@ -3,7 +3,8 @@
 	angular
 	  .module('newhope')
 	  .controller('productCtrl', productCtrl)
-	  .controller('productDetailModal', productDetailModal);
+	  .controller('productDetailModal', productDetailModal)
+      .controller('productDetailAddModal', productDetailAddModal);
 
 	productCtrl.$inject = ['$scope','$state', '$resource','$alert','$uibModal','restService'];
 
@@ -134,11 +135,221 @@
         }
 	    /*showmodal方法end*/
 
+        /*showmodal方法*/
+        $scope.showProductAddDetail  = function(){
+            var modalInst = $uibModal.open({
+                templateUrl: 'productDetailAddModal.html',
+                controller: 'productDetailAddModal',
+                size: 'lg',
+                resolve: {
+                    pScope: $scope
+                }
+            });
+            modalInst.result.then(function (argument) {
+                // body...
+            }, function (res) {
+                //console.log(res);
+                if (res == 'success') {
+                    vm.getData(vm.curPageno);
+                }
+            })
+        }
+        /*showmodal方法end*/
+
         $scope.presskey = function (e) {
             
             //console.log(e.keyCode);
         }
 	}
+
+
+    productDetailAddModal.$inject = ['$scope','$uibModalInstance', '$alert','restService'];
+
+    function productDetailAddModal($scope, $uibModalInstance, $alert, rest) {
+
+        var actResult; // 操作结果
+        var vm = $scope;
+        vm.handle = {
+            // 回瓶选项
+            retBotFlags: [{
+                code: '30',
+                label: '大口瓶'
+            }, {
+                code: '20',
+                label: '中口瓶'
+            }, {
+                code: '10',
+                label: '小口瓶'
+            }, {
+                code: 'N',
+                label: '否'
+            }],
+            // 已选不可销售范围数组
+            selectedNotsellList: [],
+            // 经销商数组
+            dealers: []
+        };
+        vm.cancelModal = cancelModal;
+        vm.save = save;
+
+        vm.product = {
+            returnFlag:'N',
+            maraEx:{preDays:1}
+        };
+
+        rest.codeMap('2004').then(function (json) {
+            vm.handle.zbotCodeNames =  json.data;
+            vm.product.zbotCode = vm.handle.zbotCodeNames[0].itemCode;
+        });
+        rest.codeMap('2000').then(function (json) {
+            vm.handle.firstCateNames =  json.data;
+            vm.product.firstCat = vm.handle.firstCateNames[0].itemCode;
+        });
+        rest.codeMap('2001').then(function (json) {
+            vm.handle.secCateNames =  json.data;
+            vm.product.secCat = vm.handle.secCateNames[0].itemCode;
+        });
+        rest.codeMap('2002').then(function (json) {
+            vm.handle.brandNames =  json.data;
+            vm.product.brand = vm.handle.brandNames[0].itemCode;
+        });
+        rest.codeMap('2003').then(function (json) {
+            vm.handle.specNames =  json.data;
+            vm.product.spec = vm.handle.specNames[0].itemCode;
+        });
+        rest.codeMap('2005').then(function (json) {
+            vm.handle.importantPrdFlags =  json.data;
+            vm.product.importantPrdFlag = vm.handle.importantPrdFlags[0].itemCode;
+        });
+
+        rest.getBranchByType('01').then(function (json) {
+            json.data.branchList.forEach(function (ele, idx) {
+                vm.handle.dealers.push({
+                    id: '-1' + ele.branchNo,
+                    dealerNo: '-1',
+                    branchNo: ele.branchNo,
+                    name: '自营——' + ele.branchName
+                })
+            })
+            rest.priceDealers().then(function (json) {
+            
+                json.data.forEach(function (ele, idx) {
+                    if (ele.dealerNo !== '-1') {
+                        vm.handle.dealers.push({
+                            id: ele.dealerNo,
+                            dealerNo: ele.dealerNo,
+                            name: ele.dealerName
+                        })
+                    }
+                })
+                if (vm.product.notsellList) {
+                    vm.product.notsellList.forEach(function (ele, idx) {
+                        var selectedItem;
+                        if (ele.dealerNo === '-1') {
+                            selectedItem = {
+                                id: '-1' + ele.branchNo,
+                                dealerNo: '-1',
+                                branchNo: ele.branchNo,
+                                name: ele.branchName
+                            }
+                        } else {
+                            selectedItem = {
+                                id: ele.dealerNo,
+                                dealerNo: ele.dealerNo,
+                                name: ele.dealerName
+                            }
+                        }
+                        vm.handle.selectedNotsellList[idx] = selectedItem;
+                    })
+                }
+            })
+        })
+
+        function cancelModal() {
+            $uibModalInstance.dismiss(actResult);
+        }
+
+        /*保存按钮*/
+        function save(isPub) {
+            /*验证输入*/
+            // if(vm.product.shortTxt==undefined || vm.product.preDays==undefined){
+            //  return false;
+            // }
+            if (vm.product.returnFlag) {
+                switch (vm.product.returnFlag) {
+                    case '30':
+                    case '20':
+                    case '10':
+                        vm.product.maraEx.botType = vm.product.returnFlag;
+                        vm.product.maraEx.retBotFlag = 'Y';
+                        break;
+                    case 'N':
+                        vm.product.maraEx.botType = '';
+                        vm.product.maraEx.retBotFlag = 'N';
+                }
+            } else {
+                vm.product.maraEx.botType = '';
+                vm.product.maraEx.retBotFlag = '';
+            }
+
+            var notsellList = [];
+            if (vm.handle.selectedNotsellList) {
+                //console.log(vm.handle.selectedNotsellList);
+                vm.handle.selectedNotsellList.forEach(function (ele) {
+                    // notsellList.push({
+                    //     matnr: vm.product.matnr,
+                    //     dealerNo: ele.dealerNo
+                    // })
+                    if (ele.branchNo) {
+                        notsellList.push({
+                            matnr: vm.product.matnr,
+                            dealerNo: '-1',
+                            branchNo: ele.branchNo
+                        })
+                    } else {
+                        notsellList.push({
+                            matnr: vm.product.matnr,
+                            dealerNo: ele.dealerNo
+                        })
+                    }
+                })
+            }
+
+            var params = vm.product;
+            params.notsellList = notsellList;
+            
+
+            if (isPub) {
+                params.status = 'Y';
+            }
+
+            console.log(params);
+
+            rest.addProductItem(params).then(function (json) {
+                if(json.type == 'success') {
+                    actResult = 'success';
+                    var alert = $alert({
+                        content: isPub ? '发布成功!' : '保存成功!',
+                        container: '#modal-alert'
+                    })
+                    alert.$promise.then(function () {
+                        alert.show();
+                    })
+                }
+            }, function (reject) {
+                actResult = 'fail';
+                var cancelAlert = $alert({
+                    title: reject.data.type,
+                    content: reject.data.msg,
+                    container: '#modal-alert'
+                })
+                cancelAlert.$promise.then(function () {
+                    cancelAlert.show();
+                })
+            })
+        }
+
+    }
 
     productDetailModal.$inject = ['$scope','$uibModalInstance', '$alert','restService','productItem'];
 

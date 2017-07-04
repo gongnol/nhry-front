@@ -739,6 +739,10 @@
             productItem: function (prodNo) {
                 return rest.one('product', prodNo).customPOST();
             },
+            // 新增商品信息
+            addProductItem: function (params) {
+                return prod.all('add').post(params);
+            },
             // 更新商品信息
             updateProductItem: function (params) {
                 return prod.all('upt').post(params);
