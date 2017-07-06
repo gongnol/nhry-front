@@ -42,6 +42,8 @@
             window.open(url,'_blank');
         };
 
+     
+
         var vm = this;
         vm.handle = {
             statuses: [{
@@ -111,6 +113,11 @@
             
         } 
 
+
+        vm.editProduct = function(productCode){
+            var url = $state.href('newhope.productEdit', {productCode: productCode});
+            window.open(url,'_blank');
+        }
 	    /*showmodal方法*/
 	    vm.showProductDetail  = function(prodNo, idx){
             var modalInst = $uibModal.open({

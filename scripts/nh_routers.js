@@ -264,6 +264,14 @@
                 controllerAs: 'data',
                 resolve: load(['datatables', 'scripts/controllers/basic_info/nh_productInfo.js', 'scripts/services/nh_tableService.js'])
             })
+              .state('newhope.productEdit', {   // 基础信息/修改产品
+                url: '/product/edit/:productCode',
+                params: {productCode: null},
+                data: {title: '产品信息', icons: 'fa-th-large'},
+                templateUrl: 'views/basic_info/product_edit.html',
+                controller: 'productEditCtrl',
+                resolve: load(['datatables', 'scripts/controllers/basic_info/product_edit.js'])
+            })
             .state('newhope.setpro', { 
                 url: '/product/setpro',
                 data: {title: '分奶设置', icons: 'fa-dot-circle-o'},
