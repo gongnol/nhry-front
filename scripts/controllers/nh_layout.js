@@ -100,15 +100,15 @@
         }
 
         vm.logout = function () {
-            alert(JSON.stringify($sessionStorage));
-            if ($sessionStorage.appKey) {
+            // alert(JSON.stringify($sessionStorage));
+            // if ($sessionStorage.appKey) {
                 var keyToBase64 = window.btoa($sessionStorage.appKey);
                 rest.userLogout(keyToBase64).then(function (resp) {
                     if (resp.type == 'success') {
                         window.location.href = resp.data;
                     }
                 })
-            }
+            // }
         }
 
     }
