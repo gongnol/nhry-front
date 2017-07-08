@@ -234,7 +234,7 @@
             })
             .state('newhope', {
                 abstract: true,
-                url: '/newhope',
+                url: '/bzd',
                 views: {
                     '': {
                         templateUrl: 'views/layout/nh_layout.html',
@@ -434,6 +434,17 @@
                 controller: 'AddDealerCtrl',
                 templateUrl: 'views/basic_info/addDealer.html',
                 resolve: load(['scripts/controllers/basic_info/addDealer.js',
+                    'scripts/directives/nh_address.js'])
+            })
+            .state('newhope.uptDealer', { // 基础信息/修改经销商
+                url: '/uptDealer/{dealerNo}',
+                 params: {
+                    'dealerNo': ''
+                },
+                data: {title: '修改经销商', icons: 'fa-th-large'},
+                controller: 'UptDealerCtrl',
+                templateUrl: 'views/basic_info/uptDealer.html',
+                resolve: load(['scripts/controllers/basic_info/uptDealer.js',
                     'scripts/directives/nh_address.js'])
             })
              .state('newhope.dealerInfo', { // 基础信息/经销商详情

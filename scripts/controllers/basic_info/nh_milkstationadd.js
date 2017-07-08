@@ -13,7 +13,7 @@
 		 var vm = $scope;
 		 vm.info = {};
 		 vm.nhmilk = {};
-		 vm.groupSelected = true;
+		 vm.dealerDisabled = true;
 
 		 vm.branchGroup =[
                 {"code": "01","label": "自营奶站"},
@@ -44,12 +44,14 @@
 
 
 		vm.selectGroup = function(group){
-			if(group!== undefined){
-					vm.groupSelected = false;
+			vm.dealers = [];
+			vm.nhmilk.dealerNo = undefined;
+			if(group!=undefined){
+				  vm.dealerDisabled = false;
 					rest.getDealerOnAuthAndGroup(group).then(function(json){
-								vm.dealers = json.data
-							})
-				}
+						vm.dealers = json.data
+					})
+			}
 		}
 
 		vm.returnBack = function (){
@@ -94,7 +96,7 @@
 							alert.show();
 						})
 
-
+						vm.returnBack();
         			}
         		}, function (reject) {
         			var alert = $alert({

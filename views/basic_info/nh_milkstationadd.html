@@ -48,9 +48,9 @@
 								<strong>奶站性质</strong>
 							 </div>
 							 <div class="col-md-8">
-								  <ui-select ng-model="nhmilk.branchGroup" search-enabled="true">
+								  <ui-select ng-model="nhmilk.branchGroup" search-enabled="true"  on-select="selectGroup(nhmilk.branchGroup)">
                                             <ui-select-match allow-clear="true">
-                                                    <span ng-bind="$select.selected.label"  ng-selected="selectGroup($select.selected.code)"></span>
+                                                    <span ng-bind="$select.selected.label || $select.selected"  ></span>
                                              </ui-select-match>
                                                 <ui-select-choices repeat="type.code as type in branchGroup track by type.code">
                                                     <span ng-bind="type.label"></span>
@@ -67,7 +67,7 @@
 
 					<br>
 					<div class="row">
-						<div class="col-md-4">
+						<!-- <div class="col-md-4">
 							<div class="col-md-3">所属公司</div>
 							<div class="col-md-9">
 								 <ui-select ng-model="nhmilk.companyCode" search-enabled="false" >
@@ -79,7 +79,7 @@
 	                                    </ui-select-choices>
 	                        	 </ui-select>
 							</div>
-						</div>
+						</div> -->
 						<!-- 
 						<div class="col-md-4">
 							<div class="col-md-3">销售组织</div>
@@ -99,7 +99,7 @@
 						<div class="col-md-4">
 							<div class="col-md-3">所属经销商</div>
 							<div class="col-md-9">
-								 <ui-select ng-model="nhmilk.dealerNo" search-enabled="false" ng-disabled="groupSelected">
+								 <ui-select ng-model="nhmilk.dealerNo" search-enabled="false" ng-disabled="dealerDisabled">
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.dealerName"></span>
 	                                    </ui-select-match>

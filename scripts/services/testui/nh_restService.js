@@ -280,10 +280,15 @@
             addDealer: function (params) {
                 return dealer.all('addDealer').post(params);
             },
-              //获取经销商详情
+              //获取经销商详情updateDealerInfo
             getDealerInfo: function (params) {
                   return dealer.one('getDealerInfo', params).get();
             },
+            //修改经销商
+            updateDealerInfo: function (params) {
+                  return dealer.all('updateDealerInfo').post(params);
+            },
+
              changeDealerStatus: function (params) {
                   return dealer.all('updateDealerStatus').post(params);
             },

@@ -26,7 +26,7 @@
 								<strong>经销商名称</strong>
 							</div>
 							<div class="col-md-8">
-								<input type="text" name="dealerName" class="md-input md-input-blue" ng-model="dealer.dealerName" required>      
+								<input type="text" name="dealerName" class="md-input md-input-blue" ng-model="dealer.dealerName" ng-disabled = "true">      
 							</div>
 							<div class="error-msg" ng-messages="userInfoForm.dealerName.$error" ng-show="userInfoForm.dealerName.$touched">
                                 <div ng-message="required">
@@ -76,9 +76,7 @@
 								</div>
 							</div>
 
-								<div class="col-md-4 ">
-									<div style="float:left;" class="col-md-3">  省市区县 </div> 
-	         						<div style="float:left;" class="col-md-9 " nh-address-select addr-selected="atmselectAdd"></div>
+								
 							</div>
 
 					 </div>
@@ -86,11 +84,15 @@
 
 					 <br>
 						<div class="row">
-							
-
-						
-
-							<div class="col-md-4">
+							 <div class="col-md-6">
+							         <div class="col-md-2"> <label class="modal-label"> 省市区街道</label></div>
+							          <!--input type="text" class="form-control" ng-model="udatmselectupt" placeholder="请选择" nh-address-->
+							         <div class="col-md-10"> 
+								         <div nh-address-select addr-selected="udatmselectupt"></div>
+								          	{{viewselectAddr}}
+							     	 </div>
+						     </div>
+							<div class="col-md-6">
 								<div class="col-md-3">具体地址</div>
 								<div class="col-md-9">
 									<input type="text" name="address" class="md-input md-input-blue" ng-model="dealer.address"> 
@@ -102,7 +104,7 @@
 			</div>
 	<!-- ######## panel-collapse结束-->
 			<div class="l-h m-r pull-right">
-					<button class="btn btn-sm primary" ng-click="addDealer()">新增</button>
+					<button class="btn btn-sm primary" ng-click="uptDealer()">修改</button>
 			</div>
 		</div>
 	</div>
