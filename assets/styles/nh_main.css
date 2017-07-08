@@ -1,4 +1,4 @@
-.nh body{ font-family: "microsoft yaHei"}
+.nh body{ font-family: "STSong"}
 .nh_logo{ background:url("../images/nh_logo.png") no-repeat; display: block; height: 50px;width: 210px;float:left;margin-top: 0.7rem;}
 .nh_logo_sm{ background:url("../images/nh_logo.png") no-repeat;background-size: contain; display: block; height: 35px;width: 147px;float:left;margin-top: 1.1rem;}
 .blueLt{  background-color: #02a5ea; color:rgba(255, 255, 255, 1);}

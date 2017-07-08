@@ -183,9 +183,13 @@
         
 
        vm.getBranchsByDealerNo = function (data){
-             restService.getBranchByDealer(data).then(function(json){
+            vm.branchs = [];
+            vm.add.branchNo = undefined
+           if(data!== undefined){
+              restService.getBranchByDealer(data).then(function(json){
                   vm.branchs = json.data;
              })
+           }
         }
 
       vm.addUser = function(){
@@ -196,7 +200,7 @@
                salesOrg:vm.add.salesOrg,
                mail:vm.add.mail,
                salesOrg:vm.currentUser.salesOrg,
-               dealerId:vm.add.dealerNo,
+               dealerId:vm.add.dealerNo === "-1"?"":vm.add.dealerNo,
                branchNo:vm.add.branchNo,
                customizedHrregion:vm.currentUser.customizedHrregion,
                mobile:vm.add.mobile
