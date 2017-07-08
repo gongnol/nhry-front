@@ -21,6 +21,22 @@
 				<div class="box-body">
 				<form name="userInfoForm" role='form' nh-keydown novalidate>
 					<div class="row">
+
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<strong>奶站编号</strong>
+							</div>
+							<div class="col-md-8">
+								 <input type="text" name="branchNo" class="md-input md-input-blue" ng-model="nhmilk.branchNo" required>        
+							</div>
+							<div class="error-msg" ng-messages="userInfoForm.branchNo.$error" ng-show="userInfoForm.branchNo.$touched">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+						</div>
+
+						
 						<div class="col-md-4">
 							<div class="col-md-4">
 								<strong>奶站名称</strong>
@@ -35,14 +51,7 @@
                             </div>
 						</div>
 
-						<div class="col-md-4">
-							<div class="col-md-4">
-								<strong>奶站编号</strong>
-							</div>
-							<div class="col-md-8">
-								 <input type="text" name="branchNo" class="md-input md-input-blue" disabled  placeholder="自动生成" ng-model="nhmilk.branchNo" required>        
-							</div>
-						</div>
+
  						<div class="col-md-4">
 							<div class="col-md-4">
 								<strong>奶站性质</strong>

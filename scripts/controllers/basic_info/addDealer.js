@@ -45,6 +45,19 @@
 					alert.$promise.then(function() {
 						alert.show();
 					})
+					return ;
+        		}
+
+
+        		if (typeof(vm.dealer.dealerNo) === 'undefined' || typeof(vm.dealer.dealerName) === 'undefined') {
+	        		var alert = $alert({
+						content: '经销商编号和名称不能为空！',
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+					return;
         		}
 				vm.dealer.province = vm.atmselectAdd[0].itemCode;
 				vm.dealer.city = vm.atmselectAdd[1].itemCode;

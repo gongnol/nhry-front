@@ -23,6 +23,20 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="col-md-4">
+								<strong>经销商编号</strong>
+							</div>
+							<div class="col-md-8">
+								 <input type="text" name="dealerNo" class="md-input md-input-blue"   ng-model="dealer.dealerNo" required>        
+							</div>
+							<div class="error-msg" ng-messages="userInfoForm.dealerNo.$error" ng-show="userInfoForm.dealerNo.$touched">
+                                <div ng-message="required">
+                                    <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                                </div>
+                            </div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-4">
 								<strong>经销商名称</strong>
 							</div>
 							<div class="col-md-8">
@@ -35,14 +49,7 @@
                             </div>
 						</div>
 
-						<div class="col-md-4">
-							<div class="col-md-4">
-								<strong>经销商编号</strong>
-							</div>
-							<div class="col-md-8">
-								 <input type="text" name="dealerNo" class="md-input md-input-blue" disabled  placeholder="自动生成" ng-model="dealer.dealerNo" required>        
-							</div>
-						</div>
+						
 
 						<div class="col-md-4">
 							<div class="col-md-3">是否有效</div>

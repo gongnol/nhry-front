@@ -72,6 +72,7 @@
 					alert.$promise.then(function() {
 						alert.show();
 					})
+					return ;
 				}
 				if (typeof(vm.atmselectAdd) === 'undefined' || vm.atmselectAdd.length < 3) {
 	        		var alert = $alert({
@@ -81,6 +82,17 @@
 					alert.$promise.then(function() {
 						alert.show();
 					})
+					return ;
+        		}
+        		if(typeof(vm.nhmilk.branchNo) === 'undefined'  || typeof(vm.nhmilk.branchName) === 'undefined'){
+        				var alert = $alert({
+						content: '奶站编号和名称不能为空！',
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+					return;
         		}
 				vm.nhmilk.province = vm.atmselectAdd[0].itemCode;
 				vm.nhmilk.city = vm.atmselectAdd[1].itemCode;

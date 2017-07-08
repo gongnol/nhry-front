@@ -294,6 +294,22 @@
       </div>
       <div class="modal-body p-lg">
         <div class="row">
+
+
+           <div class="col-md-4">
+            <div class="col-md-4">
+              <label class="modal-label">产品编号</label>
+            </div>
+            <input name="matnr" class="md-input" ng-model="product.matnr" required>
+                <div class="error-msg" ng-messages="productForm.matnr.$error" ng-show="productForm.matnr.$touched" style="bottom: 1.25rem">
+                    <div ng-message="required">
+                        <span class="label label-lg danger pos-rlt m-r-xs text-sm"><b class="arrow left b-danger"></b>不能为空！</span>
+                    </div>
+                </div>
+            
+          </div>
+
+
           <div class="col-md-4">
             <div class="col-md-4">
               <label class="modal-label">产品名称</label>

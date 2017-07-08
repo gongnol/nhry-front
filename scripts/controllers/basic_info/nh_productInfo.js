@@ -282,6 +282,19 @@
             // if(vm.product.shortTxt==undefined || vm.product.preDays==undefined){
             //  return false;
             // }
+
+           if (typeof(vm.product.matnr) === 'undefined' || typeof(vm.product.matnrTxt) === 'undefined') {
+                    var alert = $alert({
+                        content: '产品编号和名称不能为空！',
+                        container: '#modal-alert'
+                    })
+                    alert.$promise.then(function() {
+                        alert.show();
+                    })
+                    return;
+                }
+
+
             if (vm.product.returnFlag) {
                 switch (vm.product.returnFlag) {
                     case '30':
