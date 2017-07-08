@@ -25,7 +25,6 @@
 		vm.addUser = function(){
 			if(confirm("确定增加?")){
 				//
-				alert("======"+JSON.stringify(vm.users));
 				rest.addUser(vm.users).then(function (json) {
 					 if (json.type === 'success') {
         				var alert = $alert({
