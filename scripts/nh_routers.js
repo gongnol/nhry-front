@@ -1277,6 +1277,13 @@
                 templateUrl: 'views/system/nh_sys_auth_main.html',
                 resolve: load(['scripts/controllers/system/nh_sys_main.js'])
             })
+            .state('newhope.salesOrgMain', {    //销售组织维护
+                url: '/sys/salesOrgMain',
+                templateUrl: 'views/system/nh_salesOrgMain.html',
+                data: {title: '销售组织维护', icons: 'fa-cog'},
+                controller: 'SalesOrgMainCtrl',
+                resolve: load(['scripts/controllers/system/nh_salesOrgMain.js','scripts/directives/nh_checkbox.js', 'scripts/services/nh_commonUtil.js'])
+            })
             .state('newhope.authorization.auth', {	// 授权
                 url: '/auth',
                 templateUrl: 'views/system/nh_sys_auth_auth.html',

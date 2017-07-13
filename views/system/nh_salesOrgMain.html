@@ -1,0 +1,152 @@
+<div class="titlebar white box-shadow">
+    <!-- <div class="l-h m-l pull-right pull-rightest">
+        <a class="nav-link" href="" ng-click="allReturn()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退回
+            </span>
+        </a>
+    </div> -->
+    <!-- <div class="l-h m-l pull-right">
+        <a class="nav-link" href="" ng-click="allBack()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                批量退订
+            </span>
+        </a>
+    </div> -->
+    <div class="l-h m-r pull-right">
+        <a class="nav-link m-l" href="" ng-click="newSalesOrg()">
+            <span class="hidden-xs-down btn btn-sm rounded blueLt">
+                新增销售组织
+            </span>
+        </a>
+    </div>
+    <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+        <input type="text" class="input-line" placeholder="按销售组织编号、名称搜索" ng-model="search.salesOrgInput" ng-keypress="fuzzySearch($event)" style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+    </div>
+</div>
+
+<!-- ######## 右侧开始-->
+<div class="padding">
+
+  <div id="modal-alert"></div>
+  <div id="body-alert"></div>
+  
+  <div class="white r box-shadow-z0 m-b filter-box">
+    <div class="box p-b p-l p-r">
+        <a data-toggle="collapse" data-target="#filter"
+           class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+            <i class="material-icons"></i>
+        </a>
+        <!-- navbar collapse -->
+        <div class="collapse navbar-toggleable-sm" id="filter">
+            <div class="filterbar">
+                <div class="filter-content">
+                    <!-- <div class="select-box p-t">
+                        <ui-select ng-model="search.empNo" search-enabled="true" append-to-body="true">
+                            <ui-select-match placeholder="选择送奶员" allow-clear="true">
+                                <span ng-bind="$select.selected.empName"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.empNo as x in (canSelectEmps | filter: $select.search) track by x.empNo">
+                                <span ng-bind-html="x.empName | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    
+                    <div class="select-box p-t">
+                        <ui-select ng-model="search.status" search-enabled="false" append-to-body="true">
+                            <ui-select-match placeholder="选择状态" allow-clear="true">
+                                <span ng-bind="$select.selected.text"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="x.code as x in (statuses | filter: $select.search) track by x.code">
+                                <span ng-bind="x.text"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div> -->
+                                 
+                </div>
+
+                <div class="filter-act p-a">
+                    <button class="btn btn-fw blueLt" ng-click="reloadTable()">筛选</button>
+                </div>
+            </div>
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+  </div>
+
+  <!-- ###  表格开始-->
+  <div class="box" style="border-radius: 2px;">
+    <div class="m-t" ng-if="batchMps && batchMps.length > 0">按联系电话筛选结果如下</div>
+    <div class="row">
+        <div class="col-sm-12">
+          <table id="orderlist" class="table table-striped b-t b-b no-footer" nh-checkbox checked-datas="checkboxArrs">
+            <thead>
+              <tr role="row">
+                
+                <th class="th-nh">
+                    订单编号
+                </th>
+                <th class="th-nh">订户姓名</th>
+                <th class="th-nh">联系电话</th>
+                <th class="th-nh">订户地址</th>
+                <th class="th-nh">订单标识</th>
+                <th class="th-nh">订单总额</th>
+                <th class="th-nh">结束日期</th>
+                <th class="th-nh">付款方式</th>
+                <th class="th-nh">续订状态</th>
+                <th class="th-nh">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="tbLoding == -1 || tbLoding == 1">
+                  <td colspan="11" style="text-align:center;">正在加载数据！</td>
+                </tr>
+                <tr ng-if="tbLoding == 0 && content.length <= 0">
+                  <td colspan="11" style="text-align:center;">没有数据！</td>
+                </tr>
+                <tr current-page="curPageno" pagination-id="order_currentList" dir-paginate="order in content|itemsPerPage:itemsPerPage" total-items="total_count">
+                    
+                    <td class="td-id-nh" style="font-size: 1rem;"><span ng-bind="order.orderNo"></span></td>
+                    <td><span ng-bind="order.milkmemberName"></span></td>
+                    <td><span ng-bind="order.customerTel"></span></td>
+                    <td><span ng-bind="order.adressNo"></span></td>
+                    <td><span ng-bind-html="signFormat(order.sign)+'+'+orderSourceFmt(order.preorderSource,order.promSubType)"></span></td>
+                    <td><span ng-bind="order.initAmt"></span></td>
+                    <td><span ng-bind-html="order.endDate.nh_formatDate()"></span></td>
+                    <td><span ></span>{{order.paymentmethod == '10'?'后付款':'先付款'}}</td>
+                    <td><span ></span>{{order.resumeFlag == 'Y'?'已续订':order.resumeFlag == 'N'?'未续订':'不参与续订'}}</td>
+                    <td>
+                       
+                        <div class="btn-groups" ng-if="order.sign == '10' && order.preorderStat != '30' ">
+                            <button ng-click="toOrderDetail(order.orderNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                            <button ng-click="toOrderEdit(order.orderNo)" ng-if="order.promSubType!='Z017'" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
+                        </div>
+                          
+                    </td>                         
+                </tr>
+            </tbody>
+          </table> 
+          <div class="p-t m-l m-b" style="float: left;margin-right: -100%;">
+              <span>每页显示&nbsp;</span>
+              <button type="button" class="btn btn-sm white"
+                      ng-model="itemsPerPage"
+                      data-caret-html="&nbsp;<span class='nh-caret'></span>"
+                      bs-options="size for size in pageSizes"
+                      bs-select>
+              </button>
+              <span>&nbsp;条</span>
+          </div> 
+          <footer class="text-center">
+            <dir-pagination-controls pagination-id="order_currentList"
+                max-size="8"
+                direction-links="true"
+                boundary-links="true" 
+                on-page-change="getData(newPageNumber)"
+                template-url="nhtpl/pagination.tpl.html">
+            </dir-pagination-controls>
+          </footer>  
+        </div>
+    </div>
+  </div>
+      <!-- ###  表格结束-->
