@@ -4,7 +4,8 @@
         .module('newhope')
         .controller('UserinfoListCtrl', UserinfoListCtrl)
         .controller('AddUserModalCtrl', AddUserModalCtrl)
-        .controller('UpdateModalCtrl', UpdateModalCtrl);
+        .controller('UpdateModalCtrl', UpdateModalCtrl)
+        .controller('EditModalCtrl', EditModalCtrl);
     UserinfoListCtrl.$inject = ['$scope', '$state', '$rootScope', '$alert', '$uibModal', 'restService'];
 
     function UserinfoListCtrl($scope, $state, $rootScope, $alert, $uibModal, rest) {
@@ -42,7 +43,6 @@
             vm.total_count = 0;
             vm.tbParams.pageNum = pageno;
             rest.searchUserList(vm.tbParams).then(function (json) {
-                console.log(JSON.stringify(json));
                 vm.tbLoding = 0;
                 vm.content = json.data.list;
                 vm.total_count = json.data.total;
@@ -111,6 +111,27 @@
                 vm.getData(vm.curPageno);
             })
         } 
+
+        vm.editUser = function (loginName){
+           var modalInst = $uibModal.open({
+                templateUrl: 'editUser.html',
+                controller: 'EditModalCtrl',
+                size: 'xxls',
+                resolve: {
+                    currentUser : function(){
+                        return vm.currentUser;
+                    },
+                    loginName: function() {
+                        return loginName;
+                    }
+                    
+                }
+            });
+            modalInst.result.then(function() {
+                vm.getData(vm.curPageno);
+            })
+
+        }
     }
 
 
@@ -238,4 +259,96 @@
             $uibModalInstance.close();
         }
     }
+
+    EditModalCtrl.$inject = ['$window','$scope','$alert','$uibModalInstance','restService','loginName','currentUser'];
+    function EditModalCtrl($window,$scope,$alert, $uibModalInstance, restService,loginName,currentUser) {
+        var vm = $scope;
+         vm.user = {};
+         vm.currentUser = currentUser;
+         vm.dealers = [];
+         vm.branchs = [];
+         vm.user.dealerNo = vm.currentUser.dealerId;
+
+        restService.getUserByLoginName(loginName).then(function (json) {
+            vm.user = json.data;
+            vm.branchs = [
+                {  
+                    branchName : vm.user.branchNo,
+                    branchNo : vm.user.branchName
+                }
+            ];
+            vm.user.branchNo = vm.user.branchName;
+        });
+
+        restService.getDealerOnAuth().then(function(json){
+             if (json.type == 'success') {
+                    vm.dealers = json.data;
+            }
+        })
+        if(vm.user.dealerNo!=null){
+            restService.getBranchByDealer(vm.user.dealerNo).then(function(json){
+                  vm.branchs = json.data;
+             })
+        }
+        
+
+       vm.getBranchsByDealerNo = function (data){
+            vm.branchs = [];
+            vm.user.branchNo = undefined
+           if(data!== undefined){
+              restService.getBranchByDealer(data).then(function(json){
+                  vm.branchs = json.data;
+                  vm.user.branchNo = vm.branchs[0].branchNo;
+             })
+           }
+        }
+
+      vm.saveUser = function(){
+            var params={
+               loginName:vm.user.loginName,
+               displayName:vm.user.displayName,
+               salesOrg:vm.user.salesOrg,
+               mail:vm.user.mail,
+               salesOrg:vm.currentUser.salesOrg,
+               dealerId:vm.user.dealerNo === "-1"?"":vm.user.dealerNo,
+               branchNo:vm.user.branchNo,
+               customizedHrregion:vm.currentUser.customizedHrregion,
+               mobile:vm.user.mobile
+            }
+            console.log(JSON.stringify(params));
+
+            restService.editUser(params).then(function(json){
+                if (json.type == 'success') {
+                        var alert = $alert({
+                            content: '保存成功!',
+                            container: '#modal-alert'
+                        })
+                        alert.$promise.then(function () {
+                            alert.show();
+                    }).then(function () {
+                        closeModal();
+                    })
+                }
+            }, function (reject) {
+                var alert = $alert({
+                    title: reject.status.toString() + ' ' + reject.statusText,
+                    content: reject.data.msg,
+                    container: '#modal-alert'
+                })
+                alert.$promise.then(function () {
+                    alert.show();
+                })
+            })
+            
+        }
+
+        vm.cancelModal = function(){
+            $uibModalInstance.dismiss();
+        }
+
+       vm.closeModal =  function() {
+            $uibModalInstance.close();
+        }
+    }
+
 })();

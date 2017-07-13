@@ -328,7 +328,7 @@
             <div class="col-md-4">
               <label class="modal-label">包装类型</label>
             </div>
-            <ui-select ng-model="product.zbotCode" search-enabled="false" name="returnFlag">
+            <ui-select ng-model="product.zbotCode" search-enabled="false" name="returnFlag" on-select="getRetBotFlag($item);">
                     <ui-select-match allow-clear="false">
                         <span ng-bind="$select.selected.itemName"></span>
                     </ui-select-match>
@@ -346,7 +346,7 @@
             <div class="col-md-4">
               <label class="modal-label">大类</label>
             </div>
-            <ui-select ng-model="product.firstCat" search-enabled="false" name="returnFlag">
+            <ui-select ng-model="product.firstCat" search-enabled="false" name="returnFlag" on-select="getFirstCate($item);">
                     <ui-select-match allow-clear="false">
                         <span ng-bind="$select.selected.itemName"></span>
                     </ui-select-match>

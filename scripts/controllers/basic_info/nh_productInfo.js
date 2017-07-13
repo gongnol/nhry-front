@@ -194,7 +194,10 @@
             // 已选不可销售范围数组
             selectedNotsellList: [],
             // 经销商数组
-            dealers: []
+            dealers: [],
+            //中类
+            secCateNames: [],
+            zbotCodeNames: []
         };
         vm.cancelModal = cancelModal;
         vm.save = save;
@@ -204,18 +207,56 @@
             maraEx:{preDays:1}
         };
 
-        rest.codeMap('2004').then(function (json) {
-            vm.handle.zbotCodeNames =  json.data;
-            vm.product.zbotCode = vm.handle.zbotCodeNames[0].itemCode;
-        });
+        
+        //大类 
         rest.codeMap('2000').then(function (json) {
             vm.handle.firstCateNames =  json.data;
             vm.product.firstCat = vm.handle.firstCateNames[0].itemCode;
+            vm.getFirstCate(vm.handle.firstCateNames[0]);
         });
-        rest.codeMap('2001').then(function (json) {
-            vm.handle.secCateNames =  json.data;
-            vm.product.secCat = vm.handle.secCateNames[0].itemCode;
+        vm.getFirstCate = function(item){
+            //中类
+            vm.product.secCate = '';
+            vm.handle.secCateNames = [];
+            rest.secCateByParent(item.itemCode).then(function (json) {
+                vm.handle.secCateNames =  json.data;
+                vm.product.secCate = vm.handle.secCateNames[0].itemCode;
+            });
+        };
+
+        //包装类型
+        rest.codeMap('2004').then(function (json) {
+            vm.handle.zbotCodeNames =  json.data;
+            vm.product.zbotCode = vm.handle.zbotCodeNames[0].itemCode;
+            vm.getRetBotFlag(vm.handle.zbotCodeNames[0]);
         });
+
+        vm.getRetBotFlag = function (item){
+            if('Y'!=item.attr1){
+                vm.product.returnFlag = 'N';
+                vm.handle.retBotFlags = [
+                    {
+                        code: 'N',
+                        label: '否'
+                    }
+                ];
+            }else{
+                vm.product.returnFlag = '20';
+                vm.handle.retBotFlags = [
+                    {
+                        code: '30',
+                        label: '大口瓶'
+                    }, {
+                        code: '20',
+                        label: '中口瓶'
+                    }, {
+                        code: '10',
+                        label: '小口瓶'
+                    }
+                ];
+            }
+        };
+        
         rest.codeMap('2002').then(function (json) {
             vm.handle.brandNames =  json.data;
             vm.product.brand = vm.handle.brandNames[0].itemCode;
@@ -343,7 +384,7 @@
                 params.status = 'Y';
             }
 
-            console.log(params);
+            
 
             rest.addProductItem(params).then(function (json) {
                 if(json.type == 'success') {

@@ -73,6 +73,7 @@
                 <td><span ng-bind="item.roleNames"/></td>
                 <td>
                     <button ng-click="data.updatePass(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">修改密码</button>
+                    <button ng-click="data.editUser(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">编辑信息</button>
                 </td>
                 
 
@@ -232,6 +233,110 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="addUser()">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+    </div>
+  </script>
+
+  <!-- 编辑用户 -->
+   <script type="text/ng-template" id="editUser.html">
+    <div class="modal-header">
+        <h3 class="modal-title">用户信息编辑</h3>
+    </div>
+    <div class="modal-body">
+        <!--box body begin-->
+        <div class="box-body label-lg">
+           <div class="row">
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>登录名称</strong>
+              </div>
+              <div class="col-md-8">
+                {{user.loginName}} 
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="col-md-4">
+                <strong>真实姓名</strong>
+               </div>
+               <div class="col-md-8">
+                 <input type="text" name="displayName" class="md-input md-input-blue"    ng-model="user.displayName" required>  
+               </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <!-- <div class="col-md-4">
+              <div class="col-md-3">所属销售组织</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="salesOrg" search-enabled="false">
+                                      <ui-select-match allow-clear="true">
+                                          <span ng-bind="$select.selected.itemName"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="type.itemCode as type in salesOrgs track by type.itemCode">
+                                          <span ng-bind="type.itemName"></span>
+                                      </ui-select-choices>
+                             </ui-select>
+              </div>
+            </div>
+          -->
+            <div class="col-md-6">
+              <div class="col-md-3">所属经销商</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="user.dealerNo" search-enabled="true"  on-select="getBranchsByDealerNo(user.dealerNo)">
+                                      <ui-select-match allow-clear="true" >
+                                          <span ng-bind="$select.selected.dealerName || $select.selected"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="dealer.dealerNo as dealer in (dealers | filter: $select.search) track by dealer.dealerNo">
+                                          <span ng-bind="dealer.dealerNo+' '+dealer.dealerName"></span>
+                                      </ui-select-choices>
+                 </ui-select>
+              </div>
+            </div>
+
+             <div class="col-md-6">
+              <div class="col-md-3">所属奶站</div>
+              <div class="col-md-9">
+                 <ui-select ng-model="user.branchNo" search-enabled="true">
+                                      <ui-select-match allow-clear="false"  >
+                                          <span ng-bind="$select.selected.branchName || $select.selected"></span>
+                                      </ui-select-match>
+                                      <ui-select-choices repeat="branch.branchNo as branch in (branchs | filter: $select.search) track by branch.branchNo">
+                                          <span ng-bind="branch.branchName"></span>
+                                      </ui-select-choices>
+                 </ui-select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="col-md-3">邮箱</div>
+              <div class="col-md-9">
+                 <input type="text" name="mail" class="md-input md-input-blue"    ng-model="user.mail" required>  
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="col-md-3">电话</div>
+              <div class="col-md-9">
+                 <input type="text" name="mobile" class="md-input md-input-blue"    ng-model="user.mobile" required>  
+              </div>
+            </div>
+
+          </div>
+          <br>
+        </div>
+
+
+        </div>
+      <!--box body end--> 
+     
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="saveUser()">保存</button>
       <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
     </div>
   </script>

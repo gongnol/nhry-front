@@ -184,6 +184,12 @@
             codeMap: function (typeCode) {
                 return dic.one('items', typeCode).customPOST();
             },
+            secCateByParent: function (itemCode) {
+                return dic.one('find', 'child').all('items').post({
+                    typeCode: '2001',
+                    parent: itemCode
+                });
+            },
             // 增量同步idm订户系统用户
             syncIDMUser: function () {
                 return dic.one('sync', 'users').all('upt').post();
@@ -1310,6 +1316,10 @@
             updateUser: function (params) {
                 return user.all('update').post(params);
             },
+            //更新用户,不增加branchEmp
+            editUser: function (params) {
+                return user.all('edit').post(params);
+            },
             // 用户登出
             userLogout: function (key) {
                 return user.all('logout').post({}, {tk: key});
@@ -1329,7 +1339,10 @@
                 return user.one('current', 'logined').post();
             },
             
-
+            //根据登录名获取信息
+            getUserByLoginName: function (loginName) {
+                return user.one('getUserByLoginName',loginName).get();
+            },
              //更新用户密码
             updatePass: function (params) {
                 return user.all('updatePass').post(params);
