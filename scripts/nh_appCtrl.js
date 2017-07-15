@@ -13,8 +13,15 @@
 	AppCtrl.$inject = ['$scope', '$location'];
 
 	function AppCtrl($scope, $location) {
-		$scope.app = {
-			preUrl: 'http://' + window.location.host + '/master/api/v1',	// 远程请求前缀
+		// 判断http / https
+		var preUrl = window.location.host + '/master/api/v1';
+        if( location.href.indexOf("https") > -1 ){
+            preUrl = 'https://' + preUrl;
+        } else {
+            preUrl = 'http://' + preUrl;
+		}
+        $scope.app = {
+			preUrl: preUrl,	// 远程请求前缀
 			//preUrl: 'http://' + window.location.host + '/d/NhryService/api/v1',	// 远程请求前缀
 			setting: {
 				bg: '',

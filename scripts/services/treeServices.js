@@ -4,9 +4,14 @@
     .module('newhope')
     .factory('factoryGetJSONFile', factoryGetJSONFile);
 
-    function factoryGetJSONFile($http,$state){
+    function factoryGetJSONFile($http,$state) {
         var devId = $state.params.devId;//设备主键ID
-        var httpUrl = 'http://' + window.location.host + '/d';
+        var httpUrl = window.location.host + '/d';
+        if (location.href.indexOf("https") > -1 ) {
+            httpUrl = 'https://' + httpUrl;
+        } else {
+            httpUrl = 'http://' + httpUrl;
+        }
         var service = {
             /**取设备树数据*/
             getDevTree : function(done) {
