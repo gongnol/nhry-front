@@ -108,14 +108,14 @@
 		pvm.chooseCustomer = function(user){
 			orderFactory.user=user;
         	pvm.lastOrder = {};
-        	pvm.choosedVipCus = user.cusNo;
+        	pvm.choosedVipCus = user.vipCustNo;
         	pvm.choosedVipCusName =user.cusName;
         	pvm.choosedVipCusTel = user.tel;
         	pvm.branchNo =user.branchNo;
         	pvm.branchName = user.branchName;
         	pvm.vipType = user.vipType;
         	//获取上一张订单
-        	rest.selectLatestOrder(user.cusNo).then(function (json) {
+        	rest.selectLatestOrder(user.vipCustNo).then(function (json) {
             	pvm.lastOrder = json.data;
             },function(json){
             	var saveAlert = $alert({
@@ -222,7 +222,7 @@
 				})
 			});
 		}
-		$scope.getAccount();
+		//$scope.getAccount();
 
 		//获取年卡信息
 		$scope.getAromData = function() {
