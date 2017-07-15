@@ -47,7 +47,16 @@
 		    }
 		}
 		xhr.send(null);
-		var baseUrl = 'http://' + window.location.host + '/' + env + '/api/v1';
+
+		// var baseUrl = 'http://' + window.location.host + '/' + env + '/api/v1';
+
+        var baseUrl = window.location.host + '/' + env + '/api/v1';
+        if( location.href.indexOf("https") > -1 ){
+            baseUrl = 'https://' + baseUrl;
+        } else {
+            baseUrl = 'http://' + baseUrl;
+        }
+
 		// 从VERSION文件中获取远程访问环境end
 
 		var rest = Restangular.withConfig(function (configurer) {
