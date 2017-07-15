@@ -653,7 +653,7 @@
                     csmPhone: null,
                     reset_pageRecord: false
                 },
-                controller: 'currentOrderCtrl',
+                controller: 'billReportCtrl',
                 templateUrl: 'views/billing/nh_consumer_bill_report.html',
                 resolve: load(['scripts/controllers/billing/nh_consumer_bill_report.js', 'scripts/directives/nh_address.js', 'scripts/directives/nh_checkbox.js', 'scripts/services/nh_commonUtil.js'])
             })

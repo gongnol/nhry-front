@@ -2,12 +2,12 @@
 	'use strict';
 	angular
 	  .module('newhope')
-	  .controller('currentOrderCtrl', currentOrderCtrl) ;
+	  .controller('billReportCtrl', billReportCtrl) ;
       
 
-	currentOrderCtrl.$inject = ['$rootScope','$state', '$timeout', '$stateParams','$scope','$uibModal', '$alert','restService', 'nhCommonUtil'];  
+	billReportCtrl.$inject = ['$rootScope','$state', '$timeout', '$stateParams','$scope','$uibModal', '$alert','restService', 'nhCommonUtil'];  
 
-	function currentOrderCtrl($rootScope, $state, $timeout, $stateParams, $scope, $uibModal,  $alert , rest, nhCommonUtil) {
+	function billReportCtrl($rootScope, $state, $timeout, $stateParams, $scope, $uibModal,  $alert , rest, nhCommonUtil) {
 
         var pvm = this; var vm = $scope;
         vm.tbLoding = -1;
