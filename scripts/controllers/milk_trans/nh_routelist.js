@@ -243,26 +243,50 @@
         vm.createEntity = undefined;
         vm.createRouteOrder = function () {
             if(vm.createEntity==undefined){
-                alert("请选择生成路单的日期，在左侧选择");
+                    var errorAlert = $alert({
+                        content:"请选择生成路单的日期，在左侧选择",
+                        container: '#modal-alert'
+                    })
+                    errorAlert.$promise.then(function () {
+                        errorAlert.show();
+                    })
                 return;
             }
             vm.routeCreating = true;
             rest.createRouteOrder(vm.createEntity).then(function(json){
                 var result = json.type;
                 if(result == 'success'){
-                    alert("创建完毕!");
+                    var alert = $alert({
+                        content: '创建完毕!',
+                        container: '#body-alert'
+                    })
+                    alert.$promise.then(function () {
+                        alert.show();
+                    })
                     vm.getData(vm.pageno);
                 }
                 vm.routeCreating = false;
             },function(json){
-                alert(json.data.msg);
+                var errorAlert = $alert({
+                    content:json.data.msg,
+                    container: '#modal-alert'
+                })
+                errorAlert.$promise.then(function () {
+                    errorAlert.show();
+                })
                 vm.routeCreating = false;
             });
         }
 
         vm.createTemptRoute = function () {
             if(!vm.createEntity ){
-                alert("请选择生成路单的日期，在左侧选择");
+                var errorAlert = $alert({
+                    content:"请选择生成路单的日期，在左侧选择",
+                    container: '#modal-alert'
+                })
+                errorAlert.$promise.then(function () {
+                    errorAlert.show();
+                })
                 return;
             }
             var modalInst = $uibModal.open({
@@ -285,7 +309,13 @@
         vm.deleteDispEntity = undefined;
         vm.deleteRouteOrder = function () {
             if(vm.deleteDispEntity==undefined){
-                alert("请选择删除路单的日期，在左侧选择");
+                var errorAlert = $alert({
+                    content:"请选择删除路单的日期，在左侧选择",
+                    container: '#modal-alert'
+                })
+                errorAlert.$promise.then(function () {
+                    errorAlert.show();
+                })
                 return;
             }
             if (confirm('您确定要删除所选择日期的路单吗？')) {

@@ -278,6 +278,11 @@
                 }
             ];
             vm.user.branchNo = vm.user.branchName;
+            if(json.data.dealerId == ''  || json.data.dealerId == undefined){
+                vm.user.dealerNo = '-1';
+            }else{
+              vm.user.dealerNo = json.data.dealerId;
+            }
         });
 
         restService.getDealerOnAuth().then(function(json){
@@ -285,11 +290,11 @@
                     vm.dealers = json.data;
             }
         })
-        if(vm.user.dealerNo!=null){
+      /*  if(vm.user.dealerNo!=null){
             restService.getBranchByDealer(vm.user.dealerNo).then(function(json){
                   vm.branchs = json.data;
              })
-        }
+        }*/
         
 
        vm.getBranchsByDealerNo = function (data){
@@ -325,6 +330,8 @@
                         })
                         alert.$promise.then(function () {
                             alert.show();
+                            vm.closeModal();
+
                     }).then(function () {
                         closeModal();
                     })

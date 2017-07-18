@@ -63,7 +63,7 @@
 				content: pvm.search.telephone
 			}
 
-			rest.getCsmListWithoutOrg(params).then(function(json) {
+			rest.getCsmListByOrg(params).then(function(json) {
 				pvm.tbLoding = 0;
 				pvm.content = json.data.list;
 				/*$.each(pvm.content,function(index,item){
@@ -109,14 +109,14 @@
 		pvm.chooseCustomer = function(user){
 			orderFactory.user=user;
         	pvm.lastOrder = {};
-        	pvm.choosedVipCus = user.cusNo;
+        	pvm.choosedVipCus = user.vipCustNo;
         	pvm.choosedVipCusName =user.cusName;
         	pvm.choosedVipCusTel = user.tel;
         	pvm.branchNo =user.branchNo;
         	pvm.branchName = user.branchName;
         	pvm.vipType = user.vipType;
         	//获取上一张订单
-        	rest.selectLatestOrder(user.cusNo).then(function (json) {
+        	rest.selectLatestOrder(user.vipCustNo).then(function (json) {
             	pvm.lastOrder = json.data;
             },function(json){
             	var saveAlert = $alert({
@@ -186,6 +186,7 @@
 
 		//获取账号信息
 		$scope.getAccount = function() {
+			alert(JSON.stringify(orderFactory));
 			restService.getCustomerRemainAmt(orderFactory.user.vipCustNo).then(function(json) {
 				var result = json.type;
 				if(result == 'success') {
@@ -201,7 +202,7 @@
 				})
 			});
 		}
-		$scope.getAccount();
+	/*	$scope.getAccount();*/
 
 		//获取年卡信息
 

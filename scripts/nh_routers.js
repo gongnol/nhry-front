@@ -653,7 +653,7 @@
                     csmPhone: null,
                     reset_pageRecord: false
                 },
-                controller: 'currentOrderCtrl',
+                controller: 'billReportCtrl',
                 templateUrl: 'views/billing/nh_consumer_bill_report.html',
                 resolve: load(['scripts/controllers/billing/nh_consumer_bill_report.js', 'scripts/directives/nh_address.js', 'scripts/directives/nh_checkbox.js', 'scripts/services/nh_commonUtil.js'])
             })
@@ -751,7 +751,8 @@
                 templateUrl: 'views/orders/nh_create_year_order.html',
                 resolve: load(['scripts/controllers/orders/nh_create_year_order.js', 'scripts/directives/nh_addtoorder.js',
                     'scripts/directives/nh_address.js', 'scripts/directives/nh_calculateentry.js'])
-            }).state('newhope.orderCreateZq', {	// 订单管理/新增订单
+            })
+            .state('newhope.orderCreateZq', {	// 订单管理/新增订单
                 url: '/order/createZq',
                 data: {title: '创建机构自取订单', icons: 'fa-dot-circle-o'},
                 params: {
