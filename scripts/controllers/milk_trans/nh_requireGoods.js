@@ -219,7 +219,7 @@
 
 
        /****************************修改要货计划行***************************************/
-        vm.edit= function(matnr,matnrTxt,qty,increQty,flag,requiredDate){
+        vm.edit= function(matnr,matnrTxt,qty,increQty,flag,backQty,requiredDate){
 
                 vm.product = {
                   "orderNo":vm.orderNo,
@@ -227,7 +227,8 @@
                   "matnrTxt":matnrTxt,
                   "qty":qty,
                   "increQty":increQty,
-                  "flag":flag
+                  "flag":flag,
+                  "backQty":backQty
                 }
 
               var modalInst = $uibModal.open({
@@ -343,7 +344,7 @@
             vm.getProductTxt = function(product){
                  restService.getProductByCodeOrName(product).then(function(json){
                     vm.Rproducts = json.data;   
-          
+            
                 })
 
             }
@@ -362,7 +363,8 @@
                     "oldMatnr":vm.oldMatnr,
                     "matnrTxt":vm.product.matnrTxt,
                     "qty":vm.product.qty,
-                    "increQty":vm.product.increQty
+                    "increQty":vm.product.increQty,
+                    "backQty":vm.product.backQty
                 }
                 restService.updateNewItem(vm.newItem).then(function(json){
                      if(json.type == "success"){
@@ -386,7 +388,8 @@
                 vm.oldItem = {
                   "orderNo":vm.orderNo,
                   "matnr":vm.product.matnr,
-                  "increQty":vm.product.increQty
+                  "increQty":vm.product.increQty,
+                  "backQty":vm.product.backQty
                 }
                   restService.updateOldItem(vm.oldItem).then(function(json){
                      if(json.type == "success"){
