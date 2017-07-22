@@ -1290,6 +1290,13 @@
                 controller: 'SalesOrgMainCtrl',
                 resolve: load(['scripts/controllers/system/nh_salesOrgMain.js','scripts/directives/nh_checkbox.js', 'scripts/services/nh_commonUtil.js'])
             })
+            .state('newhope.companyMain', {    //销售组织维护
+                url: '/sys/companyMain',
+                templateUrl: 'views/system/nh_companyMain.html',
+                data: {title: '公司维护', icons: 'fa-cog'},
+                controller: 'CompanyMainCtrl',
+                resolve: load(['scripts/controllers/system/nh_companyMain.js','scripts/directives/nh_checkbox.js', 'scripts/services/nh_commonUtil.js'])
+            })
             .state('newhope.authorization.auth', {	// 授权
                 url: '/auth',
                 templateUrl: 'views/system/nh_sys_auth_auth.html',

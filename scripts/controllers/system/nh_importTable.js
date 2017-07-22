@@ -3,6 +3,7 @@
     angular
         .module('newhope')
         .controller('preorderTableCtrl',preorderTableCtrl)
+        .controller('eccorderTableCtrl',eccorderTableCtrl)
         .controller('orderTableCtrl', orderTableCtrl)
         .controller('orgOrderTableCtrl',orgOrderTableCtrl)
         .controller('LinksTableCtrl',LinksTableCtrl)
@@ -205,6 +206,71 @@
 
 	    }
     }
+
+    //上传订单、订单行项目--导入
+    eccorderTableCtrl.$inject = ['$alert','$rootScope','$scope', '$state','restService', 'FileUploader','$uibModal'];
+    function eccorderTableCtrl($alert,$rootScope,$scope, $state, rest, FileUploader,$uibModal) {
+
+        var vm = $scope;
+        var uploadAreas = rest.importEccPreorder();
+
+	    $scope.uploadStatus = false; //定义两个上传后返回的状态，成功获失败
+	    var uploader = $scope.uploader = new FileUploader({
+	        url: uploadAreas,
+	        queueLimit: 1,     //文件个数 
+	        removeAfterUpload: true   //上传后删除文件
+	    });
+		// var ts = moment.utc();
+  //       uploader.headers['appCode'] = 'dhxt';
+  //       if ($rootScope.$storage.appKey) {
+  //           uploader.headers['appKey'] = $rootScope.$storage.appKey;
+  //           uploader.headers['timestamp'] = ts.format('YYYYMMDDHHmmss');
+  //           uploader.headers['dh-token'] = $rootScope.access.hashedToken('dhxt', uploader.headers['appKey'], ts);
+  //       }
+  		rest.getSysDate().then(function (resp) {
+			var ts = resp.data;
+			uploader.headers['appCode'] = 'dhxt';
+	        if ($rootScope.$storage.appKey) {
+	            uploader.headers['appKey'] = $rootScope.$storage.appKey;
+	            uploader.headers['timestamp'] = ts;
+	            uploader.headers['dh-token'] = $rootScope.access.hashedToken('dhxt', uploader.headers['appKey'], ts);
+	        }
+		});
+        
+	    $scope.clearItems = function(){    //重新选择文件时，清空队列，达到覆盖文件的效果
+	        uploader.clearQueue();
+	    }
+	    uploader.onAfterAddingFile = function(fileItem) {
+	    	console.log(fileItem._file)
+	        $scope.fileItem = fileItem._file;    //添加文件之后，把文件信息赋给scope
+	    };
+	    uploader.onSuccessItem = function(fileItem, response, status, headers) {
+	        $scope.uploadStatus = true;   //上传成功则把状态改为true
+			var alert = $alert({
+					content: response.msg,
+					container: '#action-alert',
+					duration:1000
+				})
+				alert.$promise.then(function() {
+					alert.show();
+				})
+	    };
+	    uploader.onErrorItem =function(fileItem, response, status, headers){
+			var alert = $alert({
+					content: response.msg,
+					container: '#action-alert',
+					duration:1000
+				})
+				alert.$promise.then(function() {
+					alert.show();
+				})
+	    }
+	    $scope.UploadFile = function(){
+	        uploader.uploadAll();
+
+	    }
+    }
+
     //上传奶站、小区关联表--导入
     LinksTableCtrl.$inject = ['$alert','$rootScope','$scope', '$state','restService', 'FileUploader','$uibModal'];
     function LinksTableCtrl($alert,$rootScope,$scope, $state, rest, FileUploader,$uibModal) {

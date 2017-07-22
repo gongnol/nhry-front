@@ -106,6 +106,7 @@
                                     <th class="th-nh">增量</th>
                                     <th class="th-nh">总数</th>
                                     <th class="th-nh">拒收复送数量</th>
+                                    <th class="th-nh">回执数量</th>
                                     <th class="th-nh" ng-if="status!='30'">操作</th>
                                 </tr>
                                 </thead>
@@ -119,10 +120,11 @@
                                             <td><span ng-bind="product.increQty"></span></td>
                                             <td><span ng-bind="product.qty+product.increQty"></span></td>
                                             <td><span ng-bind="product.resendQty || 0"></span></td>
+                                            <td><span ng-bind="product.backQty || 0"></span></td>
                                             <td ng-if="status!='30'">
                                                <div class="btn-groups">
                                                     <div ng-if="delear">
-                                                    <button ng-click="edit(product.matnr,product.matnrTxt,product.qty,product.increQty,product.flag)" class="btn btn-xs btn-outline rounded b-primary text-primary"
+                                                    <button ng-click="edit(product.matnr,product.matnrTxt,product.qty,product.increQty,product.flag,product.backQty)" class="btn btn-xs btn-outline rounded b-primary text-primary"
                                                     ng-if="status!='30'" >编辑</button></div>
 
                                                      <button ng-click="refuseResend(product.matnr, product.qty+product.increQty)" class="btn btn-xs btn-outline rounded b-info text-info"
@@ -188,6 +190,14 @@
                           </div>
                           <div class="col-md-6 col-sm-4">
                               <input type="number" class="form-control" ng-model="product.increQty" >
+                          </div>
+                      </div>
+                      <div class="row m-r-md" style="margin-top:1rem">
+                          <div class="col-md-3 col-sm-4">
+                            <label>回执数量</label>
+                          </div>
+                          <div class="col-md-6 col-sm-4">
+                              <input type="number" class="form-control" ng-model="product.backQty" >
                           </div>
                       </div>
 

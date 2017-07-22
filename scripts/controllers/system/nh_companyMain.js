@@ -2,15 +2,15 @@
 	'use strict';
 	angular
 	  .module('newhope')
-	  .controller('SalesOrgMainCtrl', SalesOrgMainCtrl)
-      .controller('SalesOrgAddModal', SalesOrgAddModal)
-      .controller('SalesOrgShowModal', SalesOrgShowModal)
-      .controller('SalesOrgEditModal', SalesOrgEditModal);
+	  .controller('CompanyMainCtrl', CompanyMainCtrl)
+      .controller('CompanyAddModal', CompanyAddModal)
+      .controller('CompanyShowModal', CompanyShowModal)
+      .controller('CompanyEditModal', CompanyEditModal);
       
 
-	SalesOrgMainCtrl.$inject = ['$rootScope','$state', '$timeout', '$stateParams','$scope','$uibModal', '$alert','restService', 'nhCommonUtil'];  
+	CompanyMainCtrl.$inject = ['$rootScope','$state', '$timeout', '$stateParams','$scope','$uibModal', '$alert','restService', 'nhCommonUtil'];  
 
-	function SalesOrgMainCtrl($rootScope, $state, $timeout, $stateParams, $scope, $uibModal,  $alert , rest, nhCommonUtil) {
+	function CompanyMainCtrl($rootScope, $state, $timeout, $stateParams, $scope, $uibModal,  $alert , rest, nhCommonUtil) {
 
         var pvm = this; var vm = $scope;
         vm.tbLoding = -1;
@@ -55,7 +55,7 @@
                 params = {
                     pageNum: pageno,
                     pageSize: vm.itemsPerPage,
-                    orderNo:'1002',
+                    orderNo:'1003',
                     branchNo: vm.search.salesOrgInput
                 }
                 $timeout(function () {
@@ -104,8 +104,8 @@
 	    /*showmodal方法*/
         vm.newSalesOrg  = function(){
             var modalInst = $uibModal.open({
-                templateUrl: 'SalesOrgAddModal.html',
-                controller: 'SalesOrgAddModal',
+                templateUrl: 'CompanyAddModal.html',
+                controller: 'CompanyAddModal',
                 size: 'lg',
                 resolve: {
                     pScope: $scope
@@ -123,8 +123,8 @@
         /*showmodal方法*/
         vm.showSalesOrg  = function(itemCode){
             var modalInst = $uibModal.open({
-                templateUrl: 'SalesOrgShowModal.html',
-                controller: 'SalesOrgShowModal',
+                templateUrl: 'CompanyShowModal.html',
+                controller: 'CompanyShowModal',
                 size: 'lg',
                 resolve: {
                     itemCode: function() {
@@ -145,8 +145,8 @@
         /*showmodal方法*/
         vm.editSalesOrg  = function(itemCode){
             var modalInst = $uibModal.open({
-                templateUrl: 'SalesOrgEditModal.html',
-                controller: 'SalesOrgEditModal',
+                templateUrl: 'CompanyEditModal.html',
+                controller: 'CompanyEditModal',
                 size: 'lg',
                 resolve: {
                     itemCode: function() {
@@ -166,27 +166,27 @@
         
 	}
 
-    SalesOrgAddModal.$inject = ['$scope','$uibModalInstance', '$alert','restService'];
+    CompanyAddModal.$inject = ['$scope','$uibModalInstance', '$alert','restService'];
 
-    function SalesOrgAddModal($scope, $uibModalInstance, $alert, rest) {
+    function CompanyAddModal($scope, $uibModalInstance, $alert, rest) {
         var vm = $scope;
         vm.item = {
             parent:-1
         }; 
         vm.handle = {
             // 公司
-            parents: [{
-                itemCode: '-1',
-                itemName: '空'
-            }]
+            // parents: [{
+            //     itemCode: '-1',
+            //     itemName: '空'
+            // }]
         };
         vm.cancelModal = cancelModal;
         vm.save = save;   
 
-        rest.codeMap('1003').then(function (json) {
-            vm.handle.parents =  json.data;
-            vm.item.parent = vm.handle.parents[0].itemCode;
-        });
+        // rest.codeMap('1003').then(function (json) {
+        //     vm.handle.parents =  json.data;
+        //     vm.item.parent = vm.handle.parents[0].itemCode;
+        // });
 
         function cancelModal() {
             $uibModalInstance.dismiss();
@@ -195,8 +195,7 @@
         /*保存按钮*/
         function save() {
             var params = vm.item;
-            params.typeCode = '1002';
-            rest.addSalesOrgDicItem(params).then(function (json) {
+            rest.addDicItem(params).then(function (json) {
                 if(json.type == 'success') {
                     var alert = $alert({
                         content:   '保存成功!',
@@ -221,28 +220,28 @@
 
     }
 
-    SalesOrgShowModal.$inject = ['$scope','$uibModalInstance', '$alert','restService','itemCode'];
+    CompanyShowModal.$inject = ['$scope','$uibModalInstance', '$alert','restService','itemCode'];
 
-    function SalesOrgShowModal($scope, $uibModalInstance, $alert, rest, itemCode) {
+    function CompanyShowModal($scope, $uibModalInstance, $alert, rest, itemCode) {
         var vm = $scope;
         vm.item = {
             parent:-1
         }; 
         vm.handle = {
             // 公司
-            parents: [{
-                itemCode: '-1',
-                itemName: '空'
-            }]
+            // parents: [{
+            //     itemCode: '-1',
+            //     itemName: '空'
+            // }]
         };
         vm.cancelModal = cancelModal;
         // vm.save = save;   
 
-        rest.codeMap('1003').then(function (json) {
-            vm.handle.parents =  json.data;
-        });
+        // rest.codeMap('1003').then(function (json) {
+        //     vm.handle.parents =  json.data;
+        // });
 
-        rest.dicItem('1002',itemCode).then(function (json) {
+        rest.dicItem('1003',itemCode).then(function (json) {
             vm.item =  json.data;
         });
          
@@ -251,28 +250,28 @@
         }
     }
 
-    SalesOrgEditModal.$inject = ['$scope','$uibModalInstance', '$alert','restService','itemCode'];
+    CompanyEditModal.$inject = ['$scope','$uibModalInstance', '$alert','restService','itemCode'];
 
-    function SalesOrgEditModal($scope, $uibModalInstance, $alert, rest, itemCode) {
+    function CompanyEditModal($scope, $uibModalInstance, $alert, rest, itemCode) {
         var vm = $scope;
         vm.item = {
             parent:-1
         }; 
         vm.handle = {
             // 公司
-            parents: [{
-                itemCode: '-1',
-                itemName: '空'
-            }]
+            // parents: [{
+            //     itemCode: '-1',
+            //     itemName: '空'
+            // }]
         };
         vm.cancelModal = cancelModal;
         vm.save = save;   
 
-        rest.codeMap('1003').then(function (json) {
-            vm.handle.parents =  json.data;
-        });
+        // rest.codeMap('1003').then(function (json) {
+        //     vm.handle.parents =  json.data;
+        // });
 
-        rest.dicItem('1002',itemCode).then(function (json) {
+        rest.dicItem('1003',itemCode).then(function (json) {
             vm.item =  json.data;
         });
 

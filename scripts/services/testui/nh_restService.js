@@ -180,6 +180,16 @@
                     itemCode: itemCode
                 });
             },
+            //add
+            addDicItem: function (params) {
+                return dic.all('add').all('codeitem').post(params);
+            },
+            addSalesOrgDicItem: function (params) {
+                return dic.all('add').all('salesorgcodeitem').post(params);
+            },
+            editDicItem: function (params) {
+                return dic.all('update').all('codeitem').post(params);
+            },
             saleORGs: function () {
                 return dic.one('items', 1002).customPOST();
             },
@@ -1454,6 +1464,12 @@
             messageTypes: function (typeCode) {
                 return dic.one('items', typeCode).customPOST();
             },
+            //列表分页，码表
+            byTypeCodePage: function (params) {
+                var reqParams = {};
+                angular.extend(reqParams, tbDefParams, params);
+                return dic.all('byTypeCodePage').post(reqParams);
+            },
             //获取指定ID的消息
             getMessage: function (params) {
                 return rest.one('mess', params).customPOST();
@@ -1680,6 +1696,10 @@
             //上传订单及行项目
             importPreorder:function(){
                  return baseUrl+'/importTable/importPreorder';
+             },
+            //上传电商订单及行项目
+            importEccPreorder:function(){
+                 return baseUrl+'/importTable/importEccPreorder';
              },
             //上传奶站、小区关联表
             importLinks:function(){

@@ -17,12 +17,12 @@
     <div class="l-h m-r pull-right">
         <a class="nav-link m-l" href="" ng-click="newSalesOrg()">
             <span class="hidden-xs-down btn btn-sm rounded blueLt">
-                新增销售组织
+                新增公司
             </span>
         </a>
     </div>
     <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
-        <input type="text" class="input-line" placeholder="按销售组织编号、名称搜索" ng-model="search.salesOrgInput" ng-keypress="fuzzySearch($event)" style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <input type="text" class="input-line" placeholder="按公司编号、名称搜索" ng-model="search.salesOrgInput" ng-keypress="fuzzySearch($event)" style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
         <span class="blueWt" ng-click="fuzzySearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
     </div>
 </div>
@@ -90,10 +90,10 @@
                     </label>
                 </th>
                 <th class="th-nh">
-                    销售组织编号
+                    公司编号
                 </th>
-                <th class="th-nh">销售组织名称</th>
-                <th class="th-nh">所属父类</th>
+                <th class="th-nh">公司名称</th>
+                
                 <th class="th-nh">创建时间</th>
                 <th class="th-nh">操作</th>
               </tr>
@@ -114,7 +114,7 @@
                     </td>
                     <td class="td-id-nh" style="font-size: 1rem;"><span ng-bind="salesOrg.itemCode"></span></td>
                     <td><span ng-bind="salesOrg.itemName"></span></td>
-                    <td><span ng-bind="salesOrg.parent"></span></td>
+                    
                     <td><span ng-bind-html="dateFormat(salesOrg.createAt)"></span></td>
                     <td>
                        
@@ -151,10 +151,10 @@
   </div>
       <!-- ###  表格结束-->
 
-<!--salesOrgAddModal modal 新增销售组织 -->
-    <script type="text/ng-template" id="SalesOrgAddModal.html">
+<!--CompanyAddModal modal 新增 -->
+    <script type="text/ng-template" id="CompanyAddModal.html">
       <div class="modal-header blueLt">
-            <h3 class="modal-title">新增销售组织</h3>
+            <h3 class="modal-title">新增公司</h3>
       </div>
 
       <form name="salesOrgForm" role="form" novalidate>
@@ -166,7 +166,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织编码</label>
+              <label class="modal-label">公司编码</label>
             </div>
             <div class="col-md-8">
                 <input name="itemCode" class="md-input" ng-model="item.itemCode" required>
@@ -179,7 +179,7 @@
           </div>
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织名称</label>
+              <label class="modal-label">公司名称</label>
             </div>
             <div class="col-md-8">
                 <input name="itemName" class="md-input" ng-model="item.itemName" required>
@@ -219,24 +219,7 @@
             </div>
           </div>
         </div>
-        <div class="nhdashline"></div>
         
-        
-          <div class="row">
-            <div class="col-md-8">
-              <div class="md-form-group col-">
-                <label class="modal-label col-">所属公司</label>
-                    <ui-select ng-model="item.parent" search-enabled="true" name="parent">
-                        <ui-select-match allow-clear="false">
-                            <span ng-bind="$select.selected.itemName"></span>
-                        </ui-select-match>
-                        <ui-select-choices repeat="x.itemCode as x in handle.parents track by x.itemCode">
-                            <span ng-bind="x.itemName"></span>
-                        </ui-select-choices>
-                    </ui-select>
-              </div>
-            </div>
-          </div>
         
       </div>
       </form>
@@ -248,10 +231,10 @@
     </script>
     <!-- modal end -->
 
-    <!--salesOrgShowModal modal 查看销售组织 -->
-    <script type="text/ng-template" id="SalesOrgShowModal.html">
+    <!--CompanyShowModal modal 查看 -->
+    <script type="text/ng-template" id="CompanyShowModal.html">
       <div class="modal-header blueLt">
-            <h3 class="modal-title">查看销售组织</h3>
+            <h3 class="modal-title">查看公司</h3>
       </div>
 
       <div class="modal-body p-lg">   
@@ -259,7 +242,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织编码</label>
+              <label class="modal-label">公司编码</label>
             </div>
             <div class="col-md-8">
                 {{item.itemCode}}
@@ -267,7 +250,7 @@
           </div>
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织名称</label>
+              <label class="modal-label">公司名称</label>
             </div>
             <div class="col-md-8">
                {{item.itemName}}
@@ -302,24 +285,7 @@
             </div>
           </div>
         </div>
-        <div class="nhdashline"></div>
-        
-        
-          <div class="row">
-            <div class="col-md-8">
-              <div class="md-form-group col-">
-                <label class="modal-label col-">所属公司</label>
-                    <ui-select ng-model="item.parent" search-enabled="false" name="parent">
-                        <ui-select-match allow-clear="false">
-                            <span ng-bind="$select.selected.itemName"></span>
-                        </ui-select-match>
-                        <ui-select-choices repeat="x.itemCode as x in handle.parents track by x.itemCode">
-                            <span ng-bind="x.itemName"></span>
-                        </ui-select-choices>
-                    </ui-select>
-              </div>
-            </div>
-          </div>
+      
         
       </div>
 
@@ -329,10 +295,10 @@
     </script>
     <!-- modal end -->
 
-    <!--salesOrgEditModal modal 编辑销售组织 -->
-    <script type="text/ng-template" id="SalesOrgEditModal.html">
+    <!--CompanyEditModal modal 编辑 -->
+    <script type="text/ng-template" id="CompanyEditModal.html">
       <div class="modal-header blueLt">
-            <h3 class="modal-title">编辑销售组织</h3>
+            <h3 class="modal-title">编辑公司</h3>
       </div>
 
       <form name="salesOrgForm" role="form" novalidate>
@@ -344,7 +310,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织编码</label>
+              <label class="modal-label">公司编码</label>
             </div>
             <div class="col-md-8">
                 {{item.itemCode}}
@@ -352,7 +318,7 @@
           </div>
           <div class="col-md-4">
             <div class="col-md-4">
-              <label class="modal-label">销售组织名称</label>
+              <label class="modal-label">公司名称</label>
             </div>
             <div class="col-md-8">
                 <input name="itemName" class="md-input" ng-model="item.itemName" required>
@@ -392,24 +358,7 @@
             </div>
           </div>
         </div>
-        <div class="nhdashline"></div>
         
-        
-          <div class="row">
-            <div class="col-md-8">
-              <div class="md-form-group col-">
-                <label class="modal-label col-">所属公司</label>
-                    <ui-select ng-model="item.parent" search-enabled="true" name="parent">
-                        <ui-select-match allow-clear="false">
-                            <span ng-bind="$select.selected.itemName"></span>
-                        </ui-select-match>
-                        <ui-select-choices repeat="x.itemCode as x in handle.parents track by x.itemCode">
-                            <span ng-bind="x.itemName"></span>
-                        </ui-select-choices>
-                    </ui-select>
-              </div>
-            </div>
-          </div>
         
       </div>
       </form>

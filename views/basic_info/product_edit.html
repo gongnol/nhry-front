@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-sm btn-tbw rounded primary" ng-click="back()">返回</button>
             </div>
             <div class="l-h m-r pull-right">
-                <button class="btn btn-sm btn-tbw rounded blueLt" >修改保存</button>
+                <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="save()">修改保存</button>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                                 <div class="col-md-4">
                                   <label class="modal-label">包装类型</label>
                                 </div>
-                                <ui-select ng-model="product.zbotCode" search-enabled="false" name="returnFlag">
+                                <ui-select ng-model="product.zbotCode" search-enabled="false" name="returnFlag" on-select="getRetBotFlag($item);">
                                         <ui-select-match allow-clear="false">
                                             <span ng-bind="$select.selected.itemName"></span>
                                         </ui-select-match>
@@ -57,7 +57,7 @@
                                 <div class="col-md-4">
                                   <label class="modal-label">大类</label>
                                 </div>
-                                <ui-select ng-model="product.firstCat" search-enabled="false" name="returnFlag">
+                                <ui-select ng-model="product.firstCat" search-enabled="false" name="returnFlag" on-select="getFirstCate($item);">
                                         <ui-select-match allow-clear="false">
                                             <span ng-bind="$select.selected.itemName"></span>
                                         </ui-select-match>
