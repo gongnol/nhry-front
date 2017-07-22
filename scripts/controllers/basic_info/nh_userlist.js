@@ -5,6 +5,7 @@
         .controller('UserinfoListCtrl', UserinfoListCtrl)
         .controller('AddUserModalCtrl', AddUserModalCtrl)
         .controller('UpdateModalCtrl', UpdateModalCtrl)
+        .controller('ResetModalCtrl', ResetModalCtrl)
         .controller('EditModalCtrl', EditModalCtrl);
     UserinfoListCtrl.$inject = ['$scope', '$state', '$rootScope', '$alert', '$uibModal', 'restService'];
 
@@ -79,7 +80,6 @@
         }
        
         vm.addUser = function (){
-
            var modalInst = $uibModal.open({
                 templateUrl: 'addUser.html',
                 controller: 'AddUserModalCtrl',
@@ -112,6 +112,51 @@
             })
         } 
 
+
+
+         vm.resetPass  = function(loginName){
+            var modalInst = $uibModal.open({
+                templateUrl: 'resetPassword.html',
+                controller: 'ResetModalCtrl',
+                size: 'xxls',
+                resolve: {
+                    loginName: function() {
+                        return loginName;
+                    }
+                }
+            });
+            modalInst.result.then(function(data) {
+                if(data === 'Y'){
+                    var  params = {
+                       loginName :loginName,
+                       password : '123456'
+                    }
+                     rest.resetPass(params).then(function(json){
+                            if (json.type == 'success') {
+                                var alert = $alert({
+                                    content: '重置成功!',
+                                    container: '#modal-alert'
+                                })
+                                alert.$promise.then(function () {
+                                    alert.show();
+                                }).then(function () {
+                                    closeModal();
+                                })
+                            }
+                      }, function (reject) {
+                                var alert = $alert({
+                                    title: reject.status.toString() + ' ' + reject.statusText,
+                                    content: reject.data.msg,
+                                    container: '#modal-alert'
+                                })
+                                alert.$promise.then(function () {
+                                    alert.show();
+                                })
+                            })
+                  }
+             })
+         } 
+
         vm.editUser = function (loginName){
            var modalInst = $uibModal.open({
                 templateUrl: 'editUser.html',
@@ -135,6 +180,34 @@
     }
 
 
+
+
+
+    ResetModalCtrl.$inject = ['$window','$scope','$alert','$uibModal', '$uibModalInstance',  'restService'];
+
+    function ResetModalCtrl($window,$scope,$alert,uibModal, $uibModalInstance,rest) {
+          var vm = $scope;
+          vm.cancelModal = cancelModal;
+          vm.closeModal = closeModel;
+        vm.save = function(){
+           $uibModalInstance.close('Y');
+        }
+
+        function cancelModal(){
+            $uibModalInstance.dismiss('cancel');
+        }
+
+        function  closeModel() {
+            $uibModalInstance.close();
+        }
+    }
+
+
+
+
+
+
+
     UpdateModalCtrl.$inject = ['$window','$scope','$alert', '$uibModalInstance', 'loginName', 'restService'];
     function UpdateModalCtrl($window,$scope,$alert, $uibModalInstance, loginName, restService) {
         var vm = $scope;
@@ -146,7 +219,6 @@
                newPassword:vm.newPassword,
                confirmPassword:vm.confirmPassword
             }
-            alert(JSON.stringify(params));
             restService.updatePass(params).then(function(json){
                 if (json.type == 'success') {
                     var alert = $alert({
@@ -226,7 +298,6 @@
                customizedHrregion:vm.currentUser.customizedHrregion,
                mobile:vm.add.mobile
             }
-            alert(JSON.stringify(params));
             restService.addSysUser(params).then(function(json){
                 if (json.type == 'success') {
                         var alert = $alert({
@@ -236,7 +307,7 @@
                         alert.$promise.then(function () {
                             alert.show();
                     }).then(function () {
-                        closeModal();
+                        $uibModalInstance.close();
                     })
                 }
             }, function (reject) {
@@ -320,7 +391,6 @@
                customizedHrregion:vm.currentUser.customizedHrregion,
                mobile:vm.user.mobile
             }
-            console.log(JSON.stringify(params));
 
             restService.editUser(params).then(function(json){
                 if (json.type == 'success') {

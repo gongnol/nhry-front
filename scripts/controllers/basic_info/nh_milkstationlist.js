@@ -113,7 +113,6 @@
 
        
         $scope.addBranch = function() {
-            alert("---");
           $state.go("newhope.milkstationadd");
         }
 

@@ -8,7 +8,6 @@
     EmpinfolistCtrl.$inject = ['$scope', '$state', '$rootScope', '$alert', '$uibModal', 'restService'];
 
     function EmpinfolistCtrl($scope, $state, $rootScope, $alert, $uibModal, rest) {
-        
         var vm = this;
         vm.tbLoding = -1;
         vm.search = {};
@@ -105,6 +104,9 @@
             })
         }
 
+
+
+
         vm.doSearch = function () {
             //console.log(vm.search);
             for (var item in vm.search) {
@@ -114,6 +116,11 @@
             }
             vm.curPageno = 1;
             vm.getData(1);
+        }
+
+        vm.editEmp = function (empNo){
+              alert(empNo);
+             // $state.go('newhope.updateEmp',{empNo:empNo});
         }
 
         vm.getStatusLabel = function (status) {
@@ -143,31 +150,6 @@
         // }
 
 
-        // vm.edit = function (data){
-        //     //$state.go('newhope.updateEmp');
-        //     var modalInst = $uibModal.open({
-        //         templateUrl: 'empAdd.html',
-        //         controller: 'EmpAddModelCtrl',
-        //         size: 'lg',
-        //         resolve: {
-        //             searchItem: function() {
-        //                 return $resource(vm.app.preUrl + '/emp/:empNo', {
-        //                     empNo: data
-        //                 });
-        //             },
-        //             update: true,
-        //             editItem: function() {
-        //                 return $resource(vm.app.preUrl + '/emp/upt');
-        //             },
-        //             pScope: vm
-        //         }
-        //     });
-        //     modalInst.result.then(function() {
-
-        //     }, function() {
-        //         vm.dtInstance.reloadData();
-        //     })
-        // }
 
     }
 

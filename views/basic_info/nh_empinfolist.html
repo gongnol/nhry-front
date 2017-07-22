@@ -86,6 +86,7 @@
               <tr role="row">
                 <th class="th-nh">姓名</th>
                 <th class="th-nh">员工编号</th>
+                <th class="th-nh">SAP客户编号</th>
                 <th class="th-nh">所属奶站</th>
                 <th class="th-nh">联系电话</th>
                 <th class="th-nh">状态</th>
@@ -103,13 +104,15 @@
               <tr dir-paginate="user in data.content|itemsPerPage:data.itemsPerPage" total-items="data.total_count" current-page="data.curPageno" pagination-id="empinfo_list">
                 <td class="td-id-nh" ng-bind="user.empName"></td>
                 <td ng-bind="user.hrEmpNo"></td>
+                <td ng-bind="user.sapcode"></td>
                 <td ng-bind="user.branchNo"></td>
                 <td ng-bind="user.mp"></td>
                 <td ng-bind="data.getStatusLabel(user.status)"></td>
                 <td ng-bind="user.roleId"></td>
                 <td>
                   <div class="btn-groups">
-                    <button ng-click="data.showDetail(user.empNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">维护</button>
+                    <button ng-click="data.showDetail(user.empNo)" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                    <button ui-sref="newhope.updateEmp({empNo:user.empNo})"  class="btn btn-xs btn-outline rounded b-info text-info" nh-auth="uptEmp">编辑</button>
                     <!-- <button ng-click="edit(user.id)" class="btn btn-xs btn-outline rounded b-info text-info">编辑</button>
                     <button ng-click="delete(user.id)" class="btn btn-xs btn-outline rounded b-danger text-danger">删除</button> -->
                   </div>

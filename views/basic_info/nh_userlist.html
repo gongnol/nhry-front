@@ -73,6 +73,7 @@
                 <td><span ng-bind="item.roleNames"/></td>
                 <td>
                     <button ng-click="data.updatePass(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">修改密码</button>
+                    <button ng-click="data.resetPass(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">重置密码</button>
                     <button ng-click="data.editUser(item.loginName)" class="btn btn-xs btn-outline rounded b-primary text-primary">编辑信息</button>
                 </td>
                 
@@ -119,6 +120,26 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="updatePass()">保存</button>
+      <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
+    </div>
+  </script>
+
+
+
+  <script type="text/ng-template" id="resetPassword.html">
+    <div class="modal-header">
+        <h3 class="modal-title">密码重置</h3>
+    </div>
+    <div class="modal-body">
+        <!--box body begin-->
+        <div class="box-body label-lg">
+            确定要重置密码吗？
+        </div>
+      <!--box body end--> 
+      <!--box  end-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-fw blueLt p-x-md" type="button" ng-click="save()">保存</button>
       <button class="btn btn-fw primary p-x-md" type="button" ng-click="cancelModal()">关闭</button>
     </div>
   </script>

@@ -94,6 +94,7 @@
 					})
 					return;
         		}
+        		
 				vm.nhmilk.province = vm.atmselectAdd[0].itemCode;
 				vm.nhmilk.city = vm.atmselectAdd[1].itemCode;
 				vm.nhmilk.county = vm.atmselectAdd[2].itemCode;

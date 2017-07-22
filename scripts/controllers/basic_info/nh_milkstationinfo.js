@@ -20,6 +20,7 @@
         pvm.milkinfoPageno = 1; // 初始化页码为1
         pvm.total_count = 0; //页码总数
         pvm.itemsPerPage = 5; //每页显示条数
+        vm.nhmilks ={};
         //查找该奶站下配送区域
         pvm.getData = function(pageno) {
 
@@ -69,11 +70,57 @@
             return vm.handle.statuses[Number(status)].label;
         }
 
+        vm.update = function(){
+        	if(vm.nhmilks.branchName ==='' || vm.nhmilks.branchName === undefined){
+        			var alert = $alert({
+						content: "奶站名称不能为空",
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+					return;
+        	}
+
+    	  rest.uptBranch(vm.nhmilks).then(function(json){
+	    	 if (json.type === 'success') {
+    				var alert = $alert({
+						content: '奶站基础信息更新成功!',
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+    			}
+    		}, function (reject) {
+    			var alert = $alert({
+					content: reject.data.msg,
+					container: '#modal-alert'
+				})
+				alert.$promise.then(function() {
+					alert.show();
+				})
+    		})
+        }
+
 		vm.editForm = $stateParams.edit;
         vm.editLabel = vm.editForm ? '保存' : '编辑';
         //获取奶站信息
         rest.getBranchInfo($stateParams.branchNo).then(function(json){
         	vm.nhmilks = json.data;
+        	vm.udatmselectupt = [];
+			vm.udatmselectupt[0] = {
+				itemCode: vm.nhmilks.province,
+				itemName: vm.nhmilks.provinceName
+			}
+			vm.udatmselectupt[1] = {
+				itemCode: vm.nhmilks.city,
+				itemName: vm.nhmilks.cityName
+			}
+			vm.udatmselectupt[2] = {
+				itemCode: vm.nhmilks.county,
+				itemName: vm.nhmilks.countyName
+			}
         })
         rest.getBranchExByNo($stateParams.branchNo).then(function(json){
         	vm.nhmilksEx = json.data;
@@ -107,8 +154,13 @@
        			branchNo:vm.nhmilks.branchNo,
        			payee:vm.nhmilks.payee,
        			openBank:vm.nhmilks.openBank,
-       			bankAccount:vm.nhmilks.bankAccount
+       			bankAccount:vm.nhmilks.bankAccount,
+       			province: vm.udatmselectupt[0].itemCode,
+				city :   vm.udatmselectupt[1].itemCode,
+				county: vm.udatmselectupt[2].itemCode
        		}
+
+
        		rest.uptBankBranch(params).then(function(json){
        			 if (json.type === 'success') {
         				var alert = $alert({

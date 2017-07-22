@@ -238,3 +238,6 @@ a[bs-collapse-toggle] i.toggle-add, i.toggle-remove{-webkit-transition: transfor
   -ms-animation: loading-bar-spinner 400ms linear infinite;
   -o-animation: loading-bar-spinner 400ms linear infinite;
   animation: loading-bar-spinner 400ms linear infinite; }
+
+
+  .margintop20{margin-top:20px;}

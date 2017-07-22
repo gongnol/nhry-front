@@ -2,6 +2,7 @@
 <div class="titlebar white box-shadow">
     <div class="l-h m-r pull-right">
         <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
+   		  <button class="btn btn-sm btn-tbw rounded primary" ng-click="update()" ng-if="editForm">保存基础信息</button>
     </div>
     <!--div class="l-h m-l pull-right">
         <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="goEdit()">{{ editLabel }}</button>
@@ -25,14 +26,61 @@
 			<div class="panel-collapse p-b" bs-collapse-target>
 				<!--box body begin-->
 				<div class="box-body">
-					<div class="box-header">
-
-						<span class="h4" ng-bind="nhmilks.branchName"></span>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<span class="h4" ng-bind="nhmilks.branchNo"></span>
-
+					<div class="row">
+						<div class="col-md-4 ">
+							<div class="col-md-4 showtext">
+								<label><B>奶站名称:</B></label>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.branchName" ng-if="editForm">
+								<span class="h4" ng-bind="nhmilks.branchName" ng-if="!editForm"></span>
+							</div>
+						</div>
+						<div class="col-md-4 ">
+							<div class="col-md-4 showtext">
+								<label><B>奶站编号:</B></label>
+							</div>
+							<div class="col-md-8">
+								<span class="h4" ng-bind="nhmilks.branchNo" ></span>
+								
+							</div>
+						</div>
 					</div>
 					<br>
+
+					<div class="row" >
+					<div class="col-md-4">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>联系电话</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.tel"  ng-if="editForm">
+								<span ng-bind="nhmilks.tel"  ng-if="!editForm"></span>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="col-md-3 showtext">
+								<label>
+									<B>省市区县</B>
+								</label>
+							</div>
+							<div class="col-md-9" ng-if="editForm">
+						         <div nh-address-select addr-selected="udatmselectupt"></div>
+						          	{{viewselectAddr}}
+							</div>
+
+							<div class="col-md-9"  ng-if="!editForm">
+								<span  >{{nhmilks.provinceName}}{{nhmilks.cityName}}{{nhmilks.countyName}}</span>
+							</div>
+						</div>
+
+						
+					</div>
+					<br>
+
 
 					<div class="row">
 						<div class="col-md-4">
@@ -63,35 +111,17 @@
 								</label>
 							</div>
 							<div class="col-md-8">
-								<span ng-bind="nhmilks.dealerName"></span>
+							<span ng-if="nhmilks.branchGroup==01" ng-bind="'自营奶站'"></span>
+							<span ng-if="nhmilks.branchGroup==02">{{nhmilks.dealerName}}</span>
 							</div>
 						</div>
 					</div>
 					<br>
 
 
-					<div class="row" ng-if="editForm">
-					<div class="col-md-4">
-							<div class="col-md-4 showtext">
-								<label>
-									<B>联系电话</B>
-								</label>
-							</div>
-							<div class="col-md-8">
-								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.tel">
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="col-md-3 showtext">
-								<label>
-									<B>电子邮件</B>
-								</label>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.email">
-							</div>
-						</div>
+					
+					
+					<div class="row">
 
 						<div class="col-md-4">
 							<div class="col-md-4 showtext">
@@ -103,43 +133,6 @@
 							<span ng-bind="nhmilks.lgort"></span>
 							</div>
 						</div>
-					</div>
-					<br>
-					<div class="row"  ng-if="!editForm">
-						<div class="col-md-4">
-							<div class="col-md-4 showtext">
-								<label>
-									<B>联系电话</B>
-								</label>
-							</div>
-							<div class="col-md-8">
-								<span ng-bind="nhmilks.tel"></span>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="col-md-4 showtext">
-								<label>
-									<B>电子邮件</B>
-								</label>
-							</div>
-							<div class="col-md-8">
-								<span ng-bind="nhmilks.email"></span>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="col-md-4 showtext">
-								<label>
-									<B>奶站仓库</B>
-								</label>
-							</div>
-							<div class="col-md-8">
-								<span ng-bind="nhmilks.lgort"></span>
-							</div>
-						</div>
-
-					</div>
-					<br>
-					<div class="row">
 						<div class="col-md-4">
 							<div class="col-md-4 showtext">
 								<label>
@@ -158,20 +151,12 @@
 								</label>
 							</div>
 							<div class="col-md-9">
-								<span ng-bind="nhmilks.address"></span>
+							<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.address"  ng-if="editForm">
+							<span ng-bind="nhmilks.address" ng-if="!editForm"></span>
 							</div>
 						</div>
 
-						<div class="col-md-4" ng-if="!editForm">
-							<div class="col-md-4 showtext">
-								<label>
-									<B>成本中心编码</B>
-								</label>
-							</div>
-							<div class="col-md-8">
-								<span ng-bind="nhmilksEx.kostl"></span>
-							</div>
-						</div>
+						
 
 					</div>
 					<br>
@@ -252,7 +237,7 @@
 						</div>
 					<br>
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-5" ng-if="editForm">
 							<div class="col-md-4 showtext">
 							<label>
 								<B>内部销售订单售达方</B>
@@ -267,13 +252,54 @@
 			                	<input type="radio" name="paym" value="10" ng-model="nhmilks.targetPerson" nh-auth-disabled>
 			                    <i class="primary" ></i>送奶员
 			                     </label>
-			                     <button ng-if="editForm" class="btn btn-sm primary" ng-click="upttargetReason()">更新</button> 
+							</div>
+						</div>
+
+
+						<div class="col-md-5" ng-if="!editForm">
+							<div class="col-md-4 showtext">
+							<label>
+								<B>内部销售订单售达方</B>
+							</label>
+							</div>
+							<div class="col-md-8">
+							 <label class="radio-inline md-check m-r" style="vertical-align: top;">
+								<input type="radio" name="paym" value="20" ng-model="nhmilks.targetPerson" ng-disabled="true">
+			                    <i class="primary" ></i>奶站站长
+			                </label>
+			                 <label class="radio-inline md-check m-r" style="vertical-align: top;">
+			                	<input type="radio" name="paym" value="10" ng-model="nhmilks.targetPerson" ng-disabled="true">
+			                    <i class="primary" ></i>送奶员
+			                     </label>
 							</div>
 						</div>
 					</div>
 					<br>
+					
+					<br>
+
+				</div>
+
+				<!--box body end-->
+			</div>
+				<!--box-body end -->
+		</div>
+	</div>
+	<div class="box">
+		<div bs-collapse>
+			<a ng-click="toggle2 = !toggle2" bs-collapse-toggle>
+				<div class="box-header blueLt">
+					<h2 class="_600">
+						扩展信息
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle2}" aria-hidden="true"></i>
+					</h2>
+				</div>
+			</a>
+			<div class="panel-collapse p-b" bs-collapse-target>
+			<!--box-body start -->
+			<div class="box-body" >
 					<div class="row"  ng-if="!editForm">
-						<div class="col-md-12">
+						<div class="col-md-8">
 							<div class="col-md-1 showtext m-r-md">
 								<label>
 									<B>价格组</B>
@@ -283,14 +309,22 @@
 								<button class="btn btn-xs btn-outline rounded b-primary text-primary"  ng-click="showPriceDetail(p.id)"><span ng-bind="p.priceGroup"></span>-<span ng-bind="p.priceTypeName"></span></button>
 							</div>
 						</div>
-
+						<div class="col-md-4" ng-if="!editForm">
+							<div class="col-md-4 showtext">
+								<label>
+									<B>成本中心编码</B>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<span ng-bind="nhmilksEx.kostl"></span>
+							</div>
+						</div>
 					</div>
-					<br>
 
-				</div>
-				<!--box-body start -->
-				<div class="box-body"  ng-if="editForm">
-					<div class="row">
+
+
+
+					<div class="row"  ng-if="editForm">
 						<div class="col-md-3 col-sm-3">
 							<ui-select ng-model="price.selectPrice" search-enabled="true">
 								<ui-select-match allow-clear="true" placeholder="价格组">
@@ -321,32 +355,29 @@
 						</div>
 					</div>
 					
-					
 					<br>
 					<hr>
-					<div class="row">
+					<div class="row" ng-if="editForm">
 						<div class="col-md-2" ng-repeat="p in selectedPrice">
 							<button type="button" class="btn btn-sm info" ng-click="showPriceDetail(p.id)">{{p.priceGroup}}-{{p.priceTypeName}}</button>	
 				            <button class="btn btn-sm info @grey-300" ng-click="removePriceGroup(p.id)"> <i class="fa fa-remove"></i>
 				            </button>
 						</div>
 					</div>
-				</div>
-
-				<!--box-body end -->
-				<!--box body end-->
 			</div>
-		</div>
+			</div>
+			<!--box-body end -->
+			</div>
 	</div>
 	<!--box  end-->
 	<!--box begin-->
 	<div class="box ">
 		<div bs-collapse>
-			<a ng-click="toggle2 = !toggle2" bs-collapse-toggle>
+			<a ng-click="toggle3 = !toggle3" bs-collapse-toggle>
 				<div class="box-header blueLt">
 					<h2 class="_600">
 						配送区域
-						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle2}" aria-hidden="true"></i>
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle3}" aria-hidden="true"></i>
 					</h2>
 				</div>
 			</a>
@@ -424,14 +455,13 @@
 	</div>
 	<!--box end -->
 	<!--box begin-->
-
 	<div class="box ">
 		<div bs-collapse>
-			<a ng-click="toggle3 = !toggle3" bs-collapse-toggle>
+			<a ng-click="toggle4 = !toggle4" bs-collapse-toggle>
 				<div class="box-header blueLt">
 					<h2 class="_600">
 						员工信息
-						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle3}" aria-hidden="true"></i>
+						<i class="fa fa-chevron-down pull-right" ng-class="{toggle: !toggle4}" aria-hidden="true"></i>
 					</h2>
 				</div>
 			</a>
@@ -483,10 +513,10 @@
 		    </div>
     <!-- ###  表格结束--> 
 			<!--div class="panel-collapse p-b" end -->
-		</div>
+	</div>
 	</div>
 	<!--box end -->
-	</div>
+</div>
 
 	<script type="text/ng-template" id="dispatchAreaDetail.html">
 	        <div class="modal-header">

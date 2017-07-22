@@ -390,10 +390,14 @@
                 resolve: load(['scripts/controllers/basic_info/nh_empinfolist.js'])
             })
             .state('newhope.updateEmp', {	// 基础信息/更新送奶工信息
-                url: '/emp/update',
+                url: '/emp/update/{empNo}',
+                params: {
+                    'empNo': ''
+                },
+                data: {title: '更新员工信息', icons: 'fa-th-large'},
                 controller: 'updateEmpCtrl',
                 templateUrl: 'views/basic_info/nh_updateEmp.html',
-                resolve: load(['scripts/controllers/basic_info/nh_updateEmp.js'])
+                resolve: load(['scripts/controllers/basic_info/nh_updateEmp.js','scripts/services/nh_commonUtil.js'])
             })
              .state('newhope.userinfo', { // 基础信息/用户信息
                 url: '/user/infolist',
@@ -438,11 +442,12 @@
             })
             .state('newhope.uptDealer', { // 基础信息/修改经销商
                 url: '/uptDealer/{dealerNo}',
-                 params: {
+                data: {title: '修改经销商', icons: 'fa-th-large'},
+                params: {
                     'dealerNo': ''
                 },
-                data: {title: '修改经销商', icons: 'fa-th-large'},
                 controller: 'UptDealerCtrl',
+                controllerAs:'data',
                 templateUrl: 'views/basic_info/uptDealer.html',
                 resolve: load(['scripts/controllers/basic_info/uptDealer.js',
                     'scripts/directives/nh_address.js'])

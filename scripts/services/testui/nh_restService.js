@@ -231,6 +231,9 @@
              * [branch 网点客户信息(奶站)信息]
              *
              */
+            uptBranch : function(params){
+                return branch.all('upt').post(params);
+             },
              addBranch : function(params){
                 return branch.all('add').post(params);
              },
@@ -346,7 +349,7 @@
             getAllEmpBySalesOrg: function () {
                 return emp.one('getAllEmpBySalesOrg').get();
             },
-            //保存员工结算方式信息
+            //修改员工信息
             saveEmpSalarymet: function (params) {
                 return emp.all('upt').post(params);
             },
@@ -1355,6 +1358,11 @@
              //更新用户密码
             updatePass: function (params) {
                 return user.all('updatePass').post(params);
+            },
+
+             //重置用户密码
+            resetPass: function (params) {
+                return user.all('resetPass').post(params);
             },
             //给单用户批量授角色
             assignUserRoles: function (params) {
