@@ -1689,6 +1689,10 @@
             importPreorder:function(){
                  return baseUrl+'/importTable/importPreorder';
              },
+            //上传电商订单及行项目
+            importEccPreorder:function(){
+                 return baseUrl+'/importTable/importEccPreorder';
+             },
             //上传奶站、小区关联表
             importLinks:function(){
                  return baseUrl+'/importTable/importLinks';
