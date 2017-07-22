@@ -105,7 +105,13 @@
                 var keyToBase64 = window.btoa($sessionStorage.appKey);
                 rest.userLogout(keyToBase64).then(function (resp) {
                     if (resp.type == 'success') {
-                        window.location.href = resp.data;
+                        var idx = window.location.href.indexOf("#");
+                        var currentUrl = window.location.href;
+                        if (idx > -1) {
+                            currentUrl = currentUrl.substring(0, idx);
+                        }
+                        currentUrl += resp.data;
+                        window.location.href = currentUrl;
                     }
                 })
             // }
