@@ -112,6 +112,7 @@
                         }
                         currentUrl += resp.data;
                         window.location.href = currentUrl;
+                        window.event.returnValue = false;
                     }
                 })
             // }
