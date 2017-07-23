@@ -447,8 +447,26 @@
         vm.product.createAt = vm.product.createAt==undefined?"":productItem.data.createAt.toString().substring(0,10);
         if (vm.product.maraEx.retBotFlag == 'Y') {
             vm.product.returnFlag = vm.product.maraEx.botType;
+                vm.handle.retBotFlags = [
+                    {
+                        code: '30',
+                        label: '大口瓶'
+                    }, {
+                        code: '20',
+                        label: '中口瓶'
+                    }, {
+                        code: '10',
+                        label: '小口瓶'
+                    }
+                ];
         } else if (vm.product.maraEx.retBotFlag == 'N'){
             vm.product.returnFlag = 'N';
+            vm.handle.retBotFlags = [
+                    {
+                        code: 'N',
+                        label: '否'
+                    }
+            ];
         }
         if (!vm.product.maraEx.preDays) {
             vm.product.maraEx.preDays = 1;
