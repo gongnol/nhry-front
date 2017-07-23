@@ -226,7 +226,7 @@
               <label class="modal-label col-">是否回瓶</label>
               <div class="select-box col-">
                 <ui-select ng-model="product.returnFlag" search-enabled="false" name="returnFlag" required>
-                    <ui-select-match allow-clear="true">
+                    <ui-select-match allow-clear="false">
                         <span ng-bind="$select.selected.label"></span>
                     </ui-select-match>
                     <ui-select-choices repeat="x.code as x in handle.retBotFlags track by x.code">
