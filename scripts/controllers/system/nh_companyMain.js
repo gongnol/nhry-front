@@ -195,6 +195,7 @@
         /*保存按钮*/
         function save() {
             var params = vm.item;
+            var params.typeCode = '1003';
             rest.addDicItem(params).then(function (json) {
                 if(json.type == 'success') {
                     var alert = $alert({
