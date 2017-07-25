@@ -14,7 +14,7 @@
         </a>
     </div> -->
     <div class="pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
-        <input type="text" class="input-line" placeholder="按送奶员姓名、编号搜索" ng-model="data.search.search"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;">
+        <input type="text" class="input-line" placeholder="按送奶员姓名、编号搜索" ng-model="data.search.search"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="fuzzySearch($event)">
         <span class="blueWt" ng-click="data.doSearch()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
     </div>
 </div>

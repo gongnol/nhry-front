@@ -31,7 +31,7 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-4">
-                            <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入经销商名称,电话,地址等关键字" ng-model="search.search"  style="font-size: 1.125rem">
+                            <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入经销商名称,电话,地址等关键字" ng-model="search.search"  style="font-size: 1.125rem" ng-keypress="fuzzySearch($event)">
                             </div>
                         </div>
 

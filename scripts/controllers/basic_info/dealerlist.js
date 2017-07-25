@@ -17,6 +17,18 @@
         vm.itemsPerPage = 10; //每页显示条数
         $scope.search = {};
 
+        $scope.fuzzySearch = function (e) {
+            if (!e || e.keyCode == 13) {
+                $scope.doSearch();
+            }
+        }
+
+        $scope.doSearch = function () {
+            //console.log($scope.search);
+            vm.curPageno = 1;
+            vm.getData(1);
+        }
+
         rest.getDealerBySalesOrg().then(function(json) {
             if('success' == json.type && null != json.data){ 
                  vm.dealers = json.data;

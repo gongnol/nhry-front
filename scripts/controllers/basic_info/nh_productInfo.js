@@ -395,6 +395,7 @@
                     })
                     alert.$promise.then(function () {
                         alert.show();
+                        cancelModal();
                     })
                 }
             }, function (reject) {

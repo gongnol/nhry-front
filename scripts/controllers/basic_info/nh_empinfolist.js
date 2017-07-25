@@ -105,7 +105,11 @@
         }
 
 
-
+        $scope.fuzzySearch = function (e) {
+            if (!e || e.keyCode == 13) {
+                vm.doSearch();
+            }
+        }
 
         vm.doSearch = function () {
             //console.log(vm.search);

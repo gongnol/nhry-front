@@ -108,7 +108,7 @@
 						<div class="col-md-4">
 							<div class="col-md-3">所属经销商</div>
 							<div class="col-md-9">
-								 <ui-select ng-model="nhmilk.dealerNo" search-enabled="false" ng-disabled="dealerDisabled">
+								 <ui-select ng-model="nhmilk.dealerNo" search-enabled="true" ng-disabled="dealerDisabled">
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.dealerName"></span>
 	                                    </ui-select-match>
@@ -121,7 +121,7 @@
 						<div class="col-md-4">
 							<div class="col-md-3">关联工厂</div>
 							<div class="col-md-9">
-								 <ui-select ng-model="nhmilk.werks" search-enabled="false">
+								 <ui-select ng-model="nhmilk.werks" search-enabled="true">
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.itemName"></span>
 	                                    </ui-select-match>
@@ -137,7 +137,7 @@
 						<div class="col-md-4">
 							<div class="col-md-3">奶站仓库</div>
 							<div class="col-md-9">
-								 <ui-select ng-model="nhmilk.lgort" search-enabled="false">
+								 <ui-select ng-model="nhmilk.lgort" search-enabled="true">
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.itemName"></span>
 	                                    </ui-select-match>
@@ -242,7 +242,7 @@
 				</form>
 			</div>
 	<!-- ######## panel-collapse结束-->
-			<div class="l-h m-r pull-right">
+			<div class="l-h m-r pull-right" style="margin-top:-5%">
 					<button class="btn btn-sm primary" ng-click="addBranch()">新增</button>
 			</div>
 

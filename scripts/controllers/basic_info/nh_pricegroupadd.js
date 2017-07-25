@@ -55,7 +55,19 @@
                     from.length = 0;
                 }
         };
-        vm.priceForm =function(){   
+        vm.priceForm =function(){  
+            if(vm.priceView.priceGroup.length > 10){
+                var alert = $alert({
+                    content: '价格组名称不能大于10位字符',
+                    container: '#modal-alert'
+                })
+                alert.$promise.then(function () {
+                    alert.show();
+                })
+                return;
+            }
+
+
             if(vm.options.selectedItems!=[]){
                 vm.priceView.mprices = vm.options.selectedItems;
             }       
