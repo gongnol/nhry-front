@@ -159,6 +159,8 @@
             if (vm.queryParam) {
                 ////console.log(vm.queryParam);
                 vm.tbParams.uname = vm.queryParam;
+            }else{
+                vm.tbParams.uname = undefined;
             }
 
             //判断是否为roleId,是就根据roleId查询用户。
