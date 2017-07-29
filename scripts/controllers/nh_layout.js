@@ -104,7 +104,7 @@
             // if ($sessionStorage.appKey) {
                 var keyToBase64 = window.btoa($sessionStorage.appKey);
                 rest.userLogout(keyToBase64).then(function (resp) {
-                    if (resp.type == 'success') {
+                   /* if (resp.type == 'success') {*/
                         var idx = window.location.href.indexOf("#");
                         var currentUrl = window.location.href;
                         if (idx > -1) {
@@ -113,7 +113,7 @@
                         currentUrl += resp.data;
                         window.location.href = currentUrl;
                         window.event.returnValue = false;
-                    }
+                   /* }*/
                 })
             // }
         }
