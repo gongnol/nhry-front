@@ -110,7 +110,15 @@
             vm.showAddUserButton = false;
         }
 
-
+        vm.fuzzySearch = function (e) {
+            alert("sss");
+            if (!e || e.keyCode == 13) {
+                alert("ssssss");
+                vm.curPageno = 1;
+                vm.getData(1);
+            }
+        }
+        
         vm.colors = ['info', 'primary', 'warning', 'accent', 'success', 'info', 'danger', 'dark', 'black'];
 
         //角色下拉控件值记录

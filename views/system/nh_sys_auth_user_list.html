@@ -51,7 +51,7 @@
             </div>
             <div class="btn-group">
                 <div class="input-group input-group-sm">
-                    <input ng-model="data.queryParam" class="form-control p-x b-a rounded" placeholder="输入姓名、员工号查询" type="text" style="width: 260px;">
+                    <input ng-model="data.queryParam" ng-keypress="data.fuzzySearch($event)" class="form-control p-x b-a rounded" placeholder="输入姓名、员工号查询" type="text" style="width: 260px;">
       <span class="input-group-btn">
         <button ng-click="data.getData(1)" class="btn white b-a rounded no-shadow"><i class="fa fa-search"></i></button>
       </span>
