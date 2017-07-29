@@ -485,7 +485,7 @@
                 templateUrl: 'views/basic_info/nh_milkstationinfo.html',
                 controller: 'MilkInfoCtrl',
                 controllerAs:'data',
-                resolve: load(['scripts/controllers/basic_info/nh_milkstationinfo.js'])
+                resolve: load(['scripts/controllers/basic_info/nh_milkstationinfo.js','scripts/directives/nh_keydown.js', 'scripts/directives/nh_address.js'])
             })
             .state('newhope.milkstationadd', { // 基础信息/新增奶站
                 url: '/milkstation/add',

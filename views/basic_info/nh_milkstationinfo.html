@@ -100,8 +100,20 @@
 									<B>奶站性质</B>
 								</label>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-8" 
+							     ng-if="!editForm  || valid">
 								<span ng-bind="nhmilks.branchGroup==01 ? '自营奶站' : '经销商奶站'"></span>
+							</div>
+
+							<div class="col-md-8" ng-if="editForm && !valid">
+									 <ui-select ng-model="nhmilks.branchGroup" search-enabled="true"  on-select="selectGroup(nhmilks.branchGroup)">
+                                            <ui-select-match allow-clear="true">
+                                                    <span ng-bind="$select.selected.label || $select.selected"  ></span>
+                                             </ui-select-match>
+                                                <ui-select-choices repeat="type.code as type in branchGroup track by type.code">
+                                                    <span ng-bind="type.label"></span>
+                                                </ui-select-choices>
+                        			</ui-select> 
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -110,9 +122,20 @@
 									<B>所属经销商</B>
 								</label>
 							</div>
-							<div class="col-md-8">
-							<span ng-if="nhmilks.branchGroup==01" ng-bind="'自营奶站'"></span>
-							<span ng-if="nhmilks.branchGroup==02">{{nhmilks.dealerName}}</span>
+							<div class="col-md-8" ng-if="!editForm  || valid">
+								<span ng-if="nhmilks.branchGroup==01" ng-bind="'自营奶站'"></span>
+								<span ng-if="nhmilks.branchGroup==02">{{nhmilks.dealerName}}</span>
+							</div>
+
+							<div class="col-md-8" ng-if="editForm && !valid">
+									 <ui-select ng-model="nhmilks.dealerNo" search-enabled="false" ng-disabled="dealerDisabled">
+	                                    <ui-select-match allow-clear="true">
+	                                        <span ng-bind="$select.selected.dealerName"></span>
+	                                    </ui-select-match>
+	                                    <ui-select-choices repeat="dealer.dealerNo as dealer in dealers track by dealer.dealerNo">
+	                                        <span ng-bind="dealer.dealerName"></span>
+	                                    </ui-select-choices>
+	                        	 	</ui-select>
 							</div>
 						</div>
 					</div>
@@ -230,11 +253,11 @@
 						</div>
 					</div>
 					<br>
-					<div class="row" ng-if="editForm">
+					<!-- <div class="row" ng-if="editForm">
 							<div class="l-h m-r pull-right">
 								<button class="btn btn-sm primary" ng-click="uptBankBranch()">奶站账户更新</button>
 							</div>
-						</div>
+						</div> -->
 					<br>
 					<div class="row">
 						<div class="col-md-5" ng-if="editForm">

@@ -21,6 +21,97 @@
         pvm.total_count = 0; //页码总数
         pvm.itemsPerPage = 5; //每页显示条数
         vm.nhmilks ={};
+       	vm.valid = false;
+        vm.dealerDisabled = true;
+		vm.udatmselectupt = [];
+        vm.branchGroup =[
+                {"code": "01","label": "自营奶站"},
+                {"code": "02","label": "经销商奶站"}
+       	 ];
+       	 rest.getBranchInfo($stateParams.branchNo).then(function(json){
+        	vm.nhmilks = json.data;
+
+    		vm.valid = vm.nhmilks.isValid == '10' ? true : false;
+    		if(vm.editForm && !vm.valid){
+    			if(vm.nhmilks.branchGroup == '01'){
+    				vm.nhmilks.dealerNo = "-1";
+    				vm.nhmilks.dealerName = "自营奶站"
+    			}
+    			vm.dealers = [{'dealerNo':vm.nhmilks.dealerNo,'dealerName':vm.nhmilks.dealerName}];
+    		}
+			vm.udatmselectupt[0] = {
+				itemCode: vm.nhmilks.province,
+				itemName: vm.nhmilks.provinceName
+			}
+			vm.udatmselectupt[1] = {
+				itemCode: vm.nhmilks.city,
+				itemName: vm.nhmilks.cityName
+			}
+			vm.udatmselectupt[2] = {
+				itemCode: vm.nhmilks.county,
+				itemName: vm.nhmilks.countyName
+			}
+        })
+
+
+       	vm.update = function(){
+
+       		alert(JSON.stringify(vm.udatmselectupt));
+       	 /* if(confirm("确定要修改吗？")){
+       	  		if(vm.nhmilks.branchName ==='' || vm.nhmilks.branchName === undefined){
+	    			var alert = $alert({
+						content: "奶站名称不能为空",
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+					return;
+        		}
+
+	        	if(vm.nhmilks.branchGroup ==='01'){
+	       			vm.nhmilks.dealerNo = '';
+	       		}
+
+	    		if (typeof(vm.udatmselectupt) === 'undefined' || vm.udatmselectupt.length < 3) {
+	        		var alert = $alert({
+						content: '请选择完整的省市区信息！'+JSON.stringify(vm.udatmselectupt),
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+					return ;
+	    		}
+
+		    	vm.nhmilks.province = vm.udatmselectupt[0].itemCode;
+				vm.nhmilks.city = vm.udatmselectupt[1].itemCode;
+				vm.nhmilks.county = vm.udatmselectupt[2].itemCode;
+
+				console.info(JSON.stringify(vm.nhmilks))
+	    	  rest.uptBranch(vm.nhmilks).then(function(json){
+		    	 if (json.type === 'success') {
+	    				var alert = $alert({
+							content: '奶站基础信息更新成功!',
+							container: '#modal-alert'
+						})
+						alert.$promise.then(function() {
+							alert.show();
+						})
+	    			}
+	    		}, function (reject) {
+	    			var alert = $alert({
+						content: reject.data.msg,
+						container: '#modal-alert'
+					})
+					alert.$promise.then(function() {
+						alert.show();
+					})
+	    		})
+       	  	}*/
+        }
+
+
         //查找该奶站下配送区域
         pvm.getData = function(pageno) {
 
@@ -57,6 +148,20 @@
         };	
 
 		pvm.getbranchData(pvm.empPageno);
+
+		vm.selectGroup = function(group){
+			vm.dealers = [];
+			vm.nhmilks.dealerNo = undefined;
+			if(group!=undefined){
+				  vm.dealerDisabled = false;
+					rest.getDealerOnAuthAndGroup(group).then(function(json){
+						vm.dealers = json.data
+					})
+			}
+		}
+
+
+
         vm.handle = {
             statuses: [{
                 code: '0',
@@ -70,58 +175,12 @@
             return vm.handle.statuses[Number(status)].label;
         }
 
-        vm.update = function(){
-        	if(vm.nhmilks.branchName ==='' || vm.nhmilks.branchName === undefined){
-        			var alert = $alert({
-						content: "奶站名称不能为空",
-						container: '#modal-alert'
-					})
-					alert.$promise.then(function() {
-						alert.show();
-					})
-					return;
-        	}
-
-    	  rest.uptBranch(vm.nhmilks).then(function(json){
-	    	 if (json.type === 'success') {
-    				var alert = $alert({
-						content: '奶站基础信息更新成功!',
-						container: '#modal-alert'
-					})
-					alert.$promise.then(function() {
-						alert.show();
-					})
-    			}
-    		}, function (reject) {
-    			var alert = $alert({
-					content: reject.data.msg,
-					container: '#modal-alert'
-				})
-				alert.$promise.then(function() {
-					alert.show();
-				})
-    		})
-        }
+        
 
 		vm.editForm = $stateParams.edit;
         vm.editLabel = vm.editForm ? '保存' : '编辑';
         //获取奶站信息
-        rest.getBranchInfo($stateParams.branchNo).then(function(json){
-        	vm.nhmilks = json.data;
-        	vm.udatmselectupt = [];
-			vm.udatmselectupt[0] = {
-				itemCode: vm.nhmilks.province,
-				itemName: vm.nhmilks.provinceName
-			}
-			vm.udatmselectupt[1] = {
-				itemCode: vm.nhmilks.city,
-				itemName: vm.nhmilks.cityName
-			}
-			vm.udatmselectupt[2] = {
-				itemCode: vm.nhmilks.county,
-				itemName: vm.nhmilks.countyName
-			}
-        })
+       
         rest.getBranchExByNo($stateParams.branchNo).then(function(json){
         	vm.nhmilksEx = json.data;
         })
@@ -155,12 +214,9 @@
        			payee:vm.nhmilks.payee,
        			openBank:vm.nhmilks.openBank,
        			bankAccount:vm.nhmilks.bankAccount,
-       			province: vm.udatmselectupt[0].itemCode,
-				city :   vm.udatmselectupt[1].itemCode,
-				county: vm.udatmselectupt[2].itemCode
+       			
        		}
-
-
+       		
        		rest.uptBankBranch(params).then(function(json){
        			 if (json.type === 'success') {
         				var alert = $alert({
