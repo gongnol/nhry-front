@@ -2,7 +2,7 @@
 <div class="titlebar white box-shadow">
     <div class="l-h m-r pull-right">
         <button class="btn btn-sm btn-tbw rounded primary" ng-click="returnBack()">返回</button>
-   		
+   		  <button class="btn btn-sm btn-tbw rounded primary" ng-click="update()" >保存基础信息</button>
     </div>
     <!--div class="l-h m-l pull-right">
         <button class="btn btn-sm btn-tbw rounded blueLt" ng-click="goEdit()">{{ editLabel }}</button>
@@ -32,8 +32,7 @@
 								<label><B>奶站名称:</B></label>
 							</div>
 							<div class="col-md-8">
-								
-								<span class="h4" ng-bind="nhmilks.branchName"></span>
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.branchName" >
 							</div>
 						</div>
 						<div class="col-md-4 ">
@@ -55,23 +54,24 @@
 								</label>
 							</div>
 							<div class="col-md-8">
-								<span ng-bind="nhmilks.tel" ></span>
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.tel"  >
 							</div>
 						</div>
 
-
-						<div class="col-md-6">
+					
+						<div class="col-md-6" >
 							<div class="col-md-3 showtext">
 								<label>
 									<B>省市区县</B>
 								</label>
 							</div>
-
-							<div class="col-md-9" >
-								<span  >{{nhmilks.provinceName}}{{nhmilks.cityName}}{{nhmilks.countyName}}</span>
-							</div>
+							 <div class="col-md-9" >
+						         <div nh-address-select addr-selected="udatmselectupt"></div>
+						          	{{viewselectAddr}}
+							</div> 
 						</div>
 
+						
 					</div>
 					<br>
 
@@ -85,7 +85,6 @@
 							</div>
 							<div class="col-md-8 ">
 								<span ng-bind="nhmilks.companyName"></span>
-
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -94,7 +93,18 @@
 									<B>奶站性质</B>
 								</label>
 							</div>
-							<div class="col-md-8" >
+							<div class="col-md-8" ng-if="!valid">
+								<ui-select ng-model="nhmilks.branchGroup" search-enabled="true"  on-select="selectGroup(nhmilks.branchGroup)">
+                                            <ui-select-match allow-clear="true">
+                                                    <span ng-bind="$select.selected.label || $select.selected"  ></span>
+                                             </ui-select-match>
+                                                <ui-select-choices repeat="type.code as type in branchGroup track by type.code">
+                                                    <span ng-bind="type.label"></span>
+                                                </ui-select-choices>
+                        		</ui-select> 
+							</div>
+
+							<div class="col-md-8" ng-if="valid" >
 								<span ng-bind="nhmilks.branchGroup==01 ? '自营奶站' : '经销商奶站'"></span>
 							</div>
 						</div>
@@ -104,13 +114,28 @@
 									<B>所属经销商</B>
 								</label>
 							</div>
-							<div class="col-md-8">
+
+							<div class="col-md-8"  ng-if="!valid">
+									 <ui-select ng-model="nhmilks.dealerNo" search-enabled="false" ng-disabled="dealerDisabled">
+	                                    <ui-select-match allow-clear="true">
+	                                        <span ng-bind="$select.selected.dealerName"></span>
+	                                    </ui-select-match>
+	                                    <ui-select-choices repeat="dealer.dealerNo as dealer in dealers track by dealer.dealerNo">
+	                                        <span ng-bind="dealer.dealerName"></span>
+	                                    </ui-select-choices>
+	                        	 	</ui-select>
+							</div>
+
+							<div class="col-md-8" ng-if="valid">
 								<span ng-if="nhmilks.branchGroup==01" ng-bind="'自营奶站'"></span>
 								<span ng-if="nhmilks.branchGroup==02">{{nhmilks.dealerName}}</span>
 							</div>
 						</div>
 					</div>
 					<br>
+
+
+					
 					
 					<div class="row">
 
@@ -142,24 +167,22 @@
 								</label>
 							</div>
 							<div class="col-md-9">
-						
-							<span ng-bind="nhmilks.address" ></span>
+							<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.address"  >
 							</div>
 						</div>
 
-						
-
 					</div>
 					<br>
+					
 					<div class="row">
-						<div class="col-md-4">
+					<div class="col-md-4">
 							<div class="col-md-4 showtext">
 								<label>
 									<B>收款人</B>
 								</label>
 							</div>
 							<div class="col-md-8">
-								<span ng-bind="nhmilks.payee"></span>
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.payee">
 							</div>
 						</div>
 
@@ -170,7 +193,7 @@
 								</label>
 							</div>
 							<div class="col-md-9">
-								<span ng-bind="nhmilks.openBank"></span>
+								<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.openBank">
 							</div>
 						</div>
 
@@ -181,16 +204,19 @@
 								</label>
 							</div>
 							<div class="col-md-8">
-								<span ng-bind="nhmilks.bankAccount"></span>
+							<input type="text" class="form-control r-b-round l-b-round" ng-model="nhmilks.bankAccount">
 							</div>
 						</div>
-
 					</div>
-					
+					<br>
+					<!-- <div class="row" ng-if="editForm">
+							<div class="l-h m-r pull-right">
+								<button class="btn btn-sm primary" ng-click="uptBankBranch()">奶站账户更新</button>
+							</div>
+						</div> -->
 					<br>
 					<div class="row">
-						
-						<div class="col-md-5">
+						<div class="col-md-5" >
 							<div class="col-md-4 showtext">
 							<label>
 								<B>内部销售订单售达方</B>
@@ -198,18 +224,15 @@
 							</div>
 							<div class="col-md-8">
 							 <label class="radio-inline md-check m-r" style="vertical-align: top;">
-								<input type="radio" name="paym" value="20" ng-model="nhmilks.targetPerson" ng-disabled="true">
+								<input type="radio" name="paym" value="20" ng-model="nhmilks.targetPerson" nh-auth-disabled>
 			                    <i class="primary" ></i>奶站站长
 			                </label>
 			                 <label class="radio-inline md-check m-r" style="vertical-align: top;">
-			                	<input type="radio" name="paym" value="10" ng-model="nhmilks.targetPerson" ng-disabled="true">
+			                	<input type="radio" name="paym" value="10" ng-model="nhmilks.targetPerson" nh-auth-disabled>
 			                    <i class="primary" ></i>送奶员
 			                     </label>
 							</div>
 						</div>
-					</div>
-					<br>
-					
 					<br>
 
 				</div>
@@ -232,31 +255,47 @@
 			<div class="panel-collapse p-b" bs-collapse-target>
 			<!--box-body start -->
 			<div class="box-body" >
-					<div class="row" >
-						<div class="col-md-8">
-							<div class="col-md-1 showtext m-r-md">
-								<label>
-									<B>价格组</B>
-								</label>
-							</div>
-							<div class="col-md-2"  ng-repeat="p in selectedPrice">
-								<button class="btn btn-xs btn-outline rounded b-primary text-primary"  ng-click="showPriceDetail(p.id)"><span ng-bind="p.priceGroup"></span>-<span ng-bind="p.priceTypeName"></span></button>
-							</div>
+					
+					<div class="row"  >
+						<div class="col-md-3 col-sm-3">
+							<ui-select ng-model="price.selectPrice" search-enabled="true">
+								<ui-select-match allow-clear="true" placeholder="价格组">
+									<span ng-bind="$select.selected.priceGroup"></span>
+								</ui-select-match>
+								<ui-select-choices 
+									    	repeat="price.id as price in (prices| filter: $select.search) track by price.id">
+									<span ng-bind="price.priceGroup"></span>
+									-<span ng-bind="price.priceTypeName"></span>
+								</ui-select-choices>
+							</ui-select>
 						</div>
-						<div class="col-md-4">
-							<div class="col-md-4 showtext">
+						<div class="col-md-1" >
+							<button class="btn btn-sm primary" ng-click="addPriceGroup(price.selectPrice)">添加</button>
+						</div>
+						<div class="col-md-5">
+							<div class="col-md-3 showtext">
 								<label>
 									<B>成本中心编码</B>
 								</label>
 							</div>
-							<div class="col-md-8">
-								<span ng-bind="nhmilksEx.kostl"></span>
+							<div class="col-md-6">
+								<input type="text" class="form-control" ng-model="nhmilksEx.kostl">
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-sm primary" ng-click="uptMSkostl()">更新</button>
 							</div>
 						</div>
 					</div>
-
+					
 					<br>
 					<hr>
+					<div class="row" >
+						<div class="col-md-2" ng-repeat="p in selectedPrice">
+							<button type="button" class="btn btn-sm info" ng-click="showPriceDetail(p.id)">{{p.priceGroup}}-{{p.priceTypeName}}</button>	
+				            <button class="btn btn-sm info @grey-300" ng-click="removePriceGroup(p.id)"> <i class="fa fa-remove"></i>
+				            </button>
+						</div>
+					</div>
 			</div>
 			</div>
 			<!--box-body end -->
@@ -335,6 +374,12 @@
 				          </footer>
 				</div>
 
+				<div class="box-body" >
+					<div class="row text-right">
+						<button ng-click="del()" class="btn btn-fw grey-600  m-r" >删除配送区域</button>
+						<button class="btn btn-fw blueLt m-r" ng-click="dispatchArea()">添加配送区域</button>
+					</div>
+				</div>
 				<!--box-body end -->
 			</div>
 			<!--div class="panel-collapse p-b" end -->

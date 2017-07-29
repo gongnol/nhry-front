@@ -80,8 +80,8 @@
                                         <td><span ng-bind="item.onlineDate.nh_formatDate()"/></td>
                                         <td>
                                             <div class="btn-groups">
-                                                <button ui-sref="newhope.milkstationinfo({edit: false, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
-                                                <button ui-sref="newhope.milkstationinfo({edit: true, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-info text-info" nh-auth="milkstation_edit">编辑</button>
+                                                <button ui-sref="newhope.milkstationinfo({branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
+                                                <button ui-sref="newhope.milkstationupt({branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-info text-info" nh-auth="milkstation_edit">编辑</button>
                                                 <button ng-click="dispatchArea(item.branchNo)" class="btn btn-xs btn-outline rounded b-danger text-danger" nh-auth="milkstation_allocArea">配送区域</button>
                                                 <button ng-click="onlineEdit(item.branchNo)" class="btn btn-xs btn-outline rounded b-accent text-accent"  ng-if="item.isValid!=10" 
                                                 nh-auth="milkstation_onlineEdit">上线</button>
