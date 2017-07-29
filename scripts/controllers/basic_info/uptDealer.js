@@ -68,7 +68,6 @@
 				vm.dealer.province =  vm.udatmselectupt[0].itemCode;
 				vm.dealer.city =   vm.udatmselectupt[1].itemCode;
 				vm.dealer.county = vm.udatmselectupt[2].itemCode;
-				vm.dealer.delFlag = 'Y';
 				rest.updateDealerInfo(vm.dealer).then(function (json) {
 					 if (json.type === 'success') {
         				var alert = $alert({

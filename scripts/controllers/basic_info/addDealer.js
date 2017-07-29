@@ -62,7 +62,6 @@
 				vm.dealer.province = vm.atmselectAdd[0].itemCode;
 				vm.dealer.city = vm.atmselectAdd[1].itemCode;
 				vm.dealer.county = vm.atmselectAdd[2].itemCode;
-				vm.dealer.delFlag = 'Y';
 				rest.addDealer(vm.dealer).then(function (json) {
 					 if (json.type === 'success') {
         				var alert = $alert({
