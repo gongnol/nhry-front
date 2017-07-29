@@ -33,7 +33,7 @@
                                 </ui-select>
                             </div>
                              <div class=" pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
-                                <input type="text"   class="input-line" placeholder="请输入奶站名称关键字" ng-model="search.branchN"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="fuzzySearch($event)">
+                                <input type="text"   class="input-line" placeholder="请输入奶站编号或者名称关键字" ng-model="search.branchN"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="fuzzySearch($event)">
                                  <span class="blueWt" ng-click="filter()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
                              </div>
                         </div>
@@ -83,7 +83,12 @@
                                                 <button ui-sref="newhope.milkstationinfo({edit: false, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-primary text-primary">查看</button>
                                                 <button ui-sref="newhope.milkstationinfo({edit: true, branchNo: item.branchNo})" class="btn btn-xs btn-outline rounded b-info text-info" nh-auth="milkstation_edit">编辑</button>
                                                 <button ng-click="dispatchArea(item.branchNo)" class="btn btn-xs btn-outline rounded b-danger text-danger" nh-auth="milkstation_allocArea">配送区域</button>
-                                                <button ng-click="onlineEdit(item.branchNo)" class="btn btn-xs btn-outline rounded b-accent text-accent" ng-if="item.isValid!=10"  nh-auth="milkstation_onlineEdit">上线</button>
+                                                <button ng-click="onlineEdit(item.branchNo)" class="btn btn-xs btn-outline rounded b-accent text-accent"  ng-if="item.isValid!=10" 
+                                                nh-auth="milkstation_onlineEdit">上线</button>
+
+                                                 <button ng-click="onlineEdit(item.branchNo)" class="btn btn-xs btn-outline rounded b-accent text-accent"  ng-if="item.isValid=10" 
+                                                nh-auth="milkstation_onlineEdit">修改上线时间</button>
+                                               <!--    -->
                                                 <button ng-click="BranchRemarkSet()" class="btn btn-xs btn-outline rounded b-accent text-accent" nh-auth="milkstation_setBranchRemark">设置奶站备注</button>
                                             </div>
 

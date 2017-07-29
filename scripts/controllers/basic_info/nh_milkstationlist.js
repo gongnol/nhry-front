@@ -170,7 +170,6 @@
             var date = new Date();
             date.setDate(date.getDate()-1);
             vm.defaultValue.date = date;
-            alert(vm.defaultValue.date);
         }()
 
 

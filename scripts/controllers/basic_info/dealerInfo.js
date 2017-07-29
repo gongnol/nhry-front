@@ -21,7 +21,6 @@
 		}
  		//获取经销商信息
         rest.getDealerInfo($stateParams.dealerNo).then(function(json){
-            alert(JSON.stringify(json));
         	vm.dealer = json.data;
         })
 
