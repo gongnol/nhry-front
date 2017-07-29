@@ -111,9 +111,7 @@
         }
 
         vm.fuzzySearch = function (e) {
-            alert("sss");
             if (!e || e.keyCode == 13) {
-                alert("ssssss");
                 vm.curPageno = 1;
                 vm.getData(1);
             }
