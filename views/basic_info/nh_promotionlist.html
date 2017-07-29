@@ -12,7 +12,7 @@
                         <span class="item-title">促销编号</span>
                     </div>
                     <div class="flex-item">
-                       <input type="text" class="form-control" ng-model="data.search.promNo" >
+                       <input type="text" class="form-control" ng-model="data.search.promNo" ng-keypress="data.fuzzySearch($event)">
                     </div>
 
 

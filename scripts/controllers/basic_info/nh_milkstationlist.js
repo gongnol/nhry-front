@@ -122,6 +122,14 @@
             vm.getData(1);
         }
 
+
+         $scope.fuzzySearch = function (e) {
+            if (!e || e.keyCode == 13) {
+                $scope.filter();
+            }
+        }
+
+
         $scope.dispatchArea = function(branchNo) {
             $state.go('newhope.allocatRoute',{branchNo:branchNo});
         }
@@ -156,6 +164,17 @@
         vm.today = moment();
         vm.cancelModal = cancelModal;
         vm.saveOnlineState = saveOnlineState;
+
+        vm.defaultValue={};
+        vm.nextDay = function(){
+            var date = new Date();
+            date.setDate(date.getDate()-1);
+            vm.defaultValue.date = date;
+            alert(vm.defaultValue.date);
+        }()
+
+
+
 
         function saveOnlineState() {
             if (!vm.onlineDate) {

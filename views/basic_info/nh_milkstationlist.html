@@ -32,9 +32,10 @@
                                   </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <div class="col-md-4">
-        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入奶站名称关键字" ng-model="search.branchN"  style="font-size: 1.125rem">
-        </div>
+                             <div class=" pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+                                <input type="text"   class="input-line" placeholder="请输入奶站名称关键字" ng-model="search.branchN"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="fuzzySearch($event)">
+                                 <span class="blueWt" ng-click="filter()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+                             </div>
                         </div>
 
                         <div class="filter-act">
@@ -124,6 +125,7 @@
                                ng-model="olm.onlineDate"
                                data-date-format="yyyy-MM-dd"
                                data-date-type="string" 
+                               data-min-date="{{olm.defaultValue.date}}"
                                data-autoclose="true"
                                bs-datepicker>
                     </div>

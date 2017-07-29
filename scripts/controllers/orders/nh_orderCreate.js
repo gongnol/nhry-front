@@ -190,7 +190,6 @@
         }
 
         pvm.chooseCustomer = function(cusNo,cusName,tel,branchNo,branchName,vipType,orgId){
-        	alert(orgId);
         	pvm.lastOrder = {};
         	pvm.choosedVipCus = cusNo;
         	pvm.choosedVipCusName = cusName;

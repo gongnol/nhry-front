@@ -24,6 +24,7 @@
         vm.selectProm = selectProm;
         vm.deleteProm = deleteProm;
         vm.allocatProm = allocatProm;
+        vm.fuzzySearch = fuzzySearch;
         vm.detail = detail;
         vm.getData(vm.curPageno);
 
@@ -55,6 +56,14 @@
                 vm.tbLoding = 0;
             });
         }
+
+         function fuzzySearch  (e) {
+            if (!e || e.keyCode == 13) {
+               vm.getData(1);
+            }
+        }
+
+
         function getPromoMatnr(matnr, qty) {
             if (matnr) {
                 return qty ? matnr + ' ' + qty + '瓶' : matnr;

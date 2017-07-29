@@ -32,6 +32,14 @@
         }
            pvm.getData(pvm.pageno); 
         }
+
+
+
+         $scope.fuzzySearch = function (e) {
+            if (!e || e.keyCode == 13) {
+                $scope.doSearch();
+            }
+        }
         vm.handle = {
             statuses: [{code: '10',label: '换货'}, 
                        {code: '20',label: '缺货'},

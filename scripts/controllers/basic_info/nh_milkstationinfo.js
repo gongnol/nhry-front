@@ -55,9 +55,7 @@
 
 
        	vm.update = function(){
-
-       		alert(JSON.stringify(vm.udatmselectupt));
-       	 /* if(confirm("确定要修改吗？")){
+       	 if(confirm("确定要修改吗？")){
        	  		if(vm.nhmilks.branchName ==='' || vm.nhmilks.branchName === undefined){
 	    			var alert = $alert({
 						content: "奶站名称不能为空",
@@ -87,8 +85,6 @@
 		    	vm.nhmilks.province = vm.udatmselectupt[0].itemCode;
 				vm.nhmilks.city = vm.udatmselectupt[1].itemCode;
 				vm.nhmilks.county = vm.udatmselectupt[2].itemCode;
-
-				console.info(JSON.stringify(vm.nhmilks))
 	    	  rest.uptBranch(vm.nhmilks).then(function(json){
 		    	 if (json.type === 'success') {
 	    				var alert = $alert({
@@ -108,7 +104,7 @@
 						alert.show();
 					})
 	    		})
-       	  	}*/
+       	  	}
         }
 
 

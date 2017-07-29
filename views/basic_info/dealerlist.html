@@ -30,9 +30,11 @@
                                   </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <div class="col-md-4">
-                            <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入经销商名称,电话,地址等关键字" ng-model="search.search"  style="font-size: 1.125rem" ng-keypress="fuzzySearch($event)">
-                            </div>
+
+                             <div class=" pull-right m-l" style="border-bottom: 3px solid #42a5f5;">
+                                <input type="text"   class="input-line" placeholder="请输入经销商名称,电话,地址等关键字" ng-model="search.search"  style="width: 25rem;border-bottom-width: 0; font-size: 1.125rem;" ng-keypress="fuzzySearch($event)">
+                                 <span class="blueWt" ng-click="filter()"><i class="fa fa-search" aria-hidden="true" style="font-size: 1.2rem; cursor: pointer;"></i></span>
+                             </div>
                         </div>
 
                         <div class="filter-act">
