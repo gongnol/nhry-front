@@ -111,10 +111,9 @@
                             currentUrl = currentUrl.substring(0, idx);
                         }
                         currentUrl += resp.data;
-
-                         $state.go("login");
-                        /*window.location.href = currentUrl;
-                        window.event.returnValue = false;*/
+                        // $state.go("login");
+                        window.location.href = currentUrl;
+                        window.event.returnValue = false;
                    /* }*/
                 })
             // }
