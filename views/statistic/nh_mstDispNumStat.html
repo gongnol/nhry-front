@@ -97,7 +97,7 @@
                                         </td>
                                         <td>{{item.innerqty}}</td>
                                         <td>{{item.zqty}}</td> 
-                                        <td>{{item.dayqty/data.diffDay}}</td>                        
+                                        <td>{{ （item.dayqty/data.diffDay） | number : 3 }}</td>                        
                                     </tr>
                                 </tbody>
                             </table>  

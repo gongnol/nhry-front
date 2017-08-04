@@ -189,7 +189,7 @@
             var modalInst = $uibModal.open({
                 templateUrl: 'routeDetailModal.html',
                 controller: 'routeDetailModal',
-                size: 'xxl',
+                size: 'xxls',
                 resolve: {
                     routeNo: function() {
                         return data;
