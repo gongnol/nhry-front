@@ -255,6 +255,9 @@
             getBranchList: function () {
                 return branch.one('searchBySalesOrg').get();
             },
+             getBranchByCodeOrName: function (params) {
+                return branch.one('getBranchByCodeOrName').get({"branch":params});
+            },
             //根据销售组织查询网点客户信息列表
             branchSearch: function () {
                 return branch.one('searchBySalesOrg').get();

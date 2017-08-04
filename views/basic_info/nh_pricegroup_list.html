@@ -50,7 +50,7 @@
                                 </ui-select>
                             </div-->
                             <div class="col-md-4">
-        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入价格组名称查询" ng-model="search.priceGroup"  style="font-size: 1.125rem">
+        <input type="text"  class="form-control r-b-round l-b-round" placeholder="请输入价格组名称查询" ng-model="search.priceGroup"  style="font-size: 1.125rem"  ng-keypress="fuzzySearch($event)">
         </div>
                             <div class="date-box">
                                 <div class="flex-item"><span class="item-title">有效期限</span></div>

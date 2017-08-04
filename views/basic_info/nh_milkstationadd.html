@@ -112,8 +112,8 @@
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.dealerName"></span>
 	                                    </ui-select-match>
-	                                    <ui-select-choices repeat="dealer.dealerNo as dealer in dealers track by dealer.dealerNo">
-	                                        <span ng-bind="dealer.dealerName"></span>
+	                                    <ui-select-choices repeat="dealer.dealerNo as dealer in (dealers | filter: $select.search) track by dealer.dealerNo">
+	                                        <span ng-bind="dealer.dealerNo+'——'+dealer.dealerName"></span>
 	                                    </ui-select-choices>
 	                        	 </ui-select>
 							</div>
@@ -125,7 +125,7 @@
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.itemName"></span>
 	                                    </ui-select-match>
-	                                    <ui-select-choices repeat="type.itemCode as type in allwerks track by type.itemCode">
+	                                    <ui-select-choices repeat="type.itemCode as type in   (allwerks | filter: $select.search)  track by type.itemCode">
 	                                        <span ng-bind="type.itemName"></span>
 	                                    </ui-select-choices>
 	                        	 </ui-select>
@@ -141,7 +141,7 @@
 	                                    <ui-select-match allow-clear="true">
 	                                        <span ng-bind="$select.selected.itemName"></span>
 	                                    </ui-select-match>
-	                                    <ui-select-choices repeat="type.itemCode as type in lgorts track by type.itemCode">
+	                                    <ui-select-choices repeat="type.itemCode as type in (lgorts | filter: $select.search)  track by type.itemCode">
 	                                        <span ng-bind="type.itemName"></span>
 	                                    </ui-select-choices>
 	                        	 </ui-select>

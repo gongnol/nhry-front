@@ -479,13 +479,23 @@
                 url: '/milkstation/detail/{branchNo}',
                 data: {title: '奶站详情', icons: 'fa-th-large'},
                 params: {
-                    'branchNo': '',
-                    edit: null
+                    'branchNo': ''
                 },
                 templateUrl: 'views/basic_info/nh_milkstationinfo.html',
                 controller: 'MilkInfoCtrl',
                 controllerAs:'data',
                 resolve: load(['scripts/controllers/basic_info/nh_milkstationinfo.js','scripts/directives/nh_keydown.js', 'scripts/directives/nh_address.js'])
+            })
+            .state('newhope.milkstationupt', { // 基础信息/奶站修改
+                url: '/milkstation/update/{branchNo}',
+                data: {title: '奶站修改', icons: 'fa-th-large'},
+                params: {
+                    'branchNo': ''
+                },
+                templateUrl: 'views/basic_info/milkstationupt.html',
+                controller: 'MilkUptCtrl',
+                controllerAs:'data',
+                resolve: load(['scripts/controllers/basic_info/milkstationupt.js','scripts/directives/nh_keydown.js', 'scripts/directives/nh_address.js'])
             })
             .state('newhope.milkstationadd', { // 基础信息/新增奶站
                 url: '/milkstation/add',

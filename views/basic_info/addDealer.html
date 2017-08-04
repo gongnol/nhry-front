@@ -52,7 +52,7 @@
 						
 
 						<div class="col-md-4">
-							<div class="col-md-3">是否有效</div>
+							<div class="col-md-3"><strong>是否有效</strong></div>
 							<div class="col-md-9">
 								 <ui-select ng-model="dealer.delFlag" search-enabled="false">
 	                                    <ui-select-match allow-clear="true">
@@ -70,22 +70,22 @@
 					<br>
 					<div class="row">
 							<div class="col-md-4">
-								<div class="col-md-3">联系人</div>
+								<div class="col-md-3"><strong>联系人</strong></div>
 								<div class="col-md-9">
 									<input type="text" name="contact" class="md-input md-input-blue" ng-model="dealer.contact">  
 								</div>
 							</div>
 
 							<div class="col-md-4">
-								<div class="col-md-3">联系方式</div>
+								<div class="col-md-3"><strong>联系方式</strong></div>
 								<div class="col-md-9">
 									<input type="text" name="tel" class="md-input md-input-blue" ng-model="dealer.tel" required>  
 								</div>
 							</div>
 
 								<div class="col-md-4 ">
-									<div style="float:left;" class="col-md-3">  省市区县 </div> 
-	         						<div style="float:left;" class="col-md-9 " nh-address-select addr-selected="atmselectAdd"></div>
+									<div style="float:left;" class="col-md-3">  <strong>省市区县 </strong></div> 
+	         						<div style="float:left;" class="col-md-9 " nh-address-select addr-selected="atmselectAdd" required></div>
 							</div>
 
 					 </div>
@@ -98,7 +98,7 @@
 						
 
 							<div class="col-md-4">
-								<div class="col-md-3">具体地址</div>
+								<div class="col-md-3"><strong>具体地址</strong></div>
 								<div class="col-md-9">
 									<input type="text" name="address" class="md-input md-input-blue" ng-model="dealer.address"> 
 								</div>

@@ -121,8 +121,7 @@
 
 		vm.searchBranchs = function () {
         	vm.isLoding = true;
-        	
-        	rest.getBranchList({content: vm.searchTerm}).then(function (json) {
+        	rest.getBranchByCodeOrName(vm.searchTerm).then(function (json) {
         		vm.content = json.data;
         		//配送列表如果与奶站有重复小区地址，清除配送列表里的重复数据
         		if($scope.options.selectedItems!=''){
