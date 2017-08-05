@@ -47,9 +47,9 @@
                 </div>
             </div>
             <div class="filter-act">
-             <button class="btn btn-fw blueLt" ng-click="data.allocatProm()">分配奶站</button>
-                <button class="btn btn-fw blueLt" ng-click="data.selectProm()">新增</button>
-                <button class="btn btn-fw blueLt" ng-click="data.getData(1)">筛选</button>
+             <button class="btn btn-fw blueLt"    nh-auth="allocatProm"  ng-click="data.allocatProm()">分配奶站</button>
+                <button class="btn btn-fw blueLt"   nh-auth="addProm" ng-click="data.selectProm()">新增</button>
+                <button class="btn btn-fw blueLt"   ng-click="data.getData(1)">筛选</button>
             </div>
         </div>
     </div>
